@@ -1,0 +1,187 @@
+﻿<Window x:Class="Eros.WindowEmpleados"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Eros"
+        mc:Ignorable="d"
+        Title="WindowEmpleados" Height="450" Width="800">
+    <Grid>
+        <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32*"/>
+                <RowDefinition Height="318*"/>
+                <RowDefinition Height="59*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Viewbox Stretch="Uniform" Margin="5,0,0,5" MaxHeight="40"  VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                    <TextBlock Text="Empleados" FontSize="20" />
+                </Viewbox>
+
+                <Border Grid.Column="1" Height="26" Margin="0,0,0,5" VerticalAlignment="Bottom" BorderBrush="Black" BorderThickness="1" Padding="1">
+                    <DockPanel>
+                        <Image Source="Img/lupa.png" DockPanel.Dock="Right"/>
+                        <TextBox x:Name="tbxSearchBar" VerticalContentAlignment="Center" FontSize="15" BorderBrush="Transparent" TextChanged="tbxSearchBar_TextChanged"/>
+                    </DockPanel>
+                </Border>
+
+
+            </Grid>
+
+            <DataGrid FontSize="15" x:Name="dtgEmpleados" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dtgEmpleados_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Nombre" Binding="{Binding Path=nombre}"/>
+                    <DataGridTextColumn Header="Apellido" Binding="{Binding Path=apellido}"/>
+                    <DataGridTextColumn Header="DNI" Binding="{Binding Path=dni}"/>
+                    <DataGridTextColumn Header="Telefono" Binding="{Binding Path=telefono}"/>
+                    <DataGridTextColumn Header="Usuario" Binding="{Binding Path=usuario}"/>
+                    <DataGridTextColumn Header="Contraseña" Binding="{Binding Path=password}"/>
+                    <DataGridTextColumn Header="Fecha de Nacimiento" Binding="{Binding Path=fnac}"/>
+                    <DataGridTextColumn Header="Rol" Binding="{Binding Path=rol}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBlock x:Name="tbkNotFound" Visibility="Hidden" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="50" Text="No se han encontrado resultados con " Opacity="0.4"/>
+            <Grid Grid.Row="2" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Viewbox  Margin="15" MaxWidth="400" >
+                    <Button Content="Nóminas" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" />
+                </Viewbox>
+                <Viewbox  Margin="15" MaxWidth="400" Grid.Column="1">
+                    <Button x:Name="btAnyadirEmpleado" Content="Añadir Empleado" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" Click="btAnyadirEmpleado_Click" />
+                </Viewbox>
+
+            </Grid>
+
+            <Border Grid.RowSpan="1" Grid.Column="1" Grid.Row="1" Margin="20,0,10,0" BorderBrush="Black" BorderThickness="2" MaxWidth="600" MaxHeight="600" Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition />
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Viewbox Stretch="Uniform" Margin="10,0,10,0">
+                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
+                                <TextBlock Text="Nombre:" FontSize="18" Margin="30,0,0,0"/>
+                                <TextBox x:Name="tbxNombre" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                            </StackPanel>
+                        </Viewbox>
+                        <Viewbox Grid.Row="1" Stretch="Uniform" Margin="10,0,10,0" >
+                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
+                                <TextBlock Text="Apellido:" FontSize="18" Margin="30,0,0,0"/>
+                                <TextBox x:Name="tbxApellido"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                            </StackPanel>
+                        </Viewbox>
+                        <Viewbox Grid.Row="2" Stretch="Uniform" Margin="10,0,10,0">
+                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
+                                <TextBlock Text="DNI:" FontSize="18" Margin="65,0,0,0"/>
+                                <TextBox x:Name="tbxDni" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                            </StackPanel>
+                        </Viewbox>
+                        <Viewbox Grid.Row="3" Stretch="Uniform" Margin="10,0,10,0">
+                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
+                                <TextBlock Text="Telefono:" FontSize="18" Margin="28,0,0,0"/>
+                                <TextBox x:Name="tbxTelefono" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                            </StackPanel>
+                        </Viewbox>
+                        <Viewbox Grid.Row="4" Stretch="Uniform" Margin="10,0,10,0">
+                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
+                                <TextBlock Text="F.Nacimiento:" FontSize="18" Margin="0,0,0,0"/>
+                                <TextBox x:Name="tbxFnac" FontSize="18" Margin="12,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                            </StackPanel>
+                        </Viewbox>
+                        <Viewbox Grid.Row="5" Stretch="Uniform" Margin="10,0,10,0">
+                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
+                                <TextBlock Text="Usuario:" FontSize="18" Margin="35,0,0,0"/>
+                                <TextBox x:Name="tbxUsuario" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                            </StackPanel>
+                        </Viewbox>
+                        <Viewbox Grid.Row="6" Stretch="Uniform" Margin="10,0,10,0">
+                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
+                                <TextBlock Text="Contraseña:" FontSize="18" Margin="6,0,0,0"/>
+                                <TextBox x:Name="tbxContrasenya" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                            </StackPanel>
+                        </Viewbox>
+                        <Viewbox Grid.Row="7" Stretch="Uniform" Margin="10,0,10,0">
+                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
+                                <TextBlock Text="Rol:" FontSize="18" Margin="71,0,0,0"/>
+                                <TextBox x:Name="tbxRol" FontSize="18" Margin="19,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                            </StackPanel>
+                        </Viewbox>
+                    </Grid>
+
+                    <Grid x:Name="gridVisualizando" Grid.Row="1" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Viewbox>
+                            <Button x:Name="btEliminar" Content="Eliminar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btEliminar_Click"/>
+                        </Viewbox>
+
+                        <Viewbox Grid.Column="1">
+                            <Button x:Name="btEditar" Content="Editar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btEditar_Click"/>
+                        </Viewbox>
+
+                        <Viewbox Grid.Column="2">
+                            <Button Content=" Ver Nominas" FontSize="16" Width="100" Height="30" Margin="10,15,10,0"/>
+                        </Viewbox>
+                    </Grid>
+
+                    <Grid x:Name="gridAnyadiendo" Grid.Row="1" Visibility="Hidden">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+
+                        </Grid.ColumnDefinitions>
+                        <Viewbox>
+                            <Button x:Name="btCancelarAgregar" Content="Cancelar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btCancelarAgregar_Click"/>
+                        </Viewbox>
+
+                        <Viewbox Grid.Column="1">
+                            <Button x:Name="btAgregar" Content="Agregar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btAgregar_Click"/>
+                        </Viewbox>
+                    </Grid>
+
+                    <Grid x:Name="gridEditando" Grid.Row="1" Visibility="Hidden">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+
+                        </Grid.ColumnDefinitions>
+                        <Viewbox>
+                            <Button x:Name="btDescartarEdicion" Content="Descartar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btDescartarEdicion_Click"/>
+                        </Viewbox>
+
+                        <Viewbox Grid.Column="1">
+                            <Button x:Name="btGuardarEdicion" Content="Guardar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btGuardarEdicion_Click"/>
+                        </Viewbox>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</Window>
