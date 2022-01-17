@@ -28,5 +28,11 @@ namespace Eros
             //txbEmail.Text = e.nombre;
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+            WindowProducts wp= new WindowProducts();
+            wp.Show();
+        }
     }
 }
