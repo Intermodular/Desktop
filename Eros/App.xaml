@@ -4,6 +4,65 @@
              xmlns:local="clr-namespace:Eros"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <Style x:Key="Title">
+            <Setter Property="TextElement.FontFamily" Value="Montserrat SemiBold"></Setter>
+            <Setter Property="TextElement.FontWeight" Value="SemiBold"></Setter>
+        </Style>
+        <Style x:Key="Contenido">
+            <Setter Property="TextElement.FontFamily" Value="./Fuentes/Montserrat-Regular.ttf"></Setter>
+        </Style>
+        <Style TargetType="Button" x:Key="TabButton">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="10" Background="{TemplateBinding Background}" BorderBrush="DarkGray" BorderThickness="2">
+                            <Grid>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#DD4A4A" />
+                                <Setter Property="Foreground" Value="Black" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Control" x:Key="txb">
+            <Setter Property="Background" Value="White" />
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5" />
+                </Style>
+            </Style.Resources>
+        </Style>
+        <Style x:Key="btn_cerrar" TargetType="{x:Type Button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border>
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="#DD4A4A"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Grid Background="Transparent">
+                                <ContentPresenter></ContentPresenter>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="TextElement.FontWeight" Value="SemiBold"></Setter>
+        </Style>
     </Application.Resources>
 </Application>
