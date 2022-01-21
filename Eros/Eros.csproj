@@ -27,18 +27,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="cerrar.png" />
-    <Resource Include="eros_black.png" />
-    <Resource Include="eros_red.png" />
-    <Resource Include="flecha.png" />
-    <Resource Include="hamburguesa.jpg" />
-    <Resource Include="hamburguesa2 - Copia.jpeg" />
-    <Resource Include="hamburguesa2.jpg" />
-    <Resource Include="minimizar.png" />
-    <Resource Include="NoShowPass.png" />
-    <Resource Include="pizza.png" />
-    <Resource Include="pizza2.jpg" />
-    <Resource Include="ShowPass.png" />
+    <Resource Include="Img\icons\cerrar.png" />
+    <Resource Include="Img\logo\eros_black.png" />
+    <Resource Include="Img\logo\eros_red.png" />
+    <Resource Include="Img\icons\flecha.png" />
+    <Resource Include="Img\hamburguesa.jpg" />
+    <Resource Include="Img\hamburguesa2 - Copia.jpeg" />
+    <Resource Include="Img\hamburguesa2.jpg" />
+    <Resource Include="Img\icons\minimizar.png" />
+    <Resource Include="Img\icons\NoShowPass.png" />
+    <Resource Include="Img\pizza.png" />
+    <Resource Include="Img\pizza2.jpg" />
+    <Resource Include="Img\icons\ShowPass.png" />
   </ItemGroup>
 
 </Project>

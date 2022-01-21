@@ -78,7 +78,7 @@ namespace Eros
         {
             if (eyes == 0)
             {
-                img_eye.Source = new BitmapImage(new Uri(@"/Eros;component/ShowPass.png", UriKind.Relative));
+                img_eye.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/ShowPass.png", UriKind.Relative));
                 password.Visibility = Visibility.Hidden;
                 tb_pass.Text = password.Password;
                 tb_pass.Visibility = Visibility.Visible;
@@ -87,7 +87,7 @@ namespace Eros
             }
             else
             {
-                img_eye.Source = new BitmapImage(new Uri(@"/Eros;component/NoShowPass.png", UriKind.Relative));
+                img_eye.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/NoShowPass.png", UriKind.Relative));
                 tb_pass.Visibility = Visibility.Hidden;
                 password.Password = tb_pass.Text;
                 password.Visibility = Visibility.Visible;
@@ -102,10 +102,10 @@ namespace Eros
             {
                 BitmapImage[] images =
                     {
-                    new BitmapImage(new Uri(@"/Eros;component/hamburguesa.jpg", UriKind.Relative)),
-                    new BitmapImage(new Uri(@"/Eros;component/pizza2.jpg", UriKind.Relative)),
-                    new BitmapImage(new Uri(@"/Eros;component/hamburguesa2.jpg", UriKind.Relative)),
-                    new BitmapImage(new Uri(@"/Eros;component/pizza.png", UriKind.Relative))
+                    new BitmapImage(new Uri(@"/Eros;component/Img/hamburguesa.jpg", UriKind.Relative)),
+                    new BitmapImage(new Uri(@"/Eros;component/Img/pizza2.jpg", UriKind.Relative)),
+                    new BitmapImage(new Uri(@"/Eros;component/Img/hamburguesa2.jpg", UriKind.Relative)),
+                    new BitmapImage(new Uri(@"/Eros;component/Img/pizza.png", UriKind.Relative))
                     };
                 img_login.Source = images[image_show];
 
