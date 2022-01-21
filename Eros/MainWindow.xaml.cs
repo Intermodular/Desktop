@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Eros.Administrador;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,8 @@ namespace Eros
         int eyes = 0;
         int image_show = 0;
         Regex regex = new Regex("^[a-zA-Z0-9_]+$");
+        List<Empleado> listEmpleados;
+        Empleado currentUser = new Empleado();
 
         public MainWindow()
         {
@@ -165,8 +168,57 @@ namespace Eros
 
         private void btn_login_Click(object sender, RoutedEventArgs e)
         {
-            Rol rol = new Rol();
-            rol.ShowDialog();
+           
+
+
+            //Cambiar la función por una validación en la api.
+            if (validateUsernameAndPassword())
+            {
+                
+                if (currentUser.rol.Equals("admin"))
+                {
+                    Rol rol = new Rol();
+                    rol.ShowDialog();
+                    if (rol._Mensaje.Equals("admin"))
+                    {
+                        this.Hide();
+                        WindowMainAdministration wma = new WindowMainAdministration();
+                        wma.ShowDialog();
+                    }
+                    else if (rol._Mensaje.Equals("cobrador"))
+                    {
+                        this.Hide();
+                        WindowMesas wm = new WindowMesas();
+                        wm.ShowDialog();
+
+                    }
+                }
+                else
+                {
+                    this.Hide();
+                    WindowMesas wm = new WindowMesas();
+                    wm.ShowDialog();
+                }
+            }
+               
+
+            
+            //
+        }
+        ////
+        private bool validateUsernameAndPassword()
+        {
+            listEmpleados = ControladorEmpleados.GetAllFromApi();
+            foreach (Empleado i in listEmpleados)
+            {
+                //Donde esta el texto del password¿?
+                if (i.usuario.Equals(user.Text) && i.password.Equals("Administr@d0r"))
+                {
+                    currentUser = i;
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void user_LostFocus(object sender, RoutedEventArgs e)

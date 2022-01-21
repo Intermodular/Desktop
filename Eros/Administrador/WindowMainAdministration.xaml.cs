@@ -12,16 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Eros
+namespace Eros.Administrador
 {
     /// <summary>
-    /// Lógica de interacción para Rol.xaml
+    /// Lógica de interacción para WindowMainAdministration.xaml
     /// </summary>
-   
-    public partial class Rol : Window
+    public partial class WindowMainAdministration : Window
     {
-       public string _Mensaje;
-       public Rol()
+        public WindowMainAdministration()
         {
             InitializeComponent();
         }
@@ -29,18 +27,20 @@ namespace Eros
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+            WindowEmpleados we = new WindowEmpleados();
+            we.ShowDialog();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             this.Close();
-            _Mensaje = "cobrador";
+            WindowProducts wp = new WindowProducts();
+            wp.ShowDialog();
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             this.Close();
-            _Mensaje = "admin";
         }
     }
 }

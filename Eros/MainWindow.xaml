@@ -79,7 +79,7 @@
             </PasswordBox.Style>
         </PasswordBox>
         <Label Content="Contraseña" Margin="46,293,0,0" x:Name="pass_placeholder" Foreground="DarkGray" IsHitTestVisible="False"></Label>
-        <TextBlock IsHitTestVisible="False" Text="Contraseña" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,-50,0,0" Foreground="DarkGray">
+        <TextBlock IsHitTestVisible="False" Text="Contraseña" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,-50,0,0" Foreground="DarkGray" x:Name="tbPassword">
             <TextBlock.Style>
                 <Style TargetType="{x:Type TextBlock}">
                     <Setter Property="Visibility" Value="Collapsed"/>

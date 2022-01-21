@@ -13,8 +13,8 @@
                     <Image Source="/cerrar.png"></Image>
                 </Button>
                 <Label FontSize="30" HorizontalAlignment="Center" Margin="0,30,0,0" Content="¿En qué modo quieres acceder?" Style="{StaticResource Title}"></Label>
-                <Button Content="Administrador" HorizontalAlignment="Left" Width="150" Height="60" Margin="100,70,0,0" Style="{StaticResource TabButton}"></Button>
-                <Button Content="Cobrador" HorizontalAlignment="Right" Width="150" Height="60" Margin="0,-60,100,0" Style="{StaticResource TabButton}"></Button>
+                <Button Content="Administrador" HorizontalAlignment="Left" Width="150" Height="60" Margin="100,70,0,0" Style="{StaticResource TabButton}" Click="Button_Click_2"></Button>
+                <Button Content="Cobrador" HorizontalAlignment="Right" Width="150" Height="60" Margin="0,-60,100,0" Style="{StaticResource TabButton}" Click="Button_Click_1"></Button>
             </StackPanel>
         </Border>
     </Grid>
