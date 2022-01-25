@@ -19,6 +19,9 @@ namespace Eros
     /// </summary>
     public partial class WindowMesas : Window
     {
+
+        List<Modelos.Mesas> list =  ControladorMesas.GetAllFromApi();
+
         public WindowMesas()
         {
             InitializeComponent();
@@ -27,12 +30,12 @@ namespace Eros
 
         public void SetupTables()
         {
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < list.Count; i++)
             {
                 Button newBtn = new Button();
 
-                newBtn.Content = "M" + (i + 1).ToString();
-                newBtn.Name = "Table" + i.ToString();
+                newBtn.Content = "M" + list[i]._id.ToString();
+                newBtn.Name = "Table" + list[i]._id.ToString();
                 newBtn.Width = 35;
                 newBtn.Height = 35;
                 newBtn.Margin = new Thickness(5, 5, 5, 5);
@@ -46,11 +49,6 @@ namespace Eros
                     WrapPanel2.Children.Add(newBtn);
                 }
             }
-        }
-
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-
         }
     }
 }

@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros"
         mc:Ignorable="d"
-        Title="WindowMesas" Height="600" Width="1000" MinWidth="1000" MinHeight="600" 
-        SizeChanged="Window_SizeChanged">
+        Title="WindowMesas" Height="600" Width="1000" MinWidth="1000" MinHeight="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
