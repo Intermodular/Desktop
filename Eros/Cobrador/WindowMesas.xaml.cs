@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Eros.Controladores;
+using Eros.Modelos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +21,7 @@ namespace Eros
     /// </summary>
     public partial class WindowMesas : Window
     {
+        List<Mesas> listMesas = new List<Mesas>();
         public WindowMesas()
         {
             InitializeComponent();
@@ -27,6 +30,7 @@ namespace Eros
 
         public void SetupTables()
         {
+           
             for (int i = 0; i < 30; i++)
             {
                 Button newBtn = new Button();
@@ -50,7 +54,7 @@ namespace Eros
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-
+            
         }
     }
 }

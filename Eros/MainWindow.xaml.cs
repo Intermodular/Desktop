@@ -169,8 +169,6 @@ namespace Eros
         private void btn_login_Click(object sender, RoutedEventArgs e)
         {
            
-
-
             //Cambiar la función por una validación en la api.
             if (validateUsernameAndPassword())
             {
@@ -200,19 +198,15 @@ namespace Eros
                     wm.ShowDialog();
                 }
             }
-               
-
-            
-            //
         }
-        ////
+       
         private bool validateUsernameAndPassword()
         {
             listEmpleados = ControladorEmpleados.GetAllFromApi();
             foreach (Empleado i in listEmpleados)
             {
-                //Donde esta el texto del password¿?
-                if (i.usuario.Equals(user.Text) && i.password.Equals("Administr@d0r"))
+               
+                if (i.usuario.Equals(user.Text) && (i.password.Equals(password.Password) || i.password.Equals(tb_pass.Text)))
                 {
                     currentUser = i;
                     return true;
@@ -239,6 +233,10 @@ namespace Eros
             {
                 this.DragMove();
             }
+
+        }
+        private void fillComboBox(ComboBox cb, List<String> ListCb)
+        {
 
         }
     }

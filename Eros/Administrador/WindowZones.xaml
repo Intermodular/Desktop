@@ -1,11 +1,11 @@
-﻿<Window x:Class="Eros.WindowProducts"
+﻿<Window x:Class="Eros.Administrador.WindowZones"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Eros"
+        xmlns:local="clr-namespace:Eros.Administrador"
         mc:Ignorable="d"
-        Title="WindowProducts" Height="450" Width="800">
+        Title="WindowZones" Height="450" Width="800">
     <Grid>
         <Grid Margin="5">
             <Grid.RowDefinitions>
@@ -23,26 +23,24 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Viewbox Stretch="Uniform" Margin="5,0,0,5" MaxHeight="40"  VerticalAlignment="Bottom" HorizontalAlignment="Left">
-                    <TextBlock Text="Productos" FontSize="20" />
+                    <TextBlock Text="Zonas" FontSize="20" />
                 </Viewbox>
 
                 <Border Grid.Column="1" Height="26" Margin="0,0,0,5" VerticalAlignment="Bottom" BorderBrush="Black" BorderThickness="1" Padding="1">
                     <DockPanel>
-                        <Image Source="Img/lupa.png" DockPanel.Dock="Right"/>
+                        <Image Source="./../Img/icons/lupa.png" DockPanel.Dock="Right"/>
                         <TextBox x:Name="tbxSearchBar" VerticalContentAlignment="Center" FontSize="15" BorderBrush="Transparent" TextChanged="tbxSearchBar_TextChanged"/>
                     </DockPanel>
                 </Border>
+
+
             </Grid>
 
-            <DataGrid FontSize="15" x:Name="dtgProductos" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dtgEmpleados_SelectionChanged">
+            <DataGrid FontSize="15" x:Name="dtgZonas" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dtgEmpleados_SelectionChanged">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Nombre" Binding="{Binding Path=nombre}"/>
-                    <DataGridTextColumn Header="tipo" Binding="{Binding Path=tipo}"/>
-                    <DataGridTextColumn Header="ingredientes" Binding="{Binding Path=ingredientes}"/>
-                    <DataGridTextColumn Header="precio" Binding="{Binding Path=precio}"/>
-                    <DataGridTextColumn Header="especificaciones" Binding="{Binding Path=especificaciones}"/>
-                    <DataGridTextColumn Header="imagen" Binding="{Binding Path=imagen}"/>
-                    <DataGridTextColumn Header="stock" Binding="{Binding Path=stock}"/>
+                    <DataGridTextColumn Header="Abreviación" Binding="{Binding Path=abreviación}"/>
+                    <DataGridTextColumn Header="NºMesas" Binding="{Binding Path=nºMesas}"/>
                 </DataGrid.Columns>
             </DataGrid>
             <TextBlock x:Name="tbkNotFound" Visibility="Hidden" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="50" Text="No se han encontrado resultados con " Opacity="0.4"/>
@@ -52,10 +50,10 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Viewbox  Margin="15" MaxWidth="400" >
-                    <Button Content="Tipos" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" />
+                    <Button Content="Mesas" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" />
                 </Viewbox>
                 <Viewbox  Margin="15" MaxWidth="400" Grid.Column="1">
-                    <Button x:Name="btAnyadirEmpleado" Content="Crear Producto" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" Click="btAnyadirProducto_Click" />
+                    <Button x:Name="btAnyadirZona" Content="Añadir Zona" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" Click="btAnyadirZona_Click" />
                 </Viewbox>
 
             </Grid>
@@ -87,51 +85,16 @@
                         </Viewbox>
                         <Viewbox Grid.Row="1" Stretch="Uniform" Margin="10,0,10,0" >
                             <StackPanel Orientation="Horizontal" Width="350" Margin="2">
-                                <TextBlock Text="Tipo:" FontSize="18" Margin="60,0,0,0"/>
-                                <TextBox x:Name="tbxTipo"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                                <TextBlock Text="Abreviación:" FontSize="18" Margin="2,0,0,0"/>
+                                <TextBox x:Name="tbxAbreviacion"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
                             </StackPanel>
                         </Viewbox>
                         <Viewbox Grid.Row="2" Stretch="Uniform" Margin="10,0,10,0">
                             <StackPanel Orientation="Horizontal" Width="350" Margin="2">
-                                <TextBlock Text="Ingredientes:" FontSize="18" Margin="-5,0,0,0"/>
-                                <ComboBox x:Name="cbIngredientes"  FontSize="18" Margin="21,0,0,0" Width="200" IsEnabled="True" Background="LightGray"></ComboBox>
-                                <Button Background="White"  Style="{StaticResource TabButton}" x:Name="btnAddIngredientes" Click="btnAddIngredientes_Click" Visibility="Hidden">
-                                    <StackPanel>
-                                        <Image Source="/Administrador/edit.png" Width="20" Height="20"></Image>
-                                    </StackPanel>
-                                </Button>
+                                <TextBlock Text="NºMesas:" FontSize="18" Margin="24,0,0,0"/>
+                                <TextBox x:Name="tbxNºMesas" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
                             </StackPanel>
                         </Viewbox>
-                        <Viewbox Grid.Row="3" Stretch="Uniform" Margin="10,0,10,0">
-                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
-                                <TextBlock Text="Precio:" FontSize="18" Margin="45,0,0,0"/>
-                                <TextBox x:Name="tbxPrecio" FontSize="18" Margin="21,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
-                            </StackPanel>
-                        </Viewbox>
-                        <Viewbox Grid.Row="4" Stretch="Uniform" Margin="10,0,10,0">
-                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
-                                <TextBlock Text="Especificaciones:" FontSize="18" Margin="-26,0,0,0"/>
-                                <ComboBox x:Name="cbEspecificaciones"  FontSize="18" Margin="12,0,0,0" Width="200" IsReadOnly="True" Background="LightGray"></ComboBox>
-                                <Button Background="White"  Style="{StaticResource TabButton}" x:Name="btnAddSpecifications" Click="btnAddSpecifications_Click" Visibility="Hidden">
-                                    <StackPanel>
-                                        <Image Source="/Administrador/edit.png" Width="20" Height="20"></Image>
-                                    </StackPanel>
-                                </Button>
-                            </StackPanel>
-                        </Viewbox>
-                        <Viewbox Grid.Row="5" Stretch="Uniform" Margin="10,0,10,0">
-                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
-                                <TextBlock Text="Imagen:" FontSize="18" Margin="35,0,0,0"/>
-                                <TextBox x:Name="tbxImagen" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
-                            </StackPanel>
-                        </Viewbox>
-                        <Viewbox Grid.Row="6" Stretch="Uniform" Margin="10,0,10,0">
-                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
-                                <TextBlock Text="Stock:" FontSize="18" Margin="52,0,0,0"/>
-                                <TextBox x:Name="tbxStock" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
-                            </StackPanel>
-                        </Viewbox>
-                      
                     </Grid>
 
                     <Grid x:Name="gridVisualizando" Grid.Row="1" >
@@ -149,7 +112,7 @@
                         </Viewbox>
 
                         <Viewbox Grid.Column="2">
-                            <Button Content="Gestionar tipo" FontSize="16" Width="100" Height="30" Margin="10,15,10,0"/>
+                            <Button Content=" Ver Mesa" FontSize="16" Width="100" Height="30" Margin="10,15,10,0"/>
                         </Viewbox>
                     </Grid>
 

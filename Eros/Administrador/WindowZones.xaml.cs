@@ -15,45 +15,46 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Eros
+namespace Eros.Administrador
 {
     /// <summary>
-    /// Lógica de interacción para WindowEmpleados.xaml
+    /// Lógica de interacción para WindowZones.xaml
     /// </summary>
-    public partial class WindowEmpleados : Window
+    public partial class WindowZones : Window
     {
-        List<Empleado> listEmpleados;
-        List<Empleado> listFiltrada;
-        int idOfLastSelectedEmpleado;
+        List<Zonas> listZonas;
+        List<Zonas> listFiltrada;
+        int idOfLastSelectedZone;
         enum state { Agregando, Viendo, Editando };
         state currentState;
-        List<TextBox> infoTbxsList;
-       
 
-        public WindowEmpleados()
+        List<TextBox> infoTbxsList;
+        List<TextBox> enabledInfoTbxsList;
+
+        public WindowZones()
         {
             InitializeComponent();
             InitializeTextBoxList();
             currentState = state.Viendo;
             UpdateInfoFromDataBase();
-            listFiltrada = new List<Empleado>();
+            listFiltrada = new List<Zonas>();
         }
 
         //Eventos
         private void dtgEmpleados_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Empleado selectedEmpleado = (Empleado)dtgEmpleados.SelectedItem;
-            if (selectedEmpleado != null)
+            Zonas selectedZone= (Zonas) dtgZonas.SelectedItem;
+            if (selectedZone != null)
             {
-                ShowEmpleadoInfo(selectedEmpleado);
-                idOfLastSelectedEmpleado = selectedEmpleado._id;
+                ShowZoneInfo(selectedZone);
+                idOfLastSelectedZone = selectedZone._id;
             }
         }
         private void btEliminar_Click(object sender, RoutedEventArgs e)
         {
-            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar a este empleado?", "Borrar Empleado"))
+            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar esta zona?", "Borrar Empleado"))
             {
-                ControladorEmpleados.DeleteFromApi(idOfLastSelectedEmpleado);
+                ControladorZonas.DeleteFromApi(idOfLastSelectedZone);
                 UpdateInfoFromDataBase();
             }
         }
@@ -62,8 +63,9 @@ namespace Eros
             ChangeToState(state.Editando);
         }
 
-        private void btAnyadirEmpleado_Click(object sender, RoutedEventArgs e)
+        private void btAnyadirZona_Click(object sender, RoutedEventArgs e)
         {
+           
             ChangeToState(state.Agregando);
         }
 
@@ -84,7 +86,7 @@ namespace Eros
         {
             if (tbxSearchBar.Text == "")
             {
-                PutListInDataGrid(listEmpleados);
+                PutListInDataGrid(listZonas);
                 tbkNotFound.Visibility = Visibility.Hidden;
                 return;
             }
@@ -92,12 +94,12 @@ namespace Eros
             string filter = tbxSearchBar.Text;
             listFiltrada.Clear();
             string nom_ap;
-            foreach (Empleado em in listEmpleados)
+            foreach (Zonas zo in listZonas)
             {
-                nom_ap = em.nombre + " " + em.apellido;
+                nom_ap = zo.nombre + " " + zo.abreviación;
                 if (nom_ap.ToLower().Contains(filter.ToLower()))
                 {
-                    listFiltrada.Add(em);
+                    listFiltrada.Add(zo);
                 }
             }
 
@@ -121,11 +123,11 @@ namespace Eros
                 MessageBox.Show(errorMessage);
                 return;
             }
-            Empleado newEm = GetEmpleadoFromTextBoxes();
-            string respuesta = ControladorEmpleados.PostToApi(newEm);
-            if (respuesta == "Error Usuario Ya Existe")
+            Zonas newZone = GetZonaFromTextBoxes();
+            string respuesta = ControladorZonas.PostToApi(newZone);
+            if (respuesta == "Error zona Ya Existe")
             {
-                MessageBox.Show("Esta cuenta de usuario ya existe pruebe con otra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Esta zona existe pruebe con otra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             ChangeToState(state.Viendo);
@@ -140,15 +142,15 @@ namespace Eros
                 return;
             }
 
-            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres guardar los cambios?", "Editar Empleado"))
+            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres guardar los cambios?", "Editar Zona"))
             {
-                int idEmpleado = idOfLastSelectedEmpleado;
-                Empleado empleadoActualizado = GetEmpleadoFromTextBoxes();
-                empleadoActualizado._id = idEmpleado;
-                string respuesta = ControladorEmpleados.UpdateInApi(empleadoActualizado);
-                if (respuesta == "Error Usuario Ya Existe")
+                int idZone = idOfLastSelectedZone;
+                Zonas zonaActualizada = GetZonaFromTextBoxes();
+                zonaActualizada._id = idZone;
+                string respuesta = ControladorZonas.UpdateInApi(zonaActualizada);
+                if (respuesta == "Error zona Ya Existe")
                 {
-                    MessageBox.Show("Esta cuenta de usuario ya existe pruebe con otra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Esta zona ya existe pruebe con otra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 ChangeToState(state.Viendo);
@@ -176,28 +178,27 @@ namespace Eros
         {
             infoTbxsList = new List<TextBox>();
             infoTbxsList.Add(tbxNombre);
-            infoTbxsList.Add(tbxApellido);
-            infoTbxsList.Add(tbxDni);
-            infoTbxsList.Add(tbxTelefono);
-            infoTbxsList.Add(tbxFnac);
-            infoTbxsList.Add(tbxUsuario);
-            infoTbxsList.Add(tbxContrasenya);
-            infoTbxsList.Add(tbxRol);
+            infoTbxsList.Add(tbxAbreviacion);
+            infoTbxsList.Add(tbxNºMesas);
+            enabledInfoTbxsList = new List<TextBox>();
+            enabledInfoTbxsList.Add(tbxNombre);
+            enabledInfoTbxsList.Add(tbxAbreviacion);
+            
 
         }
         private void UpdateInfoFromDataBase()
         {
-            listEmpleados = ControladorEmpleados.GetAllFromApi();
-            PutListInDataGrid(listEmpleados);
+            listZonas = ControladorZonas.GetAllFromApi();
+            PutListInDataGrid(listZonas);
             tbxSearchBar.Text = "";
-            dtgEmpleados.SelectedItem = listEmpleados[0];
+            dtgZonas.SelectedItem = listZonas[0];
 
         }
 
-        private void PutListInDataGrid(List<Empleado> lista)
+        private void PutListInDataGrid(List<Zonas> lista)
         {
-            dtgEmpleados.ItemsSource = null;
-            dtgEmpleados.ItemsSource = lista;
+            dtgZonas.ItemsSource = null;
+            dtgZonas.ItemsSource = lista;
         }
         private void ChangeToState(state nextState)
         {
@@ -206,13 +207,13 @@ namespace Eros
                 case state.Viendo:
                     //Codigo desaparecer botones editar,borrar,ver nominas
                     gridVisualizando.Visibility = Visibility.Hidden;
-                    dtgEmpleados.IsEnabled = false;
+                    dtgZonas.IsEnabled = false;
                     break;
 
                 case state.Agregando:
                     //Codigo desaparecer botones agregar,cancelar y aparecer boton agregar empleado
                     gridAnyadiendo.Visibility = Visibility.Hidden;
-                    btAnyadirEmpleado.Visibility = Visibility.Visible;
+                    btAnyadirZona.Visibility = Visibility.Visible;
                     break;
 
                 case state.Editando:
@@ -228,7 +229,7 @@ namespace Eros
                     //Codigo aparecer botones editar,borrar,ver nominas , bloquear en READONLY , rellenar tbxs con item selleccionado
                     gridVisualizando.Visibility = Visibility.Visible;
                     EnableTextBoxes(false);
-                    dtgEmpleados.IsEnabled = true;
+                    dtgZonas.IsEnabled = true;
                     dtgEmpleados_SelectionChanged(null, null);
 
                     break;
@@ -236,7 +237,7 @@ namespace Eros
                 case state.Agregando:
                     //Codigo aparecer botones agregar,cancelar y desaparecer boton agregar empleado , desbloquear ReadOnly , dejar campos vacios
                     gridAnyadiendo.Visibility = Visibility.Visible;
-                    btAnyadirEmpleado.Visibility = Visibility.Hidden;
+                    btAnyadirZona.Visibility = Visibility.Hidden;
                     EnableTextBoxes(true);
                     EmptyTextBoxes();
                     tbxNombre.Focus();
@@ -255,16 +256,12 @@ namespace Eros
             currentState = nextState;
         }
 
-        private void ShowEmpleadoInfo(Empleado emp)
+        private void ShowZoneInfo(Zonas zo)
         {
-            tbxNombre.Text = emp.nombre;
-            tbxApellido.Text = emp.apellido;
-            tbxDni.Text = emp.dni;
-            tbxTelefono.Text = emp.telefono;
-            tbxFnac.Text = emp.fnac;
-            tbxUsuario.Text = emp.usuario;
-            tbxContrasenya.Text = emp.password;
-            tbxRol.Text = emp.rol;
+            tbxNombre.Text = zo.nombre;
+            tbxAbreviacion.Text = zo.abreviación;
+            tbxNºMesas.Text = zo.nºMesas.ToString();
+           
         }
 
         private void EnableSearchTextBox(bool enable)
@@ -275,35 +272,33 @@ namespace Eros
 
         private void EnableTextBoxes(bool enable)
         {
-            foreach (TextBox t in infoTbxsList)
+            foreach (TextBox t in enabledInfoTbxsList)
             {
                 t.IsReadOnly = !enable;
                 t.Background = enable ? Brushes.White : Brushes.LightGray;
             }
+            
         }
 
         private void EmptyTextBoxes()
         {
-            foreach (TextBox t in infoTbxsList)
+            foreach (TextBox t in enabledInfoTbxsList)
             {
                 t.Text = "";
             }
+            tbxNºMesas.Text = "0";
         }
 
-        private Empleado GetEmpleadoFromTextBoxes()
+        private Zonas GetZonaFromTextBoxes()
         {
-            Empleado emp = new Empleado();
+            Zonas zo = new Zonas();
 
-            emp.nombre = tbxNombre.Text.Trim();
-            emp.apellido = tbxApellido.Text.Trim();
-            emp.dni = tbxDni.Text;
-            emp.telefono = tbxTelefono.Text;
-            emp.fnac = tbxFnac.Text;
-            emp.usuario = tbxUsuario.Text;
-            emp.password = tbxContrasenya.Text;
-            emp.rol = tbxRol.Text;
+            zo.nombre = tbxNombre.Text.Trim();
+            zo.abreviación = tbxAbreviacion.Text.Trim();
+            zo.nºMesas = int.Parse(tbxNºMesas.Text);
+            
 
-            return emp;
+            return zo;
         }
 
         private bool GetYesNoMessageBoxResponse(string message, string title)
@@ -319,7 +314,7 @@ namespace Eros
         private string GetValidationErrorString()
         {
             string errorString = "";
-
+            /*
             if (tbxNombre.Text == "")
             {
                 errorString += "-El campo Nombre no puede estar vacío" + Environment.NewLine;
@@ -330,55 +325,24 @@ namespace Eros
                 errorString += "-El campo Nombre solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
             }
 
-            if (tbxApellido.Text == "")
+            if (tbxAbreviacion.Text == "")
             {
-                errorString += "-El campo Apellido no puede estar vacío" + Environment.NewLine;
+                errorString += "-El campo Abreciación no puede estar vacío" + Environment.NewLine;
 
             }
-            else if (!Regex.IsMatch(tbxApellido.Text, @"^([a-zA-Z ]+)$"))
+            else if (!Regex.IsMatch(tbxAbreviacion.Text, @"^([a-zA-Z ]+)$"))
             {
-                errorString += "-El campo Apellido solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
+                errorString += "-El campo Abreviación solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
             }
 
-            if (tbxDni.Text == "")
+            if (tbxNºMesas.Text == "")
             {
-                errorString += "-El campo DNI no puede estar vacío" + Environment.NewLine;
+                errorString += "-El campo nºMesas no puede estar vacío" + Environment.NewLine;
 
-            }
-            else if (!Regex.IsMatch(tbxDni.Text, @"^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$"))
-            {
-                errorString += "-El DNI no es valido" + Environment.NewLine;
-            }
-
-            if (tbxTelefono.Text != "")
-            {
-                if (!Regex.IsMatch(tbxTelefono.Text, @"^(\+[0-9]{2} ?)?[0-9]{9}$"))
-                {
-                    errorString += "-El Telefono no es valido" + Environment.NewLine;
-                }
-            }
-
-            if (tbxFnac.Text != "")
-            {
-                if (!Regex.IsMatch(tbxFnac.Text, @"^[0-9]{1,2}[-/][0-9]{1,2}[-/][0-9]{1,4}$"))
-                {
-                    errorString += "-La fecha de nacimiento no es valida (dd-mm-aa)" + Environment.NewLine;
-                }
-            }
-
-            if (tbxUsuario.Text == "")
-            {
-                errorString += "-El campo Usuario no puede estar vacío" + Environment.NewLine;
-            }
-            else if (!Regex.IsMatch(tbxUsuario.Text, @"^[a-zA-Z0-9]+$"))
-            {
-                errorString += "-El campo usuario solo puede tener letras y numeros sin espacios" + Environment.NewLine;
-            }
-
+            }*/
+            
             return errorString;
 
         }
-
-
     }
 }
