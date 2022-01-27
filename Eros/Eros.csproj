@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Administrador\add.png" />
+    <None Remove="Administrador\edit.png" />
+    <None Remove="Administrador\lupa.png" />
+    <None Remove="Administrador\UtilWindows\add.png" />
+    <None Remove="Administrador\UtilWindows\basura.png" />
+    <None Remove="Administrador\UtilWindows\edit.png" />
     <None Remove="cerrar.png" />
     <None Remove="eros.png" />
     <None Remove="eros_black.png" />
@@ -38,53 +44,26 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="cerrar.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="eros_black.png" />
-    <Resource Include="eros_red.png" />
-    <Resource Include="flecha.png" />
-    <Resource Include="hamburguesa.jpg" />
-    <Resource Include="hamburguesa2 - Copia.jpeg" />
-    <Resource Include="hamburguesa2.jpg" />
-    <Resource Include="Img\empleados.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\hamburguesa.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\icons\cerrar.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\icons\cobrador.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\icons\cuadrado.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\icons\cuadrado2.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\icons\logout.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\ornament.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\pizza.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\productos.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\zonas.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="minimizar.png" />
-    <Resource Include="NoShowPass.png" />
-    <Resource Include="pizza.png" />
-    <Resource Include="pizza2.jpg" />
-    <Resource Include="ShowPass.png" />
+    <Resource Include="Administrador\add.png" />
+    <Resource Include="Administrador\edit.png" />
+    <Resource Include="Administrador\UtilWindows\add.png" />
+    <Resource Include="Administrador\UtilWindows\basura.png" />
+    <Resource Include="Administrador\UtilWindows\edit.png" />
+    <Resource Include="Img\edit.png" />
+    <Resource Include="Img\icons\basura.png" />
+    <Resource Include="Img\icons\cerrar.png" />
+    <Resource Include="Img\icons\lupa.png" />
+    <Resource Include="Img\logo\eros_black.png" />
+    <Resource Include="Img\logo\eros_red.png" />
+    <Resource Include="Img\icons\flecha.png" />
+    <Resource Include="Img\hamburguesa.jpg" />
+    <Resource Include="Img\hamburguesa2 - Copia.jpeg" />
+    <Resource Include="Img\hamburguesa2.jpg" />
+    <Resource Include="Img\icons\minimizar.png" />
+    <Resource Include="Img\icons\NoShowPass.png" />
+    <Resource Include="Img\pizza.png" />
+    <Resource Include="Img\pizza2.jpg" />
+    <Resource Include="Img\icons\ShowPass.png" />
   </ItemGroup>
 
 </Project>

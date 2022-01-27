@@ -10,7 +10,7 @@
         <Border BorderBrush="LightGray" BorderThickness="5">
             <StackPanel>
                 <Button Width="30" Height="30" HorizontalAlignment="Right" BorderThickness="0" Background="Transparent" Style="{StaticResource btn_cerrar}" Click="Button_Click">
-                    <Image Source="/cerrar.png"></Image>
+                    <Image Source="./Img/icons/cerrar.png"></Image>
                 </Button>
                 <Label FontSize="30" HorizontalAlignment="Center" Margin="0,30,0,0" Content="¿En qué modo quieres acceder?" Style="{StaticResource Title}"></Label>
                 <Button Content="Administrador" HorizontalAlignment="Left" Width="150" Height="60" Margin="100,70,0,0" Style="{StaticResource TabButton}" Click="Button_Click_2"></Button>
