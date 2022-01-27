@@ -5,23 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros.Administrador"
         mc:Ignorable="d"
-        Title="WindowMainAdministration" Height="450" Width="800">
-    <Grid>
+        Title="WindowMainAdministration" Height="450" Width="800" MinHeight="300" MinWidth="500" SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" MouseDown="Window_MouseDown" ResizeMode="CanResize">
+    <Grid Background="#F9F9F9">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <StackPanel Background="AliceBlue" Grid.Column="1" Grid.Row="1">
-            <Button Margin="10" Click="Button_Click">Gestionar empleados</Button>
-            <Button Margin="10" Click="Button_Click_2">Gestionar zonas/mesas</Button>
-            <Button Margin="10" Click="Button_Click_1">Gestionar productos</Button>
-        </StackPanel>
 
+        </Grid.RowDefinitions>
+        <Image Source="/Img/ornament.png" Stretch="Uniform"/>
+        <Button x:Name="btn_logout" Width="30" Height="30" VerticalAlignment="Top" Margin="70,60,0,0" BorderThickness="0" Background="Transparent" Click="btn_logout_Click">
+            <Button.ToolTip>
+                <TextBlock Text="Cerrar Sesión"></TextBlock>
+            </Button.ToolTip>
+            <Image Source="/Img/icons/logout.png"></Image>
+        </Button>
+        <Button x:Name="btn_cobrador" Width="30" Height="30" VerticalAlignment="Top" Margin="0,60,70,0" BorderThickness="0" Background="Transparent">
+            <Button.ToolTip>
+                <TextBlock Text="Cambiar a cobrador"></TextBlock>
+            </Button.ToolTip>
+            <Image Source="/Img/icons/cobrador.png"></Image>
+        </Button>
+        <StackPanel VerticalAlignment="Center">
+            <Button x:Name="btn_empleados" Margin="10" Style="{DynamicResource TabButton}" Height="30" Width="150" MouseEnter="btn_empleados_MouseEnter" Click="btn_empleados_Click" MouseLeave="btn_empleados_MouseLeave">Gestionar empleados</Button>
+            <Button x:Name="btn_zonas" Margin="10" Style="{DynamicResource TabButton}" Height="30" Width="150" MouseEnter="btn_zonas_MouseEnter" Click="btn_zonas_Click" MouseLeave="btn_zonas_MouseLeave">Gestionar zonas/mesas</Button>
+            <Button x:Name="btn_productos" Margin="10" Style="{DynamicResource TabButton}" Height="30" Width="150" MinHeight="20" MouseEnter="btn_productos_MouseEnter" Click="btn_productos_Click" MouseLeave="btn_productos_MouseLeave">Gestionar productos</Button>
+        </StackPanel>
+        <Image x:Name="img_gestion" Grid.Column="1" Source="/Img/empleados.png" Stretch="UniformToFill"></Image>
+        <Button x:Name="btn_Close" Grid.Column="1" Style="{StaticResource btn_cerrar}" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,0,0" Click="btn_Close_Click">
+            <Image Source="/cerrar.png" Width="20" Height="20" Margin="0,5,0,0"></Image>
+        </Button>
+        <Button x:Name="btn_window"  Grid.Column="1" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,30,0" Click="btn_window_Click" >
+            <Image x:Name="img_cuadrado"  Source="/Img/icons/cuadrado.png" Width="15" Height="15" Margin="0,5,0,0"></Image>
+        </Button>
+        <Button x:Name="btn_min" Grid.Column="1" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,60,0" Click="btn_min_Click">
+            <Image Source="/minimizar.png" Width="20" Height="20" Margin="0,0,0,0"></Image>
+        </Button>
     </Grid>
 </Window>
