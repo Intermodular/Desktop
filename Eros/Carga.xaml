@@ -7,9 +7,9 @@
         mc:Ignorable="d"
         Title="Carga" Height="450" Width="800" MinHeight="300" MinWidth="500" Background="#F9F9F9">
     <Window.Resources>
-        <BitmapImage x:Key="Image1" UriSource="/pizza.png" />
-        <BitmapImage x:Key="Image2" UriSource="/pizza2.jpg"/>
-        <BitmapImage x:Key="Image3" UriSource="/hamburguesa.jpg"/>
+        <BitmapImage x:Key="Image1" UriSource="/Img/pizza.png" />
+        <BitmapImage x:Key="Image2" UriSource="/Img/pizza2.jpg"/>
+        <BitmapImage x:Key="Image3" UriSource="/Img/hamburguesa.jpg"/>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
