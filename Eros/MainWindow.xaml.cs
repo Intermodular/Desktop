@@ -34,7 +34,7 @@ namespace Eros
             InitializeComponent();
             System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(img_transition);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 15);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 8);
             dispatcherTimer.Start();
         }
         /*

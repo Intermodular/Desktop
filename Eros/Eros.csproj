@@ -15,6 +15,24 @@
     <None Remove="hamburguesa.jpg" />
     <None Remove="hamburguesa2 - Copia.jpeg" />
     <None Remove="hamburguesa2.jpg" />
+    <None Remove="Img\carga\hamburguesa.jpeg" />
+    <None Remove="Img\carga\hamburguesa2.jpeg" />
+    <None Remove="Img\carga\hamburguesa3.jpeg" />
+    <None Remove="Img\carga\patatas.jpeg" />
+    <None Remove="Img\carga\pizza.jpeg" />
+    <None Remove="Img\carga\pizza2.jpeg" />
+    <None Remove="Img\empleados.png" />
+    <None Remove="Img\hamburguesa.jpg" />
+    <None Remove="Img\icons\cerrar.png" />
+    <None Remove="Img\icons\cobrador.png" />
+    <None Remove="Img\icons\cuadrado.png" />
+    <None Remove="Img\icons\cuadrado2.png" />
+    <None Remove="Img\icons\logout.png" />
+    <None Remove="Img\orna.png" />
+    <None Remove="Img\ornament.png" />
+    <None Remove="Img\pizza.png" />
+    <None Remove="Img\productos.jpg" />
+    <None Remove="Img\zonas.jpg" />
     <None Remove="minimizar.png" />
     <None Remove="NoShowPass.png" />
     <None Remove="pizza.png" />
@@ -27,13 +45,69 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="cerrar.png" />
+    <Resource Include="cerrar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="eros_black.png" />
     <Resource Include="eros_red.png" />
     <Resource Include="flecha.png" />
     <Resource Include="hamburguesa.jpg" />
     <Resource Include="hamburguesa2 - Copia.jpeg" />
     <Resource Include="hamburguesa2.jpg" />
+    <Resource Include="Img\carga\hamburguesa.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\carga\hamburguesa2.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\carga\hamburguesa3.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\carga\patatas.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\carga\pizza.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\carga\pizza2.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\empleados.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\hamburguesa.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\cerrar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\cobrador.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\cuadrado.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\cuadrado2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\logout.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\orna.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\ornament.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\pizza.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\productos.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\zonas.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="minimizar.png" />
     <Resource Include="NoShowPass.png" />
     <Resource Include="pizza.png" />
