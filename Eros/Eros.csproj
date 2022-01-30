@@ -21,7 +21,12 @@
     <None Remove="hamburguesa.jpg" />
     <None Remove="hamburguesa2 - Copia.jpeg" />
     <None Remove="hamburguesa2.jpg" />
+    <None Remove="Img\icons\add.png" />
+    <None Remove="Img\icons\check.png" />
+    <None Remove="Img\icons\edit.png" />
     <None Remove="Img\icons\lupa.png" />
+    <None Remove="Img\icons\waitingPoints.png" />
+    <None Remove="Img\icons\wrong.png" />
     <None Remove="minimizar.png" />
     <None Remove="NoShowPass.png" />
     <None Remove="pizza.png" />
@@ -40,20 +45,49 @@
     <Resource Include="Administrador\UtilWindows\basura.png" />
     <Resource Include="Administrador\UtilWindows\edit.png" />
     <Resource Include="Img\edit.png" />
-    <Resource Include="Img\icons\basura.png" />
-    <Resource Include="Img\icons\cerrar.png" />
-    <Resource Include="Img\icons\lupa.png" />
+    <Resource Include="Img\icons\add.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\basura.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\cerrar.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\check.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\edit.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\lupa.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\waitingPoints.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\wrong.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Img\logo\eros_black.png" />
     <Resource Include="Img\logo\eros_red.png" />
-    <Resource Include="Img\icons\flecha.png" />
+    <Resource Include="Img\icons\flecha.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Img\hamburguesa.jpg" />
     <Resource Include="Img\hamburguesa2 - Copia.jpeg" />
     <Resource Include="Img\hamburguesa2.jpg" />
-    <Resource Include="Img\icons\minimizar.png" />
-    <Resource Include="Img\icons\NoShowPass.png" />
+    <Resource Include="Img\icons\minimizar.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\NoShowPass.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Img\pizza.png" />
     <Resource Include="Img\pizza2.jpg" />
-    <Resource Include="Img\icons\ShowPass.png" />
+    <Resource Include="Img\icons\ShowPass.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
