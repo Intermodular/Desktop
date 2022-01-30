@@ -21,6 +21,17 @@
     <None Remove="hamburguesa.jpg" />
     <None Remove="hamburguesa2 - Copia.jpeg" />
     <None Remove="hamburguesa2.jpg" />
+    <None Remove="Img\empleados.png" />
+    <None Remove="Img\hamburguesa.jpg" />
+    <None Remove="Img\icons\cerrar.png" />
+    <None Remove="Img\icons\cobrador.png" />
+    <None Remove="Img\icons\cuadrado.png" />
+    <None Remove="Img\icons\cuadrado2.png" />
+    <None Remove="Img\icons\logout.png" />
+    <None Remove="Img\ornament.png" />
+    <None Remove="Img\pizza.png" />
+    <None Remove="Img\productos.jpg" />
+    <None Remove="Img\zonas.jpg" />
     <None Remove="Img\icons\add.png" />
     <None Remove="Img\icons\check.png" />
     <None Remove="Img\icons\edit.png" />

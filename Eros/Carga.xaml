@@ -1,0 +1,38 @@
+﻿<Window x:Class="Eros.Carga"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Eros"
+        mc:Ignorable="d"
+        Title="Carga" Height="450" Width="800" MinHeight="300" MinWidth="500" Background="#F9F9F9">
+    <Window.Resources>
+        <BitmapImage x:Key="Image1" UriSource="/pizza.png" />
+        <BitmapImage x:Key="Image2" UriSource="/pizza2.jpg"/>
+        <BitmapImage x:Key="Image3" UriSource="/hamburguesa.jpg"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Image Grid.Column="0" Grid.Row="0" Stretch="UniformToFill" Source="{StaticResource Image1}">
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" SpeedRatio=".5" From="1" To=".5" RepeatBehavior="Forever"></DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" SpeedRatio=".5" From="1" To=".5" RepeatBehavior="Forever"></DoubleAnimation>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Source" Duration="0:0:6" RepeatBehavior="Forever">
+                                <DiscreteObjectKeyFrame Value="{StaticResource Image2}" KeyTime="0:0:2"></DiscreteObjectKeyFrame>
+                                <DiscreteObjectKeyFrame Value="{StaticResource Image3}" KeyTime="0:0:4"></DiscreteObjectKeyFrame>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+    </Grid>
+</Window>
