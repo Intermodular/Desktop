@@ -20,7 +20,7 @@ namespace Eros
    
     public partial class Rol : Window
     {
-       public string _Mensaje;
+       public string _Mensaje = "";
        public Rol()
         {
             InitializeComponent();

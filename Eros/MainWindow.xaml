@@ -11,13 +11,13 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="2.5*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Image Grid.Column="0" Width="130" Height="150" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,30,0,0" Source="/eros_black.png">
+        <Image Grid.Column="0" Width="130" Height="150" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,30,0,0" Source="./Img/logo/eros_black.png">
             <Image.Style>
                 <Style TargetType="{x:Type Image}">
                    
                     <Style.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Source" Value="/eros_black.png"></Setter>
+                            <Setter Property="Source" Value="./Img/logo/eros_red.png"></Setter>
                         </Trigger>
                     </Style.Triggers>
                 </Style>
@@ -94,25 +94,25 @@
             </TextBlock.Style>
         </TextBlock>
         <Button x:Name="btn_eye" Width="20" Height="20" Margin="214,295,52,285" Background="Transparent" BorderThickness="0" Click="btn_eye_Click" >
-            <Image x:Name="img_eye" Source="/NoShowPass.png"></Image>
+            <Image x:Name="img_eye" Source="./Img/icons/NoShowPass.png"></Image>
         </Button>
         <Label x:Name="lbl_error" Width="200" Height="30" Margin="0,100,0,0" Foreground="#DD4A4A"></Label>
         <Button x:Name="btn_login" Width="50" Height="50" Margin="0,250,0,0" Style="{StaticResource TabButton}" IsEnabled="False" Click="btn_login_Click" >
             <StackPanel>
-                <Image  Source="/flecha.png" Width="30" Height="30"></Image>
+                <Image  Source="./Img/icons/flecha.png" Width="30" Height="30"></Image>
             </StackPanel>
         </Button>
-        <Image x:Name="img_login" Source="/pizza.png" Stretch="Fill" Grid.Column="1"></Image>
+        <Image x:Name="img_login" Source="./Img/pizza.png" Stretch="Fill" Grid.Column="1"></Image>
         <Button Grid.Column="1" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,30,0" Click="Button_Click_1">
             <StackPanel>
-                <Image Source="/minimizar.png" Width="20" Height="20" Margin="0,-5,0,0"></Image>
+                <Image Source="./Img/icons/minimizar.png" Width="20" Height="20" Margin="0,-5,0,0"></Image>
             </StackPanel>
         </Button>
         <Button x:Name="btn_Close" Grid.Column="1" Style="{StaticResource btn_cerrar}" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,0,0" Click="btn_Close_Click">
 
             <StackPanel>
 
-                <Image Source="/cerrar.png" Width="20" Height="20" Margin="0,5,0,0"></Image>
+                <Image Source="./Img/icons/cerrar.png" Width="20" Height="20" Margin="0,5,0,0"></Image>
             </StackPanel>
         </Button>
     </Grid>

@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Administrador\add.png" />
+    <None Remove="Administrador\edit.png" />
+    <None Remove="Administrador\lupa.png" />
+    <None Remove="Administrador\UtilWindows\add.png" />
+    <None Remove="Administrador\UtilWindows\basura.png" />
+    <None Remove="Administrador\UtilWindows\edit.png" />
     <None Remove="cerrar.png" />
     <None Remove="eros.png" />
     <None Remove="eros_black.png" />

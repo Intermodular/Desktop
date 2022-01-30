@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Eros.Controladores;
+using Eros.Modelos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,10 +24,13 @@ namespace Eros
     {
         List<Empleado> listEmpleados;
         List<Empleado> listFiltrada;
+        Empleado selectedEmpleado;
+
         int idOfLastSelectedEmpleado;
         enum state { Agregando, Viendo, Editando };
         state currentState;
         List<TextBox> infoTbxsList;
+       
 
         public WindowEmpleados()
         {
@@ -39,18 +44,19 @@ namespace Eros
         //Eventos
         private void dtgEmpleados_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Empleado selectedEmpleado = (Empleado)dtgEmpleados.SelectedItem;
-            if (selectedEmpleado != null)
+            Empleado selectedEmp = (Empleado)dtgEmpleados.SelectedItem;
+            if (selectedEmp != null)
             {
-                ShowEmpleadoInfo(selectedEmpleado);
-                idOfLastSelectedEmpleado = selectedEmpleado._id;
+                ShowEmpleadoInfo(selectedEmp);
+                //idOfLastSelectedEmpleado = selectedEmpleado._id;
+                selectedEmpleado = selectedEmp;
             }
         }
         private void btEliminar_Click(object sender, RoutedEventArgs e)
         {
             if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar a este empleado?", "Borrar Empleado"))
             {
-                ControladorEmpleados.DeleteFromApi(idOfLastSelectedEmpleado);
+                ControladorEmpleados.DeleteFromApi(selectedEmpleado._id);
                 UpdateInfoFromDataBase();
             }
         }
@@ -128,6 +134,7 @@ namespace Eros
             ChangeToState(state.Viendo);
             UpdateInfoFromDataBase();
         }
+
         private void btGuardarEdicion_Click(object sender, RoutedEventArgs e)
         {
             string errorMessage;
@@ -139,9 +146,9 @@ namespace Eros
 
             if (GetYesNoMessageBoxResponse("Estás seguro de que quieres guardar los cambios?", "Editar Empleado"))
             {
-                int idEmpleado = idOfLastSelectedEmpleado;
                 Empleado empleadoActualizado = GetEmpleadoFromTextBoxes();
-                empleadoActualizado._id = idEmpleado;
+                empleadoActualizado._id = selectedEmpleado._id;
+                empleadoActualizado.password = selectedEmpleado.password;
                 string respuesta = ControladorEmpleados.UpdateInApi(empleadoActualizado);
                 if (respuesta == "Error Usuario Ya Existe")
                 {
@@ -178,10 +185,24 @@ namespace Eros
             infoTbxsList.Add(tbxTelefono);
             infoTbxsList.Add(tbxFnac);
             infoTbxsList.Add(tbxUsuario);
-            infoTbxsList.Add(tbxContrasenya);
-            infoTbxsList.Add(tbxRol);
+            infoTbxsList.Add(tbxEmail);
+           // infoTbxsList.Add(tbxRol);
 
         }
+
+        private void HideAllCheckImages()
+        {
+            imgCheckNombre.Visibility = Visibility.Hidden;
+            imgCheckApellido.Visibility = Visibility.Hidden;
+            imgCheckDNI.Visibility = Visibility.Hidden;
+            imgCheckTelefono.Visibility = Visibility.Hidden;
+            imgCheckFnac.Visibility = Visibility.Hidden;
+            imgCheckUsuario.Visibility = Visibility.Hidden;
+            imgCheckEmail.Visibility = Visibility.Hidden;
+            imgCheckRol.Visibility = Visibility.Hidden;
+
+        }
+
         private void UpdateInfoFromDataBase()
         {
             listEmpleados = ControladorEmpleados.GetAllFromApi();
@@ -224,6 +245,7 @@ namespace Eros
                 case state.Viendo:
                     //Codigo aparecer botones editar,borrar,ver nominas , bloquear en READONLY , rellenar tbxs con item selleccionado
                     gridVisualizando.Visibility = Visibility.Visible;
+                    HideAllCheckImages();
                     EnableTextBoxes(false);
                     dtgEmpleados.IsEnabled = true;
                     dtgEmpleados_SelectionChanged(null, null);
@@ -260,8 +282,17 @@ namespace Eros
             tbxTelefono.Text = emp.telefono;
             tbxFnac.Text = emp.fnac;
             tbxUsuario.Text = emp.usuario;
-            tbxContrasenya.Text = emp.password;
-            tbxRol.Text = emp.rol;
+            tbxEmail.Text = emp.email;
+            foreach (ComboBoxItem i in cbxRol.Items)
+            {
+                if (i.Content.ToString() == emp.rol)
+                {
+                    cbxRol.SelectedItem = i;
+                    return;
+                }
+            }
+
+            cbxRol.SelectedItem = cbxRol.Items[cbxRol.Items.Count - 1]; // El ultimo siempre tiene que ser otro
         }
 
         private void EnableSearchTextBox(bool enable)
@@ -276,6 +307,8 @@ namespace Eros
             {
                 t.IsReadOnly = !enable;
                 t.Background = enable ? Brushes.White : Brushes.LightGray;
+                cbxRol.IsEnabled = enable;
+                cbxRol.Background = enable ? Brushes.White : Brushes.LightGray;
             }
         }
 
@@ -285,6 +318,7 @@ namespace Eros
             {
                 t.Text = "";
             }
+            cbxRol.SelectedItem = null;
         }
 
         private Empleado GetEmpleadoFromTextBoxes()
@@ -297,8 +331,8 @@ namespace Eros
             emp.telefono = tbxTelefono.Text;
             emp.fnac = tbxFnac.Text;
             emp.usuario = tbxUsuario.Text;
-            emp.password = tbxContrasenya.Text;
-            emp.rol = tbxRol.Text;
+            emp.password = tbxEmail.Text;
+            emp.rol = cbxRol.Text;
 
             return emp;
         }
@@ -376,6 +410,325 @@ namespace Eros
 
         }
 
+      
+
+
+
+        //Validaciones
+        private void tbxNombre_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbxNombre.IsReadOnly)
+            {
+                return;
+            }
+            string errorString = "";
+            if (tbxNombre.Text == "")
+            {
+                errorString = "El campo Nombre no puede estar vacío";
+
+            }
+            else if (!Regex.IsMatch(tbxNombre.Text, @"^([a-zA-Z ]+)$"))
+            {
+                errorString = "El campo Nombre solo debe contener caracteres alfabéticos,sin caracteres especiales";
+            }
+
+            imgCheckNombre.Visibility = Visibility.Visible;
+
+            if (errorString == "")
+            {
+                imgCheckNombre.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
+                tbkImageToolTipNombre.Text = "Correcto";
+            }
+            else
+            {
+                imgCheckNombre.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                tbkImageToolTipNombre.Text = errorString;
+            }
+        }
+
+        private void tbxApellido_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbxApellido.IsReadOnly)
+            {
+                return;
+            }
+            string errorString = "";
+            if (tbxApellido.Text == "")
+            {
+                errorString = "El campo Apellido no puede estar vacío";
+
+            }
+            else if (!Regex.IsMatch(tbxApellido.Text, @"^([a-zA-Z ]+)$"))
+            {
+                errorString = "El campo Apellido solo debe contener caracteres alfabéticos,sin caracteres especiales";
+            }
+
+            imgCheckApellido.Visibility = Visibility.Visible;
+
+            if (errorString == "")
+            {
+                imgCheckApellido.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
+                tbkImageToolTipApellido.Text = "Correcto";
+            }
+            else
+            {
+                imgCheckApellido.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                tbkImageToolTipApellido.Text = errorString;
+            }
+        }
+
+        private void tbxDni_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbxDni.IsReadOnly)
+            {
+                return;
+            }
+            string errorString = "";
+            if (tbxDni.Text == "")
+            {
+                errorString = "El campo DNI no puede estar vacío";
+
+            }
+            else if (!Regex.IsMatch(tbxDni.Text, @"^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$"))
+            {
+                errorString += "El DNI no es valido";
+            }
+
+            imgCheckDNI.Visibility = Visibility.Visible;
+
+            if (errorString == "")
+            {
+                imgCheckDNI.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
+                tbkImageToolTipDNI.Text = "Correcto";
+            }
+            else
+            {
+                imgCheckDNI.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                tbkImageToolTipDNI.Text = errorString;
+            }
+        }
+
+        private void tbxTelefono_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbxTelefono.IsReadOnly)
+            {
+                return;
+            }
+            //Le ponemos la visibilidad primero porque  en caso de que esta vacio la pondremos en hidden
+            imgCheckTelefono.Visibility = Visibility.Visible;
+            string errorString = "";
+            if (tbxTelefono.Text != "")
+            {
+                if (!Regex.IsMatch(tbxTelefono.Text, @"^(\+[0-9]{2} ?)?[0-9]{9}$"))
+                {
+                    errorString = "El formato del Telefono no es valido";
+                }
+            }
+            else
+            {
+                imgCheckTelefono.Visibility = Visibility.Hidden;
+                return;
+            }
+
+
+
+            if (errorString == "")
+            {
+                imgCheckTelefono.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
+                tbkImageToolTipTelefono.Text = "Correcto";
+            }
+            else
+            {
+                imgCheckTelefono.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                tbkImageToolTipTelefono.Text = errorString;
+            }
+        }
+
+        private void tbxFnac_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbxFnac.IsReadOnly)
+            {
+                return;
+            }
+            imgCheckFnac.Visibility = Visibility.Visible;
+            string errorString = "";
+            if (tbxFnac.Text != "")
+            {
+                if (!Regex.IsMatch(tbxFnac.Text, @"^[0-9]{1,2}[-/][0-9]{1,2}[-/][0-9]{1,4}$"))
+                {
+                    errorString = "La fecha de nacimiento no es valida (dd-mm-aa)";
+                }
+            }
+            else
+            {
+                imgCheckFnac.Visibility = Visibility.Hidden;
+                return;
+            }
+
+            if (errorString == "")
+            {
+                imgCheckFnac.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
+                tbkImageToolTipFnac.Text = "Correcto";
+            }
+            else
+            {
+                imgCheckFnac.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                tbkImageToolTipFnac.Text = errorString;
+            }
+        }
+
+        private void tbxEmail_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbxEmail.IsReadOnly)
+            {
+                return;
+            }
+            imgCheckEmail.Visibility = Visibility.Visible;
+            string errorString = "";
+            if (tbxEmail.Text != "")
+            {
+                if (!Regex.IsMatch(tbxEmail.Text, @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"))
+                {
+                    errorString = "El email no es valido";
+                }
+            }
+            else
+            {
+                imgCheckEmail.Visibility = Visibility.Hidden;
+                return;
+            }
+
+            if (errorString == "")
+            {
+                imgCheckEmail.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
+                tbkImageToolTipEmail.Text = "Correcto";
+            }
+            else
+            {
+                imgCheckEmail.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                tbkImageToolTipEmail.Text = errorString;
+            }
+        }
+
+        private void cbxRol_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!cbxRol.IsEnabled)
+            {
+                return;
+            }
+            string errorString = "";
+            if (cbxRol.Text == "")
+            {
+                errorString = "El campo Rol no puede estar vacío";
+            }
+
+            imgCheckRol.Visibility = Visibility.Visible;
+
+            if (errorString == "")
+            {
+                imgCheckRol.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
+                tbkImageToolTipRol.Text = "Correcto";
+            }
+            else
+            {
+                imgCheckRol.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                tbkImageToolTipRol.Text = errorString;
+            }
+        }
+
+        private void tbxUsuario_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbxUsuario.IsReadOnly)
+            {
+                return;
+            }
+            string errorString = "";
+            bool userExists;
+
+            imgCheckUsuario.Visibility = Visibility.Visible;
+
+            if (tbxUsuario.Text == "")
+            {
+                errorString = "El campo Usuario no puede estar vacío";
+                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                tbkImageToolTipUsuario.Text = errorString;
+
+            }
+            else if (!Regex.IsMatch(tbxUsuario.Text, @"^[a-zA-Z0-9]+$"))
+            {
+                errorString = "El campo usuario solo puede tener letras y numeros sin espacios";
+                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Imgicons//wrong.png", UriKind.Relative));
+                tbkImageToolTipUsuario.Text = errorString;
+
+            }
+            else
+            {
+                Task<bool> task;
+                string userText = tbxUsuario.Text;
+                if (currentState == state.Editando)
+                {
+                    task = Task.Run(() => ControladorEmpleados.DoesEmpleadoExistAsync(userText, selectedEmpleado._id));
+                }
+                else
+                {
+                    task = Task.Run(() => ControladorEmpleados.DoesEmpleadoExistAsync(userText));
+                }
+
+                task.ContinueWith(t =>
+                {
+                    userExists = t.Result;
+                    if (userExists)
+                    {
+                        errorString = "Este usuario ya existe, pruebe con otro";
+                    }
+
+                    if (errorString == "")
+                    {
+                        imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/check.png", UriKind.Relative));
+                        tbkImageToolTipUsuario.Text = "Correcto";
+                    }
+                    else
+                    {
+                        imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/wrong.png", UriKind.Relative));
+                        tbkImageToolTipUsuario.Text = errorString;
+                    }
+
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+
+                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/waitingPoints.png", UriKind.Relative));
+                tbkImageToolTipUsuario.Text = "Esperando...";
+                /*if(currentState == state.Editando)
+                {
+                    userExists = ControladorEmpleados.DoesEmpleadoExist(tbxUsuario.Text,selectedEmpleado._id);
+                }
+                else
+                {
+                    userExists = ControladorEmpleados.DoesEmpleadoExist(tbxUsuario.Text);
+                }
+
+                if(userExists)
+                {
+                    errorString = "Este usuario ya existe, pruebe con otro";
+                }*/
+            }
+
+            /*imgCheckUsuario.Visibility = Visibility.Visible;
+
+            if (errorString == "")
+            {
+                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/check.png", UriKind.Relative));
+                tbkImageToolTipUsuario.Text = "Correcto";
+            }
+            else
+            {
+                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/wrong.png", UriKind.Relative));
+                tbkImageToolTipUsuario.Text = errorString;
+            }*/
+
+
+
+
+        }
 
     }
 }

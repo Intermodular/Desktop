@@ -49,5 +49,21 @@ namespace Eros
                 return result;
             }
         }
+
+
+        //Funciones de validación
+
+
+        public async static Task<string> GetHttpAsync(string url)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                var endpoint = new Uri(url);
+                HttpResponseMessage result = await client.GetAsync(endpoint);
+                var json = result.Content.ReadAsStringAsync().Result;
+                return json;
+            }
+        }
+
     }
 }

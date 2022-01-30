@@ -1,5 +1,4 @@
-﻿using Eros.Administrador.UtilWindows;
-using Eros.Controladores;
+﻿using Eros.Controladores;
 using Eros.Modelos;
 using System;
 using System.Collections.Generic;
@@ -16,45 +15,46 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Eros
+namespace Eros.Administrador
 {
     /// <summary>
-    /// Lógica de interacción para WindowProducts.xaml
+    /// Lógica de interacción para WindowZones.xaml
     /// </summary>
-    public partial class WindowProducts : Window
+    public partial class WindowZones : Window
     {
-        List<Productos> listProductos;
-        List<Productos> listFiltrada;
-        int idOfLastSelectedProduct;
+        List<Zonas> listZonas;
+        List<Zonas> listFiltrada;
+        int idOfLastSelectedZone;
         enum state { Agregando, Viendo, Editando };
         state currentState;
-        List<TextBox> infoTbxsList;
-        List<TextBox> allTextBox;
 
-        public WindowProducts()
+        List<TextBox> infoTbxsList;
+        List<TextBox> enabledInfoTbxsList;
+
+        public WindowZones()
         {
             InitializeComponent();
             InitializeTextBoxList();
             currentState = state.Viendo;
             UpdateInfoFromDataBase();
-            listFiltrada = new List<Productos>();
+            listFiltrada = new List<Zonas>();
         }
 
         //Eventos
         private void dtgEmpleados_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Productos selectedProduct = (Productos)dtgProductos.SelectedItem;
-            if (selectedProduct != null)
+            Zonas selectedZone= (Zonas) dtgZonas.SelectedItem;
+            if (selectedZone != null)
             {
-                ShowProductInfo(selectedProduct);
-                idOfLastSelectedProduct = selectedProduct._id;
+                ShowZoneInfo(selectedZone);
+                idOfLastSelectedZone = selectedZone._id;
             }
         }
         private void btEliminar_Click(object sender, RoutedEventArgs e)
         {
-            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar a este producto?", "Borrar Producto"))
+            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar esta zona?", "Borrar Empleado"))
             {
-                ControladorProductos.DeleteFromApi(idOfLastSelectedProduct);
+                ControladorZonas.DeleteFromApi(idOfLastSelectedZone);
                 UpdateInfoFromDataBase();
             }
         }
@@ -63,8 +63,9 @@ namespace Eros
             ChangeToState(state.Editando);
         }
 
-        private void btAnyadirProducto_Click(object sender, RoutedEventArgs e)
+        private void btAnyadirZona_Click(object sender, RoutedEventArgs e)
         {
+           
             ChangeToState(state.Agregando);
         }
 
@@ -85,7 +86,7 @@ namespace Eros
         {
             if (tbxSearchBar.Text == "")
             {
-                PutListInDataGrid(listProductos);
+                PutListInDataGrid(listZonas);
                 tbkNotFound.Visibility = Visibility.Hidden;
                 return;
             }
@@ -93,12 +94,12 @@ namespace Eros
             string filter = tbxSearchBar.Text;
             listFiltrada.Clear();
             string nom_ap;
-            foreach (Productos em in listProductos)
+            foreach (Zonas zo in listZonas)
             {
-                nom_ap = em.nombre;
+                nom_ap = zo.nombre + " " + zo.abreviación;
                 if (nom_ap.ToLower().Contains(filter.ToLower()))
                 {
-                    listFiltrada.Add(em);
+                    listFiltrada.Add(zo);
                 }
             }
 
@@ -122,11 +123,11 @@ namespace Eros
                 MessageBox.Show(errorMessage);
                 return;
             }
-            Productos newProduct = GetProductFromTextBoxes();
-            string respuesta = ControladorProductos.PostToApi(newProduct);
-            if (respuesta == "Error Usuario Ya Existe")
+            Zonas newZone = GetZonaFromTextBoxes();
+            string respuesta = ControladorZonas.PostToApi(newZone);
+            if (respuesta == "Error zona Ya Existe")
             {
-                MessageBox.Show("Esta cuenta de usuario ya existe pruebe con otra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Esta zona existe pruebe con otra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             ChangeToState(state.Viendo);
@@ -140,17 +141,16 @@ namespace Eros
                 MessageBox.Show(errorMessage);
                 return;
             }
-            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres guardar los cambios?", "Editar Producto"))
-            {
-                int idProduct = idOfLastSelectedProduct;
-                Productos updateProduct= GetProductFromTextBoxes();
-                updateProduct._id = idProduct;
-                string respuesta = ControladorProductos.UpdateInApi(updateProduct);
-                MessageBox.Show(respuesta);
 
-                if (respuesta == "Error Usuario Ya Existe")
+            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres guardar los cambios?", "Editar Zona"))
+            {
+                int idZone = idOfLastSelectedZone;
+                Zonas zonaActualizada = GetZonaFromTextBoxes();
+                zonaActualizada._id = idZone;
+                string respuesta = ControladorZonas.UpdateInApi(zonaActualizada);
+                if (respuesta == "Error zona Ya Existe")
                 {
-                    MessageBox.Show("Esta cuenta de usuario ya existe pruebe con otra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Esta zona ya existe pruebe con otra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 ChangeToState(state.Viendo);
@@ -178,28 +178,27 @@ namespace Eros
         {
             infoTbxsList = new List<TextBox>();
             infoTbxsList.Add(tbxNombre);
-            infoTbxsList.Add(tbxTipo);
-            //infoTbxsList.Add(tbxIngredientes);
-            infoTbxsList.Add(tbxPrecio);
-            //infoTbxsList.Add(tbxEspecificaciones);
-            infoTbxsList.Add(tbxImagen);
-            infoTbxsList.Add(tbxStock);
+            infoTbxsList.Add(tbxAbreviacion);
+            infoTbxsList.Add(tbxNºMesas);
+            enabledInfoTbxsList = new List<TextBox>();
+            enabledInfoTbxsList.Add(tbxNombre);
+            enabledInfoTbxsList.Add(tbxAbreviacion);
             
 
         }
         private void UpdateInfoFromDataBase()
         {
-            listProductos = ControladorProductos.GetAllFromApi();
-            PutListInDataGrid(listProductos);
+            listZonas = ControladorZonas.GetAllFromApi();
+            PutListInDataGrid(listZonas);
             tbxSearchBar.Text = "";
-            dtgProductos.SelectedItem = listProductos[0];
+            dtgZonas.SelectedItem = listZonas[0];
 
         }
 
-        private void PutListInDataGrid(List<Productos> lista)
+        private void PutListInDataGrid(List<Zonas> lista)
         {
-            dtgProductos.ItemsSource = null;
-            dtgProductos.ItemsSource = lista;
+            dtgZonas.ItemsSource = null;
+            dtgZonas.ItemsSource = lista;
         }
         private void ChangeToState(state nextState)
         {
@@ -207,26 +206,18 @@ namespace Eros
             {
                 case state.Viendo:
                     //Codigo desaparecer botones editar,borrar,ver nominas
-                    btnAddSpecifications.Visibility = Visibility.Visible;
-                    btnAddIngredientes.Visibility = Visibility.Visible;
-
                     gridVisualizando.Visibility = Visibility.Hidden;
-                    dtgProductos.IsEnabled = false;
+                    dtgZonas.IsEnabled = false;
                     break;
 
                 case state.Agregando:
                     //Codigo desaparecer botones agregar,cancelar y aparecer boton agregar empleado
-                   
-
                     gridAnyadiendo.Visibility = Visibility.Hidden;
-                    btAnyadirEmpleado.Visibility = Visibility.Visible;
+                    btAnyadirZona.Visibility = Visibility.Visible;
                     break;
 
                 case state.Editando:
                     //Codigo desaparecer botones descartar cambios y guardar
-                    
-                    btnAddIngredientes.Visibility = Visibility.Hidden;
-                    btnAddSpecifications.Visibility = Visibility.Hidden;
                     gridEditando.Visibility = Visibility.Hidden;
                     EnableSearchTextBox(true);
                     break;
@@ -238,15 +229,15 @@ namespace Eros
                     //Codigo aparecer botones editar,borrar,ver nominas , bloquear en READONLY , rellenar tbxs con item selleccionado
                     gridVisualizando.Visibility = Visibility.Visible;
                     EnableTextBoxes(false);
-                    dtgProductos.IsEnabled = true;
+                    dtgZonas.IsEnabled = true;
                     dtgEmpleados_SelectionChanged(null, null);
 
                     break;
 
                 case state.Agregando:
-                    //Codigo aparecer botones agregar,cancelar y desaparecer boton agregar producto , desbloquear ReadOnly , dejar campos vacios
+                    //Codigo aparecer botones agregar,cancelar y desaparecer boton agregar empleado , desbloquear ReadOnly , dejar campos vacios
                     gridAnyadiendo.Visibility = Visibility.Visible;
-                    btAnyadirEmpleado.Visibility = Visibility.Hidden;
+                    btAnyadirZona.Visibility = Visibility.Hidden;
                     EnableTextBoxes(true);
                     EmptyTextBoxes();
                     tbxNombre.Focus();
@@ -264,69 +255,50 @@ namespace Eros
 
             currentState = nextState;
         }
-        //Aquí
-        private void ShowProductInfo(Productos product)
+
+        private void ShowZoneInfo(Zonas zo)
         {
-            tbxNombre.Text = product.nombre;
-            tbxTipo.Text = product.tipo;
-            tbxPrecio.Text = product.precio.ToString();
-            tbxImagen.Text = product.imagen;
-            tbxStock.Text = product.stock.ToString();
-
-         
-            fillComboBox(cbIngredientes, product.ingredientes);
-            fillComboBox(cbEspecificaciones, product.especificaciones);
+            tbxNombre.Text = zo.nombre;
+            tbxAbreviacion.Text = zo.abreviación;
+            tbxNºMesas.Text = zo.nºMesas.ToString();
+           
         }
-
 
         private void EnableSearchTextBox(bool enable)
         {
-            
             tbxSearchBar.IsReadOnly = !enable;
             tbxSearchBar.Background = enable ? Brushes.White : Brushes.LightGray;
         }
 
         private void EnableTextBoxes(bool enable)
         {
-            foreach (TextBox t in infoTbxsList)
+            foreach (TextBox t in enabledInfoTbxsList)
             {
                 t.IsReadOnly = !enable;
                 t.Background = enable ? Brushes.White : Brushes.LightGray;
             }
+            
         }
 
         private void EmptyTextBoxes()
         {
-            foreach (TextBox t in infoTbxsList)
+            foreach (TextBox t in enabledInfoTbxsList)
+            {
                 t.Text = "";
-            cbEspecificaciones.Items.Clear();
-            cbIngredientes.Items.Clear();
+            }
+            tbxNºMesas.Text = "0";
         }
 
-        private Productos GetProductFromTextBoxes()
+        private Zonas GetZonaFromTextBoxes()
         {
+            Zonas zo = new Zonas();
 
-        
-            Productos product = new Productos();
-            product.nombre = tbxNombre.Text.Trim();
-            product.tipo = tbxTipo.Text.Trim();
-
-            List<String> ingredientes = new List<string>();
-            foreach (String i in cbIngredientes.Items) ingredientes.Add(i);
-            product.ingredientes = ingredientes;
-
-            product.precio = float.Parse(tbxPrecio.Text);
-
-            List<String> especificaciones = new List<string>();
-            foreach (String i in cbEspecificaciones.Items) especificaciones.Add(i);
-            product.especificaciones = especificaciones;
-
-            product.imagen = tbxImagen.Text;
-            product.stock = int.Parse(tbxStock.Text);
-
+            zo.nombre = tbxNombre.Text.Trim();
+            zo.abreviación = tbxAbreviacion.Text.Trim();
+            zo.nºMesas = int.Parse(tbxNºMesas.Text);
             
 
-            return product;
+            return zo;
         }
 
         private bool GetYesNoMessageBoxResponse(string message, string title)
@@ -342,7 +314,7 @@ namespace Eros
         private string GetValidationErrorString()
         {
             string errorString = "";
-
+            /*
             if (tbxNombre.Text == "")
             {
                 errorString += "-El campo Nombre no puede estar vacío" + Environment.NewLine;
@@ -353,79 +325,24 @@ namespace Eros
                 errorString += "-El campo Nombre solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
             }
 
-            if (tbxTipo.Text == "")
+            if (tbxAbreviacion.Text == "")
             {
-                errorString += "-El campo Tipo no puede estar vacío" + Environment.NewLine;
+                errorString += "-El campo Abreciación no puede estar vacío" + Environment.NewLine;
 
             }
-
-            //Validar por tipo de producto existente ¿?
-           /* else if (!Regex.IsMatch(tbxApellido.Text, @"^([a-zA-Z ]+)$"))
+            else if (!Regex.IsMatch(tbxAbreviacion.Text, @"^([a-zA-Z ]+)$"))
             {
-                errorString += "-El campo Apellido solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
+                errorString += "-El campo Abreviación solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
             }
-           */
-           /*
-            if (tbxIngredientes.Text == "")
+
+            if (tbxNºMesas.Text == "")
             {
-                errorString += "-El campo Ingredientes no puede estar vacío" + Environment.NewLine;
+                errorString += "-El campo nºMesas no puede estar vacío" + Environment.NewLine;
+
             }*/
-            /*
-            else if (!Regex.IsMatch(tbxIngredientes.Text.Trim(), @"^([a-zA-Z ]+)$"))
-            {
-                errorString += "-El campo Tipo solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
-            }
-            */
-           /*
-
-            if (tbxPrecio.Text != "")
-            {
-               
-                errorString += "-El campo Precio No puede estar vacio" + Environment.NewLine;
-            }
-            else if (!Regex.IsMatch(tbxPrecio.Text, @"^[0-9]."));
-            {
-                errorString += "-El campo Precio debe ser numérico" + Environment.NewLine;
-
-            }
-            */
+            
             return errorString;
 
-        }
-        public void fillComboBox(ComboBox cb, List<String> values)
-        {
-            cb.Items.Clear();
-            foreach (String i in values) cb.Items.Add(i);
-            if(values.Count > 0) cb.Text = values[0];
-        }
-
-        private void btnAddIngredientes_Click(object sender, RoutedEventArgs e)
-        {
-            List<String> ingredientes = new List<string>();
-            foreach (String i in cbIngredientes.Items) ingredientes.Add(i);
-            
-
-            WindowEditIngredient wei = new WindowEditIngredient(ingredientes);
-            wei.ShowDialog();
-            if (wei.edit)
-            {
-                fillComboBox(cbIngredientes, wei._Ingredients);
-                EnableButton(btGuardarEdicion, true);
-            }
-        }
-
-        private void btnAddSpecifications_Click(object sender, RoutedEventArgs e)
-        {
-            List<String> especificaciones = new List<string>();
-            foreach (String i in cbEspecificaciones.Items) especificaciones.Add(i);
-
-            WindowEditSpecification wes = new WindowEditSpecification(especificaciones);
-            wes.ShowDialog();
-            if (wes.edit)
-            {
-                fillComboBox(cbEspecificaciones, wes._Specifications);
-                EnableButton(btGuardarEdicion, true);
-            }
         }
     }
 }

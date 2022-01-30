@@ -1,0 +1,89 @@
+﻿<Window x:Class="Eros.Administrador.UtilWindows.WindowEditIngredient"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Eros.Administrador.UtilWindows"
+        mc:Ignorable="d"
+         Title="Rol" Height="400" Width="700" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
+    <Grid>
+        <Border BorderBrush="LightGray" BorderThickness="5">
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.3*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="0.3*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label FontSize="30" HorizontalAlignment="Center" Margin="0,10,0,0" Content="Edición de ingredientes" Style="{StaticResource Title}" Grid.Row="0"></Label>
+                <Button Width="30" Height="30" HorizontalAlignment="Right" BorderThickness="0" Background="Transparent" Style="{StaticResource btn_cerrar}" Click="Button_Click" Margin="0,-15,5,0">
+                    <Image Source="./../../Img/icons/cerrar.png"></Image>
+                </Button>
+                <Grid Grid.Row="1" Margin="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <ListView Name="lvIngredient" Grid.Column="0" Visibility="Visible" SelectionChanged="lvIngredient_SelectionChanged_1">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Ingrediente"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button Grid.Column="1"  Content="Edit" x:Name="btnEditIngredient" Click="btnEditIngredient_Click"  Style="{StaticResource TabButton}" HorizontalAlignment="Right"  Width="102" Height="36" Margin="0,-60,30,0"></Button>
+                    <Button Grid.Column="1"  Content="Delete" x:Name="btnDeleteIngredient" Click="btnDeleteIngredient_Click"  Style="{StaticResource TabButton}" HorizontalAlignment="Right" Width="102" Height="36" Margin="0,60,30,0"></Button>
+                </Grid>
+                
+                <StackPanel Grid.Row="1" x:Name="spNewIngredient">
+                    <Label Content="Escriba el nuevo ingrediente" HorizontalAlignment="Center" FontSize="20" Style="{StaticResource Title}" Height="50" Margin="0,0,0,0"></Label>
+
+                    <TextBox Grid.Column="0" Width="200" Height="30" Margin="0,0,0,70" Style="{StaticResource txb}" VerticalContentAlignment="Center" x:Name="tbIngredient" Padding="5,0,0,0"  MaxLength="18" BorderThickness="2"></TextBox>
+                    <TextBlock IsHitTestVisible="False" Text="Ingrediente" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="250,-170,0,0" Foreground="DarkGray">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=tbIngredient}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <Button Content="Cancelar" Width="102" Height="36" Margin="10,20,0,0" Style="{StaticResource TabButton}" HorizontalAlignment="Left" Click="Button_Click_1"/>
+                    <Button Content="Añadir Ingrediente" Width="102" Height="36" Margin="0,-30,20,0" Style="{StaticResource TabButton}"  HorizontalAlignment="Right" Click="Button_Click_2"/>
+
+                </StackPanel>
+
+
+                <StackPanel Grid.Row="1" x:Name="spEditIngredient">
+                    <Label Content="Escriba el nuevo nombre del ingrediente" HorizontalAlignment="Center" FontSize="20" Style="{StaticResource Title}" Height="50" Margin="0,0,0,0"></Label>
+
+                    <TextBox Grid.Column="0" Width="200" Height="30" Margin="0,0,0,70" Style="{StaticResource txb}" VerticalContentAlignment="Center" x:Name="tbEditIngredient" Padding="5,0,0,0"  MaxLength="18" BorderThickness="2"></TextBox>
+                    <TextBlock IsHitTestVisible="False" Text="Ingrediente" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="250,-170,0,0" Foreground="DarkGray" x:Name="tbHolderEditIngredient">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=tbEditIngredient}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <Button Content="Cancelar" Width="102" Height="36" Margin="10,20,0,0" Style="{StaticResource TabButton}" HorizontalAlignment="Left" Click="Button_Click_1"/>
+                    <Button Content="Guardar ingrediente" Width="102" Height="36" Margin="0,-30,20,0" Style="{StaticResource TabButton}"  HorizontalAlignment="Right" Click="Button_Click_3"/>
+
+                </StackPanel>
+                <StackPanel Grid.Row="2" x:Name="spDefaultButtons">
+                    <Button Content="Descartar cambios" Width="102" Height="36" Margin="10,0,0,0" Style="{StaticResource TabButton}" Click="Button_Click" HorizontalAlignment="Left"/>
+                    <Button Content="Crear ingrediente" Width="102" Height="36" Margin="10,-36,120,0" Style="{StaticResource TabButton}" HorizontalAlignment="Right" x:Name="btnNewIngrediente" Click="btnNewIngrediente_Click"/>
+                    <Button Content="Guardar cambios" HorizontalAlignment="Right" Width="102" Height="36" Margin="0,-36,10,0" Style="{StaticResource TabButton}" x:Name="btnAddIngredient" Click="btnAddIngredient_Click"></Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
