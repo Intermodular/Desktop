@@ -7,6 +7,148 @@
         mc:Ignorable="d"
         Title="WindowMesas" Height="450" Width="800">
     <Grid>
-        
+        <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="32*"/>
+                <RowDefinition Height="318*"/>
+                <RowDefinition Height="59*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Viewbox Stretch="Uniform" Margin="5,0,0,5" MaxHeight="40"  VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                    <TextBlock Text="Mesas" FontSize="20" />
+                </Viewbox>
+
+                <Border Grid.Column="1" Height="26" Margin="0,0,0,5" VerticalAlignment="Bottom" BorderBrush="Black" BorderThickness="1" Padding="1">
+                    <DockPanel>
+                        <Image Source="../Img/icons/lupa.png" DockPanel.Dock="Right"/>
+                        <TextBox x:Name="tbxSearchBar" VerticalContentAlignment="Center" FontSize="15" BorderBrush="Transparent" TextChanged="tbxSearchBar_TextChanged"/>
+                    </DockPanel>
+                </Border>
+            </Grid>
+
+            <DataGrid FontSize="15" x:Name="dtgMesas" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dtgMesas_SelectionChanged">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Numero" Binding="{Binding Path=nombre}"/>
+                    <DataGridTextColumn Header="Zona" Binding="{Binding Path=zona}"/>
+                    <DataGridTextColumn Header="Sillas" Binding="{Binding Path=numSillas}"/>
+                    <DataGridTextColumn Header="Estado" Binding="{Binding Path=estado}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBlock x:Name="tbkNotFound" Visibility="Hidden" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="50" Text="No se han encontrado resultados con " Opacity="0.4"/>
+            <Grid Grid.Row="2" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Viewbox  Margin="15" MaxWidth="400" >
+                    <Button x:Name="atras" Content="Atrás" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" Click="Atras_Click"/>
+                </Viewbox>
+                <Viewbox  Margin="15" MaxWidth="400" Grid.Column="1">
+                    <Button x:Name="btAnyadirMesa" Content="Crear Mesa" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" Click="btAnyadirMesa_Click" />
+                </Viewbox>
+
+            </Grid>
+
+            <Border Grid.RowSpan="1" Grid.Column="1" Grid.Row="1" Margin="20,0,10,0" BorderBrush="Black" BorderThickness="2" MaxWidth="600" MaxHeight="600" Padding="10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="5*"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        
+                        <Viewbox Stretch="Uniform" Margin="10,0,10,0">
+                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
+                                <TextBlock Text="Nombre:" FontSize="18" Margin="30,0,0,0"/>
+                                <TextBox x:Name="tbxNombre" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                            </StackPanel>
+                        </Viewbox>
+                        <Viewbox Grid.Row="1" Stretch="Uniform" Margin="10,0,10,0">
+                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
+                                <TextBlock Text="Zona:" FontSize="18" Margin="55,0,0,0"/>
+                                <TextBox x:Name="tbxZona" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                            </StackPanel>
+                        </Viewbox>
+                        <Viewbox Grid.Row="2" Stretch="Uniform" Margin="10,0,10,0" >
+                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
+                                <TextBlock Text="Sillas:" FontSize="18" Margin="56,0,0,0"/>
+                                <TextBox x:Name="tbxSillas"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                            </StackPanel>
+                        </Viewbox>
+                        <Viewbox Grid.Row="3" Stretch="Uniform" Margin="10,0,10,0">
+                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
+                                <TextBlock Text="Estado:" FontSize="18" Margin="42,0,0,0"/>
+                                <TextBox x:Name="tbxEstado"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                            </StackPanel>
+                        </Viewbox>                        
+
+                    </Grid>
+
+                    <Grid x:Name="gridVisualizando" Grid.Row="1" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Viewbox>
+                            <Button x:Name="btEliminar" Content="Eliminar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btEliminar_Click"/>
+                        </Viewbox>
+
+                        <Viewbox Grid.Column="1">
+                            <Button x:Name="btEditar" Content="Editar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btEditar_Click"/>
+                        </Viewbox>
+                    </Grid>
+
+                    <Grid x:Name="gridAnyadiendo" Grid.Row="1" Visibility="Hidden">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+
+                        </Grid.ColumnDefinitions>
+                        <Viewbox>
+                            <Button x:Name="btCancelarAgregar" Content="Cancelar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btCancelarAgregar_Click"/>
+                        </Viewbox>
+
+                        <Viewbox Grid.Column="1">
+                            <Button x:Name="btAgregar" Content="Agregar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btAgregar_Click"/>
+                        </Viewbox>
+                    </Grid>
+
+                    <Grid x:Name="gridEditando" Grid.Row="1" Visibility="Hidden">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+
+                        </Grid.ColumnDefinitions>
+                        <Viewbox>
+                            <Button x:Name="btDescartarEdicion" Content="Descartar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btDescartarEdicion_Click"/>
+                        </Viewbox>
+
+                        <Viewbox Grid.Column="1">
+                            <Button x:Name="btGuardarEdicion" Content="Guardar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btGuardarEdicion_Click"/>
+                        </Viewbox>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Grid>
     </Grid>
 </Window>
