@@ -96,7 +96,7 @@ namespace Eros.Administrador
             string nom_ap;
             foreach (Zonas zo in listZonas)
             {
-                nom_ap = zo.nombre + " " + zo.abreviación;
+                nom_ap = zo.nombre;
                 if (nom_ap.ToLower().Contains(filter.ToLower()))
                 {
                     listFiltrada.Add(zo);
@@ -178,11 +178,9 @@ namespace Eros.Administrador
         {
             infoTbxsList = new List<TextBox>();
             infoTbxsList.Add(tbxNombre);
-            infoTbxsList.Add(tbxAbreviacion);
             infoTbxsList.Add(tbxNºMesas);
             enabledInfoTbxsList = new List<TextBox>();
             enabledInfoTbxsList.Add(tbxNombre);
-            enabledInfoTbxsList.Add(tbxAbreviacion);
             
 
         }
@@ -259,7 +257,7 @@ namespace Eros.Administrador
         private void ShowZoneInfo(Zonas zo)
         {
             tbxNombre.Text = zo.nombre;
-            tbxAbreviacion.Text = zo.abreviación;
+            //tbxAbreviacion.Text = zo.abreviación;
             tbxNºMesas.Text = zo.nºMesas.ToString();
            
         }
@@ -294,7 +292,7 @@ namespace Eros.Administrador
             Zonas zo = new Zonas();
 
             zo.nombre = tbxNombre.Text.Trim();
-            zo.abreviación = tbxAbreviacion.Text.Trim();
+            //zo.abreviación = tbxAbreviacion.Text.Trim();
             zo.nºMesas = int.Parse(tbxNºMesas.Text);
             
 

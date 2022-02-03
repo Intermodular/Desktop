@@ -51,15 +51,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="cerrar.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="eros_black.png" />
-    <Resource Include="eros_red.png" />
-    <Resource Include="flecha.png" />
-    <Resource Include="hamburguesa.jpg" />
-    <Resource Include="hamburguesa2 - Copia.jpeg" />
-    <Resource Include="hamburguesa2.jpg" />
     <Resource Include="Img\carga\hamburguesa.jpeg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -114,11 +105,6 @@
     <Resource Include="Img\zonas.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="minimizar.png" />
-    <Resource Include="NoShowPass.png" />
-    <Resource Include="pizza.png" />
-    <Resource Include="pizza2.jpg" />
-    <Resource Include="ShowPass.png" />
   </ItemGroup>
 
 </Project>

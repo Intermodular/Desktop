@@ -12,5 +12,6 @@ namespace Eros.Modelos
         public string zona { get; set; }
         public int numSillas { get; set; }
         public string estado { get; set; }
+        public int numero { get; set; }
     }
 }

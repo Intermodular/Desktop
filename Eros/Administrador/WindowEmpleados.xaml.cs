@@ -25,12 +25,12 @@ namespace Eros
         List<Empleado> listEmpleados;
         List<Empleado> listFiltrada;
         Empleado selectedEmpleado;
-
         int idOfLastSelectedEmpleado;
         enum state { Agregando, Viendo, Editando };
         state currentState;
         List<TextBox> infoTbxsList;
-       
+        List<TextBox> allTextBox;
+
 
         public WindowEmpleados()
         {
@@ -83,6 +83,7 @@ namespace Eros
             }
 
         }
+
         private void tbxSearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (tbxSearchBar.Text == "")
@@ -116,6 +117,7 @@ namespace Eros
                 tbkNotFound.Visibility = Visibility.Hidden;
             }
         }
+
         private void btAgregar_Click(object sender, RoutedEventArgs e)
         {
             string errorMessage;
@@ -158,8 +160,8 @@ namespace Eros
                 ChangeToState(state.Viendo);
                 UpdateInfoFromDataBase();
             }
-
         }
+
         private void tbxInfo_Changed(object sender, TextChangedEventArgs e)
         {
             if (currentState == state.Editando && !btGuardarEdicion.IsEnabled)
@@ -217,6 +219,7 @@ namespace Eros
             dtgEmpleados.ItemsSource = null;
             dtgEmpleados.ItemsSource = lista;
         }
+
         private void ChangeToState(state nextState)
         {
             switch (currentState)
@@ -409,10 +412,6 @@ namespace Eros
             return errorString;
 
         }
-
-      
-
-
 
         //Validaciones
         private void tbxNombre_LostFocus(object sender, RoutedEventArgs e)

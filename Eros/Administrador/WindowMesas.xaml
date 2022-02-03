@@ -36,7 +36,7 @@
 
             <DataGrid FontSize="15" x:Name="dtgMesas" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dtgMesas_SelectionChanged">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Numero" Binding="{Binding Path=nombre}"/>
+                    <DataGridTextColumn Header="Número" Binding="{Binding Path=numero}"/>
                     <DataGridTextColumn Header="Zona" Binding="{Binding Path=zona}"/>
                     <DataGridTextColumn Header="Sillas" Binding="{Binding Path=numSillas}"/>
                     <DataGridTextColumn Header="Estado" Binding="{Binding Path=estado}"/>
@@ -76,31 +76,53 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        
+
                         <Viewbox Stretch="Uniform" Margin="10,0,10,0">
                             <StackPanel Orientation="Horizontal" Width="350" Margin="2">
-                                <TextBlock Text="Nombre:" FontSize="18" Margin="30,0,0,0"/>
-                                <TextBox x:Name="tbxNombre" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                                <TextBlock Text="Número:" FontSize="18" Margin="30,0,0,0"/>
+                                <TextBox x:Name="tbxNumero"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxNumero_LostFocus"/>
+                                <Image x:Name="imgCheckNumero" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
+                                    <Image.ToolTip>
+                                        <TextBlock x:Name="tbkImageToolTipNumero"/>
+                                    </Image.ToolTip>
+                                </Image>
                             </StackPanel>
                         </Viewbox>
                         <Viewbox Grid.Row="1" Stretch="Uniform" Margin="10,0,10,0">
                             <StackPanel Orientation="Horizontal" Width="350" Margin="2">
                                 <TextBlock Text="Zona:" FontSize="18" Margin="55,0,0,0"/>
-                                <TextBox x:Name="tbxZona" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                                <ComboBox x:Name="cbxZona" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray">
+                                    
+                                </ComboBox>
+                                <Image x:Name="imgCheckZona" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
+                                    <Image.ToolTip>
+                                        <TextBlock x:Name="tbkImageToolTipZona"/>
+                                    </Image.ToolTip>
+                                </Image>
                             </StackPanel>
-                        </Viewbox>
+                        </Viewbox>                        
                         <Viewbox Grid.Row="2" Stretch="Uniform" Margin="10,0,10,0" >
                             <StackPanel Orientation="Horizontal" Width="350" Margin="2">
                                 <TextBlock Text="Sillas:" FontSize="18" Margin="56,0,0,0"/>
-                                <TextBox x:Name="tbxSillas"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                                <TextBox x:Name="tbxSillas"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxSillas_LostFocus"/>
+                                <Image x:Name="imgCheckSillas" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
+                                    <Image.ToolTip>
+                                        <TextBlock x:Name="tbkImageToolTipSillas"/>
+                                    </Image.ToolTip>
+                                </Image>
                             </StackPanel>
                         </Viewbox>
                         <Viewbox Grid.Row="3" Stretch="Uniform" Margin="10,0,10,0">
                             <StackPanel Orientation="Horizontal" Width="350" Margin="2">
                                 <TextBlock Text="Estado:" FontSize="18" Margin="42,0,0,0"/>
-                                <TextBox x:Name="tbxEstado"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>
+                                <ComboBox x:Name="cbxEstado"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray"/>
+                                <Image x:Name="imgCheckEstado" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
+                                    <Image.ToolTip>
+                                        <TextBlock x:Name="tbkImageToolTipEstado"/>
+                                    </Image.ToolTip>
+                                </Image>
                             </StackPanel>
-                        </Viewbox>                        
+                        </Viewbox>
 
                     </Grid>
 
