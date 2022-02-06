@@ -26,17 +26,16 @@ namespace Eros.Administrador
         List<Mesas> listMesas;
         List<Mesas> listFiltrada;
         Mesas selectedMesa;
-        int idOfLastSelectedTable;
         enum state { Agregando, Viendo, Editando };
         state currentState;
         List<TextBox> infoTbxsList;
-        List<TextBox> allTextBox;
 
         public WindowMesas()
         {
             InitializeComponent();
             InitializeTextBoxList();
             currentState = state.Viendo;
+            SetupComboBoxes();
             UpdateInfoFromDataBase();
             listFiltrada = new List<Mesas>();
         }
@@ -48,7 +47,6 @@ namespace Eros.Administrador
             if (selectedTable != null)
             {
                 ShowMesaInfo(selectedTable);
-                //idOfLastSelectedEmpleado = selectedEmpleado._id;
                 selectedMesa = selectedTable;
             }
         }
@@ -57,7 +55,7 @@ namespace Eros.Administrador
         {
             if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar a esta mesa?", "Borrar Mesa"))
             {
-                ControladorEmpleados.DeleteFromApi(selectedMesa._id);
+                ControladorMesas.DeleteFromApi(selectedMesa._id);
                 UpdateInfoFromDataBase();
             }
         }
@@ -144,7 +142,7 @@ namespace Eros.Administrador
                 return;
             }
 
-            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres guardar los cambios?", "Editar Empleado"))
+            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres guardar los cambios?", "Editar Mesa"))
             {
                 Mesas mesaActualizada = GetTableFromTextBoxes();
                 mesaActualizada._id = selectedMesa._id;
@@ -166,7 +164,15 @@ namespace Eros.Administrador
                 EnableButton(btGuardarEdicion, true);
             }
         }
-        
+
+        private void cbxZona_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (currentState == state.Editando && !btGuardarEdicion.IsEnabled)
+            {
+                EnableButton(btGuardarEdicion, true);
+            }
+        }
+
         private void EnableButton(Button button, bool enable)
         {
             button.IsEnabled = enable;
@@ -184,9 +190,7 @@ namespace Eros.Administrador
         {
             infoTbxsList = new List<TextBox>();
             infoTbxsList.Add(tbxNumero);
-            //infoTbxsList.Add(tbxZona);
             infoTbxsList.Add(tbxSillas);
-            //infoTbxsList.Add(tbxEstado);
         }
 
         private void HideAllCheckImages()
@@ -202,8 +206,23 @@ namespace Eros.Administrador
             listMesas = ControladorMesas.GetAllFromApi();
             PutListInDataGrid(listMesas);
             tbxSearchBar.Text = "";
-            dtgMesas.SelectedItem = listMesas[0];
 
+        }
+
+        private void SetupComboBoxes()
+        {
+            foreach (Zonas z in ControladorZonas.GetAllFromApi())
+            {
+                cbxZona.Items.Add(z.nombre);
+            }
+
+            foreach (Mesas m in ControladorMesas.GetAllFromApi())
+            {
+                if (!cbxEstado.Items.Contains(m.estado))
+                {
+                    cbxEstado.Items.Add(m.estado);
+                }
+            }
         }
 
         private void PutListInDataGrid(List<Mesas> lista)
@@ -223,7 +242,7 @@ namespace Eros.Administrador
                     break;
 
                 case state.Agregando:
-                    //Codigo desaparecer botones agregar,cancelar y aparecer boton agregar empleado
+                    //Codigo desaparecer botones agregar,cancelar y aparecer boton agregar mesa
                     gridAnyadiendo.Visibility = Visibility.Hidden;
                     btAnyadirMesa.Visibility = Visibility.Visible;
                     break;
@@ -238,7 +257,7 @@ namespace Eros.Administrador
             switch (nextState)
             {
                 case state.Viendo:
-                    //Codigo aparecer botones editar,borrar,ver nominas , bloquear en READONLY , rellenar tbxs con item selleccionado
+                    //Codigo aparecer botones editar,borrar , bloquear en READONLY , rellenar tbxs con item selleccionado
                     gridVisualizando.Visibility = Visibility.Visible;
                     HideAllCheckImages();
                     EnableTextBoxes(false);
@@ -248,11 +267,13 @@ namespace Eros.Administrador
                     break;
 
                 case state.Agregando:
-                    //Codigo aparecer botones agregar,cancelar y desaparecer boton agregar empleado , desbloquear ReadOnly , dejar campos vacios
+                    //Codigo aparecer botones agregar,cancelar y desaparecer boton agregar mesa , desbloquear ReadOnly , dejar campos vacios
                     gridAnyadiendo.Visibility = Visibility.Visible;
                     btAnyadirMesa.Visibility = Visibility.Hidden;
                     EnableTextBoxes(true);
                     EmptyTextBoxes();
+                    cbxEstado.SelectedItem = null;
+                    cbxZona.SelectedItem = null;
                     tbxNumero.Focus();
                     break;
 
@@ -272,9 +293,9 @@ namespace Eros.Administrador
         private void ShowMesaInfo(Mesas m)
         {
             tbxNumero.Text = m.numero.ToString();
-            //cbxZona.SelectedItem
+            cbxZona.SelectedItem = m.zona;
             tbxSillas.Text = m.numSillas.ToString();
-            //cbxEstado.SelectedItem
+            cbxEstado.SelectedItem = m.estado;
         }
 
         private void EnableSearchTextBox(bool enable)
@@ -290,6 +311,8 @@ namespace Eros.Administrador
                 t.IsReadOnly = !enable;
                 t.Background = enable ? Brushes.White : Brushes.LightGray;
             }
+            cbxZona.IsEnabled = enable;
+            cbxEstado.Background = enable ? Brushes.White : Brushes.LightGray;
         }
 
         private void EmptyTextBoxes()
@@ -304,6 +327,7 @@ namespace Eros.Administrador
         {
             Mesas m = new Mesas();
 
+            m.numero = Int32.Parse(tbxNumero.Text);
             m.zona = cbxZona.SelectedItem.ToString();
             m.numSillas = Int32.Parse(tbxSillas.Text);
             m.estado = cbxEstado.SelectedItem.ToString();
@@ -327,12 +351,12 @@ namespace Eros.Administrador
 
             if (tbxNumero.Text == "")
             {
-                errorString += "-El campo Nombre no puede estar vacío" + Environment.NewLine;
+                errorString += "-El campo Numero no puede estar vacío" + Environment.NewLine;
 
             }
-            else if (!Regex.IsMatch(tbxNumero.Text, @"^([a-zA-Z ]+)$"))
+            else if (!Regex.IsMatch(tbxNumero.Text, @"^([0-9]+)$"))
             {
-                errorString += "-El campo Nombre solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
+                errorString += "-El campo Numero solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
             }
 
             if (tbxSillas.Text == "")
@@ -340,9 +364,9 @@ namespace Eros.Administrador
                 errorString += "-El campo Sillas no puede estar vacío" + Environment.NewLine;
 
             }
-            else if (!Regex.IsMatch(tbxSillas.Text, @"^[0-9]{2}$"))
+            else if (tbxSillas.Text == "0")
             {
-                errorString += "-El número de sillas no puede ser tan alto" + Environment.NewLine;
+                errorString += "-El número de sillas no puede ser 0" + Environment.NewLine;
             }
 
             return errorString;
@@ -412,7 +436,6 @@ namespace Eros.Administrador
                 imgCheckSillas.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
                 tbkImageToolTipSillas.Text = errorString;
             }
-        }
-
+        }        
     }        
 }
