@@ -10,7 +10,6 @@ namespace Eros.Modelos
     {
         public int _id { get; set; }
         public string nombre { get; set; }
-        public string abreviación { get; set; }
         public int nºMesas { get; set; }
     }
 }
