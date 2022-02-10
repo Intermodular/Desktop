@@ -1,0 +1,52 @@
+﻿<Window x:Class="Eros.Cobrador.WindowDividirCuenta"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Eros.Cobrador"
+        mc:Ignorable="d"
+        Title="WindowDividirCuenta" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="0.2*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Pedido Original:" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5"/>
+
+        <TextBlock Grid.Column="2" Text="Nuevo Pedido:" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5"/>
+
+        <DataGrid Grid.Row="1" Margin="15,0,15,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Cantidad"/>
+                <DataGridTextColumn Header="Descripción"/>
+                <DataGridTextColumn Header="Precio por Unidad"/>
+                <DataGridTextColumn Header="Precio Total"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Name="Anyadir" Content="Añadir" Padding="5" Height="40" Margin="0,0,0,25" Click="Anyadir_Click"/>
+            <Button Name="Eliminar" Content="Eliminar" Padding="5" Height="40" Click="Eliminar_Click"/>
+        </StackPanel>
+
+        <DataGrid Grid.Row="1" Grid.Column="2" Margin="15,0,15,0">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Cantidad"/>
+                <DataGridTextColumn Header="Descripción"/>
+                <DataGridTextColumn Header="Precio por Unidad"/>
+                <DataGridTextColumn Header="Precio Total"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button Content="Cancelar" Padding="5" Height="40" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="15,0,0,15"/>
+
+        <Button Content="Crear Pedido" Padding="5" Height="40" Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,15,15"/>
+    </Grid>
+</Window>

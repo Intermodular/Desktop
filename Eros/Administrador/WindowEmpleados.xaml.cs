@@ -393,7 +393,7 @@ namespace Eros
             {
                 if (!Regex.IsMatch(tbxFnac.Text, @"^[0-9]{1,2}[-/][0-9]{1,2}[-/][0-9]{1,4}$"))
                 {
-                    errorString += "-La fecha de nacimiento no es valida (dd-mm-aa)" + Environment.NewLine;
+                    errorString += "-La fecha de nacimiento no es válida (dd-mm-aa)" + Environment.NewLine;
                 }
             }
 
@@ -554,7 +554,7 @@ namespace Eros
             string errorString = "";
             if (tbxFnac.Text != "")
             {
-                if (!Regex.IsMatch(tbxFnac.Text, @"^[0-9]{1,2}[-/][0-9]{1,2}[-/][0-9]{1,4}$"))
+                if (!Regex.IsMatch(tbxFnac.Text, @"^[0-9]{1,2}[-/][0-9]{1,2}[-/][0-9]{2,4}$"))
                 {
                     errorString = "La fecha de nacimiento no es valida (dd-mm-aa)";
                 }
@@ -657,7 +657,7 @@ namespace Eros
             else if (!Regex.IsMatch(tbxUsuario.Text, @"^[a-zA-Z0-9]+$"))
             {
                 errorString = "El campo usuario solo puede tener letras y numeros sin espacios";
-                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Imgicons//wrong.png", UriKind.Relative));
+                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
                 tbkImageToolTipUsuario.Text = errorString;
 
             }
@@ -684,51 +684,21 @@ namespace Eros
 
                     if (errorString == "")
                     {
-                        imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/check.png", UriKind.Relative));
+                        imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
                         tbkImageToolTipUsuario.Text = "Correcto";
                     }
                     else
                     {
-                        imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/wrong.png", UriKind.Relative));
+                        imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
                         tbkImageToolTipUsuario.Text = errorString;
                     }
 
                 }, TaskScheduler.FromCurrentSynchronizationContext());
 
-                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/waitingPoints.png", UriKind.Relative));
+                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/waitingPoints.png", UriKind.Relative));
                 tbkImageToolTipUsuario.Text = "Esperando...";
-                /*if(currentState == state.Editando)
-                {
-                    userExists = ControladorEmpleados.DoesEmpleadoExist(tbxUsuario.Text,selectedEmpleado._id);
-                }
-                else
-                {
-                    userExists = ControladorEmpleados.DoesEmpleadoExist(tbxUsuario.Text);
-                }
-
-                if(userExists)
-                {
-                    errorString = "Este usuario ya existe, pruebe con otro";
-                }*/
+              
             }
-
-            /*imgCheckUsuario.Visibility = Visibility.Visible;
-
-            if (errorString == "")
-            {
-                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/check.png", UriKind.Relative));
-                tbkImageToolTipUsuario.Text = "Correcto";
-            }
-            else
-            {
-                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/wrong.png", UriKind.Relative));
-                tbkImageToolTipUsuario.Text = errorString;
-            }*/
-
-
-
-
         }
-
     }
 }

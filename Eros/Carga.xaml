@@ -5,34 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros"
         mc:Ignorable="d"
-        Title="Carga" Height="450" Width="800" MinHeight="300" MinWidth="500" Background="#F9F9F9">
-    <Window.Resources>
-        <BitmapImage x:Key="Image1" UriSource="/Img/pizza.png" />
-        <BitmapImage x:Key="Image2" UriSource="/Img/pizza2.jpg"/>
-        <BitmapImage x:Key="Image3" UriSource="/Img/hamburguesa.jpg"/>
-    </Window.Resources>
+        Title="Carga" Height="600" Width="1000" WindowState="Maximized">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="5*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition Height="0.1*"></RowDefinition>
         </Grid.RowDefinitions>
-        <Image Grid.Column="0" Grid.Row="0" Stretch="UniformToFill" Source="{StaticResource Image1}">
-            <Image.Triggers>
-                <EventTrigger RoutedEvent="Loaded">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity" SpeedRatio=".5" From="1" To=".5" RepeatBehavior="Forever"></DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetProperty="Opacity" SpeedRatio=".5" From="1" To=".5" RepeatBehavior="Forever"></DoubleAnimation>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Source" Duration="0:0:6" RepeatBehavior="Forever">
-                                <DiscreteObjectKeyFrame Value="{StaticResource Image2}" KeyTime="0:0:2"></DiscreteObjectKeyFrame>
-                                <DiscreteObjectKeyFrame Value="{StaticResource Image3}" KeyTime="0:0:4"></DiscreteObjectKeyFrame>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-            </Image.Triggers>
-        </Image>
+        <Image x:Name="img_carga" Grid.ColumnSpan="3" Grid.RowSpan="3" Stretch="UniformToFill" Source="/Img/carga/hamburguesa.jpeg"></Image>
+        <ProgressBar Background="Transparent" Foreground="#DD4A4A" Value="10" Grid.Row="1" Grid.Column="1" BorderThickness="0"></ProgressBar>
     </Grid>
 </Window>
