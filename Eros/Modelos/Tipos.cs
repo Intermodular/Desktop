@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Eros.Modelos
 {
-    class Tipos
+    public class Tipos
     {
         public int _id { get; set; }
         public string nombre { get; set; }
+        public List<Extras> listaExtras { get; set; }
         public string img { get; set; }
     }
 }

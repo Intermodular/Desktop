@@ -14,6 +14,15 @@
     <None Remove="Administrador\UtilWindows\basura.png" />
     <None Remove="Administrador\UtilWindows\edit.png" />
     <None Remove="cerrar.png" />
+    <None Remove="Cobrador\backwardsIcon.png" />
+    <None Remove="Cobrador\deleteIcon.png" />
+    <None Remove="Cobrador\dividirIcon.png" />
+    <None Remove="Cobrador\editIcon.png" />
+    <None Remove="Cobrador\filterIcon.png" />
+    <None Remove="Cobrador\foodPlaceHolder.png" />
+    <None Remove="Cobrador\joinIcon.png" />
+    <None Remove="Cobrador\minusIcon.png" />
+    <None Remove="Cobrador\plusIcon.png" />
     <None Remove="eros.png" />
     <None Remove="eros_black.png" />
     <None Remove="eros_red.png" />
@@ -31,15 +40,29 @@
     <None Remove="Img\empleados.png" />
     <None Remove="Img\foodPlaceHolder.png" />
     <None Remove="Img\hamburguesa.jpg" />
+    <None Remove="Img\icons\add.png" />
+    <None Remove="Img\icons\backwardsIcon.png" />
+    <None Remove="Img\icons\basura.png" />
     <None Remove="Img\icons\cerrar.png" />
     <None Remove="Img\icons\check.png" />
     <None Remove="Img\icons\cobrador.png" />
     <None Remove="Img\icons\cuadrado.png" />
     <None Remove="Img\icons\cuadrado2.png" />
+    <None Remove="Img\icons\deleteIcon.png" />
+    <None Remove="Img\icons\dividirIcon.png" />
+    <None Remove="Img\icons\downIcon.png" />
     <None Remove="Img\icons\edit.png" />
+    <None Remove="Img\icons\editIcon.png" />
+    <None Remove="Img\icons\filterIcon.png" />
     <None Remove="Img\icons\flecha.png" />
+    <None Remove="Img\icons\foodPlaceHolder.png" />
+    <None Remove="Img\icons\joinIcon.png" />
     <None Remove="Img\icons\logout.png" />
     <None Remove="Img\icons\lupa.png" />
+    <None Remove="Img\icons\minimizar.png" />
+    <None Remove="Img\icons\minusIcon.png" />
+    <None Remove="Img\icons\NoShowPass.png" />
+    <None Remove="Img\icons\plusIcon.png" />
     <None Remove="Img\icons\ShowPass.png" />
     <None Remove="Img\icons\waitingPoints.png" />
     <None Remove="Img\icons\wrong.png" />
@@ -91,6 +114,15 @@
     <Resource Include="Img\hamburguesa.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Img\icons\add.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\backwardsIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\basura.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Img\icons\cerrar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -106,10 +138,31 @@
     <Resource Include="Img\icons\cuadrado2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Img\icons\deleteIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\dividirIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\downIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Img\icons\edit.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Img\icons\editIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\filterIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Img\icons\flecha.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\foodPlaceHolder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\joinIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\icons\logout.png">
@@ -118,6 +171,14 @@
     <Resource Include="Img\icons\lupa.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Img\icons\minimizar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\minusIcon.png" />
+    <Resource Include="Img\icons\NoShowPass.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\plusIcon.png" />
     <Resource Include="Img\icons\ShowPass.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

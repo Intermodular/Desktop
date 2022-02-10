@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Eros.Controladores
 {
-    class ControladorTipo
+    class ControladorTipos
     {
         public static Tipos GetFromApi(int id)
         {
