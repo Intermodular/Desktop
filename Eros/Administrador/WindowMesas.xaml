@@ -92,13 +92,8 @@
                             <StackPanel Orientation="Horizontal" Width="350" Margin="2">
                                 <TextBlock Text="Zona:" FontSize="18" Margin="55,0,0,0"/>
                                 <ComboBox x:Name="cbxZona" FontSize="18" Margin="20,0,0,0" Width="200" Background="LightGray" IsEnabled="False" SelectionChanged="cbxZona_SelectionChanged">
-                                    
+
                                 </ComboBox>
-                                <Image x:Name="imgCheckZona" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
-                                    <Image.ToolTip>
-                                        <TextBlock x:Name="tbkImageToolTipZona"/>
-                                    </Image.ToolTip>
-                                </Image>
                             </StackPanel>
                         </Viewbox>                        
                         <Viewbox Grid.Row="2" Stretch="Uniform" Margin="10,0,10,0" >
@@ -116,13 +111,8 @@
                             <StackPanel Orientation="Horizontal" Width="350" Margin="2">
                                 <TextBlock Text="Estado:" FontSize="18" Margin="42,0,0,0"/>
                                 <ComboBox x:Name="cbxEstado"  FontSize="18" Margin="20,0,0,0" Width="200" Background="LightGray" IsEnabled="False">
-                                    
+
                                 </ComboBox>
-                                <Image x:Name="imgCheckEstado" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
-                                    <Image.ToolTip>
-                                        <TextBlock x:Name="tbkImageToolTipEstado"/>
-                                    </Image.ToolTip>
-                                </Image>
                             </StackPanel>
                         </Viewbox>
 

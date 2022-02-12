@@ -16,45 +16,45 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Eros
+namespace Eros.Administrador
 {
     /// <summary>
-    /// Lógica de interacción para WindowProducts.xaml
+    /// Interaction logic for WindowTipos.xaml
     /// </summary>
-    public partial class WindowProducts : Window
+    public partial class WindowTipos : Window
     {
-        List<Productos> listProductos;
-        List<Tipos> listTipos;
-        List<Productos> listFiltrada;
-        int idOfLastSelectedProduct;
-        enum state { Agregando, Viendo, Editando };
-        state currentState;
-        List<TextBox> infoTbxsList;
-
-        public WindowProducts()
+        public WindowTipos()
         {
             InitializeComponent();
             InitializeTextBoxList();
             currentState = state.Viendo;
             UpdateInfoFromDataBase();
-            listFiltrada = new List<Productos>();
+            listFiltrada = new List<Tipos>();
         }
 
+        List<Tipos> listTipos;
+        List<Tipos> listFiltrada;
+        int idOfLastSelectedTipo;
+        enum state { Agregando, Viendo, Editando };
+        state currentState;
+        List<TextBox> infoTbxsList;
+
+
         //Eventos
-        private void dtgEmpleados_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void dtgTipos_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Productos selectedProduct = (Productos)dtgProductos.SelectedItem;
-            if (selectedProduct != null)
+            Tipos selectedTipo = (Tipos)dtgTipos.SelectedItem;
+            if (selectedTipo != null)
             {
-                ShowProductInfo(selectedProduct);
-                idOfLastSelectedProduct = selectedProduct._id;
+                ShowTipoInfo(selectedTipo);
+                idOfLastSelectedTipo = selectedTipo._id;
             }
         }
         private void btEliminar_Click(object sender, RoutedEventArgs e)
         {
-            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar este producto?", "Borrar Producto"))
+            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar este tipo?", "Borrar Tipo"))
             {
-                ControladorProductos.DeleteFromApi(idOfLastSelectedProduct);
+                ControladorTipo.DeleteFromApi(idOfLastSelectedTipo);
                 UpdateInfoFromDataBase();
             }
         }
@@ -63,7 +63,7 @@ namespace Eros
             ChangeToState(state.Editando);
         }
 
-        private void btAnyadirProducto_Click(object sender, RoutedEventArgs e)
+        private void btAnyadirTipo_Click(object sender, RoutedEventArgs e)
         {
             ChangeToState(state.Agregando);
         }
@@ -85,7 +85,7 @@ namespace Eros
         {
             if (tbxSearchBar.Text == "")
             {
-                PutListInDataGrid(listProductos);
+                PutListInDataGrid(listTipos);
                 tbkNotFound.Visibility = Visibility.Hidden;
                 return;
             }
@@ -93,12 +93,12 @@ namespace Eros
             string filter = tbxSearchBar.Text;
             listFiltrada.Clear();
             string nom_ap;
-            foreach (Productos em in listProductos)
+            foreach (Tipos t in listTipos)
             {
-                nom_ap = em.nombre;
+                nom_ap = t.nombre;
                 if (nom_ap.ToLower().Contains(filter.ToLower()))
                 {
-                    listFiltrada.Add(em);
+                    listFiltrada.Add(t);
                 }
             }
 
@@ -122,8 +122,13 @@ namespace Eros
                 MessageBox.Show(errorMessage);
                 return;
             }
-            Productos newProduct = GetProductFromTextBoxes();
-            string respuesta = ControladorProductos.PostToApi(newProduct);
+            Tipos newTipo = GetTipoFromTextBoxes();
+            string respuesta = ControladorTipo.PostToApi(newTipo);
+            if (respuesta == "Error Tipo Ya Existe")
+            {
+                MessageBox.Show("Este tipo ya existe pruebe con otro.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             ChangeToState(state.Viendo);
             UpdateInfoFromDataBase();
         }
@@ -135,17 +140,17 @@ namespace Eros
                 MessageBox.Show(errorMessage);
                 return;
             }
-            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres guardar los cambios?", "Editar Producto"))
+            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres guardar los cambios?", "Editar Tipo"))
             {
-                int idProduct = idOfLastSelectedProduct;
-                Productos updateProduct= GetProductFromTextBoxes();
-                updateProduct._id = idProduct;
-                string respuesta = ControladorProductos.UpdateInApi(updateProduct);
+                int idTipo = idOfLastSelectedTipo;
+                Tipos updateTipo = GetTipoFromTextBoxes();
+                updateTipo._id = idTipo;
+                string respuesta = ControladorTipo.UpdateInApi(updateTipo);
                 MessageBox.Show(respuesta);
 
-                if (respuesta == "Error Producto Ya Existe")
+                if (respuesta == "Error Tipo Ya Existe")
                 {
-                    MessageBox.Show("Este producto ya existe pruebe con otro.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("Este tipo ya existe pruebe con otro.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 ChangeToState(state.Viendo);
@@ -173,34 +178,38 @@ namespace Eros
         {
             infoTbxsList = new List<TextBox>();
             infoTbxsList.Add(tbxNombre);
-            //infoTbxsList.Add(tbxTipo);
-            //infoTbxsList.Add(tbxIngredientes);
-            infoTbxsList.Add(tbxPrecio);
-            //infoTbxsList.Add(tbxEspecificaciones);
             infoTbxsList.Add(tbxImagen);
-            infoTbxsList.Add(tbxStock);
-            
+
 
         }
         private void UpdateInfoFromDataBase()
         {
-            listProductos = ControladorProductos.GetAllFromApi();
             listTipos = ControladorTipo.GetAllFromApi();
-            cbTipo.Items.Clear();
-            foreach (Tipos t in listTipos)
-            {
-                cbTipo.Items.Add(t.nombre);
-            }
-            PutListInDataGrid(listProductos);
+            //
+            PutListInDataGrid(listTipos);
             tbxSearchBar.Text = "";
-            dtgProductos.SelectedItem = listProductos[0];
+            dtgTipos.SelectedItem = listTipos[0];
 
         }
 
-        private void PutListInDataGrid(List<Productos> lista)
+        private void PutListInDataGrid(List<Tipos> lista)
         {
-            dtgProductos.ItemsSource = null;
-            dtgProductos.ItemsSource = lista;
+            List<dtgTipo> newList = new List<dtgTipo>();
+            List<string> extras = new List<string>();
+
+            foreach (Tipos t in lista)
+            {
+                foreach (Extras e in t.listaExtras)
+                {
+                    extras.Add(e.nombre);
+                }
+                dtgTipo dtg = new dtgTipo(t.nombre, extras);
+                newList.Add(dtg);
+                extras.Clear();
+            }
+
+            dtgTipos.ItemsSource = null;
+            dtgTipos.ItemsSource = lista;
         }
 
         private void ChangeToState(state nextState)
@@ -209,27 +218,24 @@ namespace Eros
             {
                 case state.Viendo:
                     //Codigo desaparecer botones editar,borrar,ver nominas
-                    btnAddSpecifications.Visibility = Visibility.Visible;
-                    btnAddIngredientes.Visibility = Visibility.Visible;
 
                     gridVisualizando.Visibility = Visibility.Hidden;
-                    dtgProductos.IsEnabled = false;
+                    dtgTipos.IsEnabled = false;
+                    btnAddExtras.Visibility = Visibility.Visible;
                     break;
 
                 case state.Agregando:
                     //Codigo desaparecer botones agregar,cancelar y aparecer boton agregar empleado
-                   
+
 
                     gridAnyadiendo.Visibility = Visibility.Hidden;
-                    btAnyadirEmpleado.Visibility = Visibility.Visible;
+                    btAnyadirTipo.Visibility = Visibility.Visible;
                     hideIcons();
                     break;
 
                 case state.Editando:
                     //Codigo desaparecer botones descartar cambios y guardar
-                    
-                    btnAddIngredientes.Visibility = Visibility.Hidden;
-                    btnAddSpecifications.Visibility = Visibility.Hidden;
+
                     gridEditando.Visibility = Visibility.Hidden;
                     EnableSearchTextBox(true);
                     hideIcons();
@@ -242,15 +248,16 @@ namespace Eros
                     //Codigo aparecer botones editar,borrar,ver nominas , bloquear en READONLY , rellenar tbxs con item selleccionado
                     gridVisualizando.Visibility = Visibility.Visible;
                     EnableTextBoxes(false);
-                    dtgProductos.IsEnabled = true;
-                    dtgEmpleados_SelectionChanged(null, null);
+                    dtgTipos.IsEnabled = true;
+                    btnAddExtras.Visibility = Visibility.Hidden;
+                    dtgTipos_SelectionChanged(null, null);
 
                     break;
 
                 case state.Agregando:
                     //Codigo aparecer botones agregar,cancelar y desaparecer boton agregar producto , desbloquear ReadOnly , dejar campos vacios
                     gridAnyadiendo.Visibility = Visibility.Visible;
-                    btAnyadirEmpleado.Visibility = Visibility.Hidden;
+                    btAnyadirTipo.Visibility = Visibility.Hidden;
                     EnableTextBoxes(true);
                     EmptyTextBoxes();
                     tbxNombre.Focus();
@@ -269,23 +276,28 @@ namespace Eros
             currentState = nextState;
         }
         //Aquí
-        private void ShowProductInfo(Productos product)
+        private void ShowTipoInfo(Tipos tipo)
         {
-            tbxNombre.Text = product.nombre;
-            cbTipo.Text = product.tipo;
-            tbxPrecio.Text = product.precio.ToString();
-            tbxImagen.Text = product.imagen;
-            tbxStock.Text = product.stock.ToString();
+            List<String> listExtras = new List<string>();
 
-         
-            fillComboBox(cbIngredientes, product.ingredientes);
-            fillComboBox(cbEspecificaciones, product.especificaciones);
+            tbxNombre.Text = tipo.nombre;
+            tbxImagen.Text = tipo.img;
+
+            if (tipo.listaExtras != null)
+            {
+                foreach (Extras e in tipo.listaExtras)
+                {
+                        listExtras.Add(e.nombre);
+                }
+            }
+
+            fillComboBox(cbExtras, listExtras);
         }
 
 
         private void EnableSearchTextBox(bool enable)
         {
-            
+
             tbxSearchBar.IsReadOnly = !enable;
             tbxSearchBar.Background = enable ? Brushes.White : Brushes.LightGray;
         }
@@ -297,41 +309,29 @@ namespace Eros
                 t.IsReadOnly = !enable;
                 t.Background = enable ? Brushes.White : Brushes.LightGray;
             }
-            cbTipo.IsEnabled = enable;
         }
 
         private void EmptyTextBoxes()
         {
             foreach (TextBox t in infoTbxsList)
                 t.Text = "";
-            cbEspecificaciones.Items.Clear();
-            cbIngredientes.Items.Clear();
+            cbExtras.Items.Clear();
         }
 
-        private Productos GetProductFromTextBoxes()
+        private Tipos GetTipoFromTextBoxes()
         {
 
-        
-            Productos product = new Productos();
-            product.nombre = tbxNombre.Text.Trim();
-            product.tipo = cbTipo.Text.Trim();
 
-            List<String> ingredientes = new List<string>();
-            foreach (String i in cbIngredientes.Items) ingredientes.Add(i);
-            product.ingredientes = ingredientes;
+            Tipos tipo = new Tipos();
+            tipo.nombre = tbxNombre.Text.Trim();
 
-            product.precio = float.Parse(tbxPrecio.Text);
+            List<String> extras = new List<string>();
+            foreach (String e in cbExtras.Items) extras.Add(e);
+            //tipo.extras = extras;
 
-            List<String> especificaciones = new List<string>();
-            foreach (String i in cbEspecificaciones.Items) especificaciones.Add(i);
-            product.especificaciones = especificaciones;
+            tipo.img = tbxImagen.Text;
 
-            product.imagen = tbxImagen.Text;
-            product.stock = int.Parse(tbxStock.Text);
-
-            
-
-            return product;
+            return tipo;
         }
 
         private bool GetYesNoMessageBoxResponse(string message, string title)
@@ -358,33 +358,11 @@ namespace Eros
                 errorString += "-El campo Nombre solo permite caracteres alfabéticos." + Environment.NewLine;
             }
 
-            if (tbxPrecio.Text == "")
-            {
-                errorString += "-El campo Precio no puede estar vacío." + Environment.NewLine;
-
-            }
-            else if (double.TryParse(tbxPrecio.Text, out _))
-            {
-                errorString += "-El campo Precio tiene que ser de tipo numérico." + Environment.NewLine;
-            }
-
             if (tbxImagen.Text == "")
             {
                 errorString += "-El campo Imagen no puede estar vacío." + Environment.NewLine;
 
             }
-
-            if (tbxStock.Text == "")
-            {
-                errorString += "-El campo Stock no puede estar vacío." + Environment.NewLine;
-
-            }
-            else if (!Regex.IsMatch(tbxStock.Text, @"^[0-9]+$"))
-            {
-                errorString += "-El campo Stock tiene que ser de tipo numérico." + Environment.NewLine;
-            }
-
-
 
 
             //Validar por tipo de producto existente ¿?
@@ -452,33 +430,6 @@ namespace Eros
             }
         }
 
-        private void tbxPrecio_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (tbxPrecio.IsReadOnly)
-            {
-                return;
-            }
-            string errorString = "";
-            if (tbxPrecio.Text == "")
-            {
-                errorString = "El campo Precio no puede estar vacío.";
-
-            }
-
-            imgCheckPrecio.Visibility = Visibility.Visible;
-
-            if (errorString == "")
-            {
-                imgCheckPrecio.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipPrecio.Text = "Correcto";
-            }
-            else
-            {
-                imgCheckPrecio.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipPrecio.Text = errorString;
-            }
-        }
-
         private void tbxImagen_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxImagen.IsReadOnly)
@@ -501,86 +452,54 @@ namespace Eros
             }
             else
             {
-                imgCheckPrecio.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipPrecio.Text = errorString;
-            }
-        }
-
-        private void tbxStock_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (tbxStock.IsReadOnly)
-            {
-                return;
-            }
-            imgCheckStock.Visibility = Visibility.Visible;
-            string errorString = "";
-            if (tbxStock.Text != "")
-            {
-                if (!Regex.IsMatch(tbxStock.Text, @"^[0-9]+$"))
-                {
-                    errorString = "El campo Stock tiene que ser de tipo numérico.";
-                }
-            }
-            else
-            {
-                imgCheckStock.Visibility = Visibility.Hidden;
-                return;
-            }
-
-            if (errorString == "")
-            {
-                imgCheckStock.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipStock.Text = "Correcto";
-            }
-            else
-            {
-                imgCheckStock.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipStock.Text = errorString;
+                imgCheckImagen.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                tbkImageToolTipImagen.Text = errorString;
             }
         }
 
         private void hideIcons()
         {
             imgCheckNombre.Visibility = Visibility.Hidden;
-            imgCheckPrecio.Visibility = Visibility.Hidden;
             imgCheckImagen.Visibility = Visibility.Hidden;
-            imgCheckStock.Visibility = Visibility.Hidden;
         }
 
         public void fillComboBox(ComboBox cb, List<String> values)
         {
             cb.Items.Clear();
             foreach (String i in values) cb.Items.Add(i);
-            if(values.Count > 0) cb.Text = values[0];
+            if (values.Count > 0) cb.Text = values[0].ToString();
         }
 
-        private void btnAddIngredientes_Click(object sender, RoutedEventArgs e)
+        public void btnAddExtras_Click(object sender, RoutedEventArgs e)
         {
-            List<String> ingredientes = new List<string>();
-            foreach (String i in cbIngredientes.Items) ingredientes.Add(i);
+
+            List<Tipos> tipos = ControladorTipo.GetAllFromApi();
+            List<Extras> extras = new List<Extras>();
+            foreach (Tipos t in tipos)
+            {
+                if (t.nombre == tbxNombre.Text)
+                {
+                    foreach (Extras ex in t.listaExtras) 
+                    {
+                        extras.Add(ex);
+                    }
+                }
+            }
+
+            WindowEditExtras wee = new WindowEditExtras(extras);
+            wee.ShowDialog();
+            if (wee.edit)
+            {
+                List<String> stringExtras = new List<string>();
+                foreach (Extras ex in wee._Extras)
+                {
+                    stringExtras.Add(ex.nombre);
+                }
+                fillComboBox(cbExtras, stringExtras);
+                EnableButton(btGuardarEdicion, true);
+            }
             
-
-            WindowEditIngredient wei = new WindowEditIngredient(ingredientes);
-            wei.ShowDialog();
-            if (wei.edit)
-            {
-                fillComboBox(cbIngredientes, wei._Ingredients);
-                EnableButton(btGuardarEdicion, true);
-            }
         }
 
-        private void btnAddSpecifications_Click(object sender, RoutedEventArgs e)
-        {
-            List<String> especificaciones = new List<string>();
-            foreach (String i in cbEspecificaciones.Items) especificaciones.Add(i);
-
-            WindowEditSpecification wes = new WindowEditSpecification(especificaciones);
-            wes.ShowDialog();
-            if (wes.edit)
-            {
-                fillComboBox(cbEspecificaciones, wes._Specifications);
-                EnableButton(btGuardarEdicion, true);
-            }
-        }
     }
 }

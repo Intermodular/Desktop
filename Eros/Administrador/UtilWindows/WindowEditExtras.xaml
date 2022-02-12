@@ -1,0 +1,116 @@
+﻿<Window x:Class="Eros.Administrador.UtilWindows.WindowEditExtras"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Eros.Administrador.UtilWindows"
+        mc:Ignorable="d"
+        Title="Rol" Height="400" Width="700" WindowStyle="None" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
+    <Grid>
+        <Border BorderBrush="LightGray" BorderThickness="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.3*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="0.3*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label FontSize="30" HorizontalAlignment="Center" Margin="0,10,0,0" Content="Edición de Extras" Style="{StaticResource Title}" Grid.Row="0"></Label>
+                <Button Width="30" Height="30" HorizontalAlignment="Right" BorderThickness="0" Background="Transparent" Style="{StaticResource btn_cerrar}" Click="Button_Click" Margin="0,-15,5,0">
+                    <Image Source="./../../Img/icons/cerrar.png"></Image>
+                </Button>
+                <Grid Grid.Row="1" Margin="4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <ListView Name="lvExtras" Grid.Column="0" Visibility="Visible" SelectionChanged="lvExtras_SelectionChanged_1">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Extra" DisplayMemberBinding="{Binding Col1}"/>
+                                <GridViewColumn Header="Precio" DisplayMemberBinding="{Binding Col2}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Button Grid.Column="1"  Content="Editar" x:Name="btnEditar" Click="btnEditar_Click"  Style="{StaticResource TabButton}" HorizontalAlignment="Right"  Width="102" Height="36" Margin="0,-60,30,0"></Button>
+                    <Button Grid.Column="1"  Content="Eliminar" x:Name="btnEliminar" Click="btnEliminar_Click"  Style="{StaticResource TabButton}" HorizontalAlignment="Right" Width="102" Height="36" Margin="0,60,30,0"></Button>
+                </Grid>
+
+                <StackPanel Grid.Row="1" x:Name="spNewExtra">
+                    <Label Content="Escriba el nuevo extra y su precio" HorizontalAlignment="Center" FontSize="20" Style="{StaticResource Title}" Height="50" Margin="0,0,0,0"></Label>
+
+                    <TextBox Grid.Column="0" Width="200" Height="30" Margin="0,0,0,10" Style="{StaticResource txb}" VerticalContentAlignment="Center" x:Name="tbExtra" Padding="5,0,0,0"  MaxLength="18" BorderThickness="2"></TextBox>
+                    <TextBlock IsHitTestVisible="False" Text="Extra" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="250,-50,0,0" Foreground="DarkGray">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=tbExtra}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBox Grid.Column="0" Width="200" Height="30" Margin="0,0,0,70" Style="{StaticResource txb}" VerticalContentAlignment="Center" x:Name="tbPrice" Padding="5,0,0,0"  MaxLength="18" BorderThickness="2"></TextBox>
+                    <TextBlock IsHitTestVisible="False" Text="Precio" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="250,-170,0,0" Foreground="DarkGray">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=tbPrice}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    
+                    <Button Content="Cancelar" Width="102" Height="36" Margin="10,20,0,0" Style="{StaticResource TabButton}" HorizontalAlignment="Left" Click="Button_Click_1"/>
+                    <Button Content="Añadir Extra" Width="102" Height="36" Margin="0,-30,20,0" Style="{StaticResource TabButton}"  HorizontalAlignment="Right" Click="Button_Click_2"/>
+
+                </StackPanel>
+
+
+                <StackPanel Grid.Row="1" x:Name="spEditExtra">
+                    <Label Content="Cambie los datos del extra" HorizontalAlignment="Center" FontSize="20" Style="{StaticResource Title}" Height="50" Margin="0,0,0,0"></Label>
+
+                    <TextBox Grid.Column="0" Width="200" Height="30" Margin="0,0,0,10" Style="{StaticResource txb}" VerticalContentAlignment="Center" x:Name="tbEditExtra" Padding="5,0,0,0"  MaxLength="18" BorderThickness="2"></TextBox>
+                    <TextBlock IsHitTestVisible="False" Text="Extra" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="250,-50,0,0" Foreground="DarkGray" x:Name="tbHolderEditExtra">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=tbEditExtra}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                    <TextBox Grid.Column="0" Width="200" Height="30" Margin="0,0,0,70" Style="{StaticResource txb}" VerticalContentAlignment="Center" x:Name="tbEditPrice" Padding="5,0,0,0"  MaxLength="18" BorderThickness="2"></TextBox>
+                    <TextBlock IsHitTestVisible="False" Text="Precio" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="250,-170,0,0" Foreground="DarkGray" x:Name="tbHolderEditPrice">
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=tbEditPrice}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+
+                    <Button Content="Cancelar" Width="102" Height="36" Margin="10,10,0,0" Style="{StaticResource TabButton}" HorizontalAlignment="Left" Click="Button_Click_1"/>
+                    <Button Content="Guardar extra" Width="102" Height="36" Margin="0,-30,20,0" Style="{StaticResource TabButton}"  HorizontalAlignment="Right" Click="Button_Click_3"/>
+
+                </StackPanel>
+                <StackPanel Grid.Row="2" x:Name="spDefaultButtons">
+                    <Button Content="Descartar cambios" Width="102" Height="36" Margin="10,0,0,0" Style="{StaticResource TabButton}" Click="Button_Click" HorizontalAlignment="Left"/>
+                    <Button Content="Crear Extra" Width="102" Height="36" Margin="10,-36,120,0" Style="{StaticResource TabButton}" HorizontalAlignment="Right" x:Name="btnNewExtra" Click="btnNewExtra_Click"/>
+                    <Button Content="Guardar cambios" HorizontalAlignment="Right" Width="102" Height="36" Margin="0,-36,10,0" Style="{StaticResource TabButton}" x:Name="btnAddExtra" Click="btnAddExtra_Click"></Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

@@ -52,7 +52,7 @@ namespace Eros.Administrador
         }
         private void btEliminar_Click(object sender, RoutedEventArgs e)
         {
-            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar esta zona?", "Borrar Empleado"))
+            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar esta zona?", "Borrar Zona"))
             {
                 ControladorZonas.DeleteFromApi(idOfLastSelectedZone);
                 UpdateInfoFromDataBase();
@@ -203,13 +203,13 @@ namespace Eros.Administrador
             switch (currentState)
             {
                 case state.Viendo:
-                    //Codigo desaparecer botones editar,borrar,ver nominas
+                    //Codigo desaparecer botones editar,borrar
                     gridVisualizando.Visibility = Visibility.Hidden;
                     dtgZonas.IsEnabled = false;
                     break;
 
                 case state.Agregando:
-                    //Codigo desaparecer botones agregar,cancelar y aparecer boton agregar empleado
+                    //Codigo desaparecer botones agregar,cancelar y aparecer boton agregar zona
                     gridAnyadiendo.Visibility = Visibility.Hidden;
                     btAnyadirZona.Visibility = Visibility.Visible;
                     break;
@@ -224,7 +224,7 @@ namespace Eros.Administrador
             switch (nextState)
             {
                 case state.Viendo:
-                    //Codigo aparecer botones editar,borrar,ver nominas , bloquear en READONLY , rellenar tbxs con item selleccionado
+                    //Codigo aparecer botones editar,borrar , bloquear en READONLY , rellenar tbxs con item selleccionado
                     gridVisualizando.Visibility = Visibility.Visible;
                     EnableTextBoxes(false);
                     dtgZonas.IsEnabled = true;
@@ -233,7 +233,7 @@ namespace Eros.Administrador
                     break;
 
                 case state.Agregando:
-                    //Codigo aparecer botones agregar,cancelar y desaparecer boton agregar empleado , desbloquear ReadOnly , dejar campos vacios
+                    //Codigo aparecer botones agregar,cancelar y desaparecer boton agregar zona , desbloquear ReadOnly , dejar campos vacios
                     gridAnyadiendo.Visibility = Visibility.Visible;
                     btAnyadirZona.Visibility = Visibility.Hidden;
                     EnableTextBoxes(true);
@@ -312,17 +312,17 @@ namespace Eros.Administrador
         private string GetValidationErrorString()
         {
             string errorString = "";
-            /*
+            
             if (tbxNombre.Text == "")
             {
-                errorString += "-El campo Nombre no puede estar vacío" + Environment.NewLine;
+                errorString += "-El campo Nombre no puede estar vacío." + Environment.NewLine;
 
             }
             else if (!Regex.IsMatch(tbxNombre.Text, @"^([a-zA-Z ]+)$"))
             {
-                errorString += "-El campo Nombre solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
+                errorString += "-El campo Nombre solo permite caracteres alfabéticos." + Environment.NewLine;
             }
-
+            /*
             if (tbxAbreviacion.Text == "")
             {
                 errorString += "-El campo Abreciación no puede estar vacío" + Environment.NewLine;

@@ -52,6 +52,7 @@ namespace Eros
                 selectedEmpleado = selectedEmp;
             }
         }
+        
         private void btEliminar_Click(object sender, RoutedEventArgs e)
         {
             if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar a este empleado?", "Borrar Empleado"))
@@ -60,6 +61,7 @@ namespace Eros
                 UpdateInfoFromDataBase();
             }
         }
+        
         private void btEditar_Click(object sender, RoutedEventArgs e)
         {
             ChangeToState(state.Editando);
@@ -170,12 +172,19 @@ namespace Eros
             }
         }
 
+        private void cbxRol_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (currentState == state.Editando && !btGuardarEdicion.IsEnabled)
+            {
+                EnableButton(btGuardarEdicion, true);
+            }
+        }
+
         private void EnableButton(Button button, bool enable)
         {
             button.IsEnabled = enable;
             button.Opacity = enable ? 1 : 0.5;
         }
-
 
         //Funciones aux
         private void InitializeTextBoxList()
@@ -201,7 +210,6 @@ namespace Eros
             imgCheckFnac.Visibility = Visibility.Hidden;
             imgCheckUsuario.Visibility = Visibility.Hidden;
             imgCheckEmail.Visibility = Visibility.Hidden;
-            imgCheckRol.Visibility = Visibility.Hidden;
 
         }
 
@@ -332,9 +340,9 @@ namespace Eros
             emp.apellido = tbxApellido.Text.Trim();
             emp.dni = tbxDni.Text;
             emp.telefono = tbxTelefono.Text;
+            emp.email = tbxEmail.Text;
             emp.fnac = tbxFnac.Text;
             emp.usuario = tbxUsuario.Text;
-            emp.password = tbxEmail.Text;
             emp.rol = cbxRol.Text;
 
             return emp;
@@ -356,39 +364,47 @@ namespace Eros
 
             if (tbxNombre.Text == "")
             {
-                errorString += "-El campo Nombre no puede estar vacío" + Environment.NewLine;
+                errorString += "-El campo Nombre no puede estar vacío." + Environment.NewLine;
 
             }
             else if (!Regex.IsMatch(tbxNombre.Text, @"^([a-zA-Z ]+)$"))
             {
-                errorString += "-El campo Nombre solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
+                errorString += "-El campo Nombre solo permite caracteres alfabéticos." + Environment.NewLine;
             }
 
             if (tbxApellido.Text == "")
             {
-                errorString += "-El campo Apellido no puede estar vacío" + Environment.NewLine;
+                errorString += "-El campo Apellido no puede estar vacío." + Environment.NewLine;
 
             }
             else if (!Regex.IsMatch(tbxApellido.Text, @"^([a-zA-Z ]+)$"))
             {
-                errorString += "-El campo Apellido solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
+                errorString += "-El campo Apellido solo permite caracteres alfabéticos." + Environment.NewLine;
             }
 
             if (tbxDni.Text == "")
             {
-                errorString += "-El campo DNI no puede estar vacío" + Environment.NewLine;
+                errorString += "-El campo DNI no puede estar vacío." + Environment.NewLine;
 
             }
             else if (!Regex.IsMatch(tbxDni.Text, @"^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$"))
             {
-                errorString += "-El DNI no es valido" + Environment.NewLine;
+                errorString += "-El formato del DNI no es válido. Debe estar formado por 8 dígitos, seguido por un carácter alfabético." + Environment.NewLine;
             }
 
             if (tbxTelefono.Text != "")
             {
                 if (!Regex.IsMatch(tbxTelefono.Text, @"^(\+[0-9]{2} ?)?[0-9]{9}$"))
                 {
-                    errorString += "-El Telefono no es valido" + Environment.NewLine;
+                    errorString += "-El formato del Telefono no es válido. Debe estar formado por 9 dígitos (prefijo opcional)." + Environment.NewLine;
+                }
+            }
+
+            if (tbxEmail.Text != "")
+            {
+                if (!Regex.IsMatch(tbxEmail.Text, @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"))
+                {
+                    errorString += "-El formato del Email no es válido." + Environment.NewLine;
                 }
             }
 
@@ -396,17 +412,17 @@ namespace Eros
             {
                 if (!Regex.IsMatch(tbxFnac.Text, @"^[0-9]{1,2}[-/][0-9]{1,2}[-/][0-9]{1,4}$"))
                 {
-                    errorString += "-La fecha de nacimiento no es valida (dd-mm-aa)" + Environment.NewLine;
+                    errorString += "-La Fecha de Nacimiento no es valida. Debe seguir el siguiente formato: (dd-mm-aa)." + Environment.NewLine;
                 }
             }
 
             if (tbxUsuario.Text == "")
             {
-                errorString += "-El campo Usuario no puede estar vacío" + Environment.NewLine;
+                errorString += "-El campo Usuario no puede estar vacío." + Environment.NewLine;
             }
             else if (!Regex.IsMatch(tbxUsuario.Text, @"^[a-zA-Z0-9]+$"))
             {
-                errorString += "-El campo usuario solo puede tener letras y numeros sin espacios" + Environment.NewLine;
+                errorString += "-El campo usuario solo permite caracteres alfanuméricos." + Environment.NewLine;
             }
 
             return errorString;
@@ -416,6 +432,7 @@ namespace Eros
         //Validaciones
         private void tbxNombre_LostFocus(object sender, RoutedEventArgs e)
         {
+            
             if (tbxNombre.IsReadOnly)
             {
                 return;
@@ -423,12 +440,12 @@ namespace Eros
             string errorString = "";
             if (tbxNombre.Text == "")
             {
-                errorString = "El campo Nombre no puede estar vacío";
+                errorString = "El campo Nombre no puede estar vacío.";
 
             }
             else if (!Regex.IsMatch(tbxNombre.Text, @"^([a-zA-Z ]+)$"))
             {
-                errorString = "El campo Nombre solo debe contener caracteres alfabéticos,sin caracteres especiales";
+                errorString = "El campo Nombre solo permite caracteres alfabéticos.";
             }
 
             imgCheckNombre.Visibility = Visibility.Visible;
@@ -454,12 +471,12 @@ namespace Eros
             string errorString = "";
             if (tbxApellido.Text == "")
             {
-                errorString = "El campo Apellido no puede estar vacío";
+                errorString = "El campo Apellido no puede estar vacío.";
 
             }
             else if (!Regex.IsMatch(tbxApellido.Text, @"^([a-zA-Z ]+)$"))
             {
-                errorString = "El campo Apellido solo debe contener caracteres alfabéticos,sin caracteres especiales";
+                errorString = "El campo Apellido solo permite carácteres alfabéticos";
             }
 
             imgCheckApellido.Visibility = Visibility.Visible;
@@ -485,12 +502,12 @@ namespace Eros
             string errorString = "";
             if (tbxDni.Text == "")
             {
-                errorString = "El campo DNI no puede estar vacío";
+                errorString = "El campo DNI no puede estar vacío.";
 
             }
             else if (!Regex.IsMatch(tbxDni.Text, @"^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$"))
             {
-                errorString += "El DNI no es valido";
+                errorString += "El formato del DNI no es válido. Debe estar formado por 8 dígitos, seguido por un carácter alfabético.";
             }
 
             imgCheckDNI.Visibility = Visibility.Visible;
@@ -520,7 +537,7 @@ namespace Eros
             {
                 if (!Regex.IsMatch(tbxTelefono.Text, @"^(\+[0-9]{2} ?)?[0-9]{9}$"))
                 {
-                    errorString = "El formato del Telefono no es valido";
+                    errorString = "El formato del Telefono no es válido. Debe estar formado por 9 dígitos (prefijo opcional).";
                 }
             }
             else
@@ -555,7 +572,7 @@ namespace Eros
             {
                 if (!Regex.IsMatch(tbxFnac.Text, @"^[0-9]{1,2}[-/][0-9]{1,2}[-/][0-9]{1,4}$"))
                 {
-                    errorString = "La fecha de nacimiento no es valida (dd-mm-aa)";
+                    errorString = "La Fecha de Nacimiento no es valida. Debe seguir el siguiente formato: (dd-mm-aa).";
                 }
             }
             else
@@ -588,7 +605,7 @@ namespace Eros
             {
                 if (!Regex.IsMatch(tbxEmail.Text, @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"))
                 {
-                    errorString = "El email no es valido";
+                    errorString = "El formato del Email no es válido.";
                 }
             }
             else
@@ -609,32 +626,6 @@ namespace Eros
             }
         }
 
-        private void cbxRol_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (!cbxRol.IsEnabled)
-            {
-                return;
-            }
-            string errorString = "";
-            if (cbxRol.Text == "")
-            {
-                errorString = "El campo Rol no puede estar vacío";
-            }
-
-            imgCheckRol.Visibility = Visibility.Visible;
-
-            if (errorString == "")
-            {
-                imgCheckRol.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipRol.Text = "Correcto";
-            }
-            else
-            {
-                imgCheckRol.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipRol.Text = errorString;
-            }
-        }
-
         private void tbxUsuario_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxUsuario.IsReadOnly)
@@ -648,15 +639,15 @@ namespace Eros
 
             if (tbxUsuario.Text == "")
             {
-                errorString = "El campo Usuario no puede estar vacío";
+                errorString = "El campo Usuario no puede estar vacío.";
                 imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
                 tbkImageToolTipUsuario.Text = errorString;
 
             }
             else if (!Regex.IsMatch(tbxUsuario.Text, @"^[a-zA-Z0-9]+$"))
             {
-                errorString = "El campo usuario solo puede tener letras y numeros sin espacios";
-                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Imgicons//wrong.png", UriKind.Relative));
+                errorString = "El campo usuario solo permite caracteres alfanuméricos.";
+                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
                 tbkImageToolTipUsuario.Text = errorString;
 
             }
@@ -678,23 +669,23 @@ namespace Eros
                     userExists = t.Result;
                     if (userExists)
                     {
-                        errorString = "Este usuario ya existe, pruebe con otro";
+                        errorString = "Este usuario ya existe, pruebe con otro.";
                     }
 
                     if (errorString == "")
                     {
-                        imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/check.png", UriKind.Relative));
+                        imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
                         tbkImageToolTipUsuario.Text = "Correcto";
                     }
                     else
                     {
-                        imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/wrong.png", UriKind.Relative));
+                        imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
                         tbkImageToolTipUsuario.Text = errorString;
                     }
 
                 }, TaskScheduler.FromCurrentSynchronizationContext());
 
-                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/waitingPoints.png", UriKind.Relative));
+                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/waitingPoints.png", UriKind.Relative));
                 tbkImageToolTipUsuario.Text = "Esperando...";
                 /*if(currentState == state.Editando)
                 {

@@ -16,5 +16,6 @@ namespace Eros.Modelos
         public List<String> especificaciones { get; set; }
         public string imagen { get; set; }
         public int stock { get; set; }
+
     }
 }

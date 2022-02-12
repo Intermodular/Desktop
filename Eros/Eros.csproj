@@ -27,16 +27,33 @@
     <None Remove="Img\carga\patatas.jpeg" />
     <None Remove="Img\carga\pizza.jpeg" />
     <None Remove="Img\carga\pizza2.jpeg" />
+    <None Remove="Img\edit.png" />
     <None Remove="Img\empleados.png" />
+    <None Remove="Img\foodPlaceHolder.png" />
     <None Remove="Img\hamburguesa.jpg" />
+    <None Remove="Img\hamburguesa2 - Copia.jpeg" />
+    <None Remove="Img\hamburguesa2.jpg" />
+    <None Remove="Img\icons\add.png" />
+    <None Remove="Img\icons\basura.png" />
     <None Remove="Img\icons\cerrar.png" />
+    <None Remove="Img\icons\check.png" />
     <None Remove="Img\icons\cobrador.png" />
     <None Remove="Img\icons\cuadrado.png" />
     <None Remove="Img\icons\cuadrado2.png" />
+    <None Remove="Img\icons\edit.png" />
+    <None Remove="Img\icons\flecha.png" />
     <None Remove="Img\icons\logout.png" />
+    <None Remove="Img\icons\lupa.png" />
+    <None Remove="Img\icons\minimizar.png" />
+    <None Remove="Img\icons\NoShowPass.png" />
+    <None Remove="Img\icons\ShowPass.png" />
+    <None Remove="Img\icons\waitingPoints.png" />
+    <None Remove="Img\icons\wrong.png" />
+    <None Remove="Img\lupa.png" />
     <None Remove="Img\orna.png" />
     <None Remove="Img\ornament.png" />
     <None Remove="Img\pizza.png" />
+    <None Remove="Img\pizza2.jpg" />
     <None Remove="Img\productos.jpg" />
     <None Remove="Img\zonas.jpg" />
     <None Remove="minimizar.png" />
@@ -47,64 +64,118 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Img\edit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\foodPlaceHolder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\hamburguesa2 - Copia.jpeg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\hamburguesa2.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\add.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\basura.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\check.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\edit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\flecha.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\lupa.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\minimizar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\NoShowPass.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\ShowPass.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\waitingPoints.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\wrong.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\lupa.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\pizza2.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Img\carga\hamburguesa.jpeg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\carga\hamburguesa2.jpeg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\carga\hamburguesa3.jpeg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\carga\patatas.jpeg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\carga\pizza.jpeg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\carga\pizza2.jpeg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\empleados.png">
+    <Content Include="Img\carga\hamburguesa.jpeg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\hamburguesa.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\icons\cerrar.png">
+    </Content>
+    <Content Include="Img\carga\hamburguesa2.jpeg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\icons\cobrador.png">
+    </Content>
+    <Content Include="Img\carga\hamburguesa3.jpeg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\icons\cuadrado.png">
+    </Content>
+    <Content Include="Img\carga\patatas.jpeg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\icons\cuadrado2.png">
+    </Content>
+    <Content Include="Img\carga\pizza.jpeg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\icons\logout.png">
+    </Content>
+    <Content Include="Img\carga\pizza2.jpeg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\orna.png">
+    </Content>
+    <Content Include="Img\empleados.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\ornament.png">
+    </Content>
+    <Content Include="Img\hamburguesa.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\pizza.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\productos.jpg">
+    </Content>
+    <Content Include="Img\icons\cerrar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Img\zonas.jpg">
+    </Content>
+    <Content Include="Img\icons\cobrador.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
+    <Content Include="Img\icons\cuadrado.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\cuadrado2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\logout.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\orna.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\ornament.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\pizza.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\productos.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\zonas.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

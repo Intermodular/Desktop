@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 
 namespace Eros.Modelos
 {
-    class Tipos
+    class dtgTipo
     {
-        public int _id { get; set; }
+        public dtgTipo(string nom, List<string> ext)
+        {
+            nom = nombre;
+            ext = extras;
+        }
+
         public string nombre { get; set; }
-        public List<Extras> listaExtras { get; set; }
-        public string img { get; set; }
+        public List<string> extras { get; set; }
     }
 }

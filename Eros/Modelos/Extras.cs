@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Eros.Modelos
 {
-    class Extras
+    public class Extras
     {
         public int _id { get; set; }
         public string nombre { get; set; }
-        public List<String> compatible { get; set; }
         public float precio { get; set; }
     }
 }

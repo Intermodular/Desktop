@@ -42,9 +42,9 @@
                     <DataGridTextColumn Header="Apellido" Binding="{Binding Path=apellido}"/>
                     <DataGridTextColumn Header="DNI" Binding="{Binding Path=dni}"/>
                     <DataGridTextColumn Header="Telefono" Binding="{Binding Path=telefono}"/>
-                    <DataGridTextColumn Header="Usuario" Binding="{Binding Path=usuario}"/>
-                    <DataGridTextColumn Header="Contraseña" Binding="{Binding Path=password}"/>
+                    <DataGridTextColumn Header="Email" Binding="{Binding Path=email}"/>
                     <DataGridTextColumn Header="Fecha de Nacimiento" Binding="{Binding Path=fnac}"/>
+                    <DataGridTextColumn Header="Usuario" Binding="{Binding Path=usuario}"/>
                     <DataGridTextColumn Header="Rol" Binding="{Binding Path=rol}"/>
                 </DataGrid.Columns>
             </DataGrid>
@@ -128,6 +128,17 @@
                         </Viewbox>
                         <Viewbox Grid.Row="4" Stretch="Uniform" Margin="10,0,10,0">
                             <StackPanel Orientation="Horizontal" Width="350" Margin="2">
+                                <TextBlock Text="Email:" FontSize="18" Margin="53,0,0,0"/>
+                                <TextBox x:Name="tbxEmail" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxEmail_LostFocus"/>
+                                <Image x:Name="imgCheckEmail" Source="Img/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
+                                    <Image.ToolTip>
+                                        <TextBlock x:Name="tbkImageToolTipEmail"/>
+                                    </Image.ToolTip>
+                                </Image>
+                            </StackPanel>
+                        </Viewbox>
+                        <Viewbox Grid.Row="5" Stretch="Uniform" Margin="10,0,10,0">
+                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
                                 <TextBlock Text="F.Nacimiento:" FontSize="18" Margin="0,0,0,0"/>
                                 <TextBox x:Name="tbxFnac" FontSize="18" Margin="12,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxFnac_LostFocus"/>
                                 <Image x:Name="imgCheckFnac" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
@@ -137,7 +148,7 @@
                                 </Image>
                             </StackPanel>
                         </Viewbox>
-                        <Viewbox Grid.Row="5" Stretch="Uniform" Margin="10,0,10,0">
+                        <Viewbox Grid.Row="6" Stretch="Uniform" Margin="10,0,10,0">
                             <StackPanel Orientation="Horizontal" Width="350" Margin="2">
                                 <TextBlock Text="Usuario:" FontSize="18" Margin="35,0,0,0"/>
                                 <TextBox x:Name="tbxUsuario" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxUsuario_LostFocus"/>
@@ -148,30 +159,15 @@
                                 </Image>
                             </StackPanel>
                         </Viewbox>
-                        <Viewbox Grid.Row="6" Stretch="Uniform" Margin="10,0,10,0">
-                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
-                                <TextBlock Text="Email:" FontSize="18" Margin="53,0,0,0"/>
-                                <TextBox x:Name="tbxEmail" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxEmail_LostFocus"/>
-                                <Image x:Name="imgCheckEmail" Source="Img/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
-                                    <Image.ToolTip>
-                                        <TextBlock x:Name="tbkImageToolTipEmail"/>
-                                    </Image.ToolTip>
-                                </Image>
-                            </StackPanel>
-                        </Viewbox>
                         <Viewbox Grid.Row="7" Stretch="Uniform" Margin="10,0,10,0">
                             <StackPanel Orientation="Horizontal" Width="367" Margin="2">
                                 <TextBlock Text="Rol:" FontSize="18" Margin="74,0,0,0"/>
                                 <!--<TextBox x:Name="tbxRol" FontSize="18" Margin="19,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>-->
-                                <ComboBox x:Name="cbxRol" FontSize="18" Margin="21,0,0,0" Width="211" Height="30" Background="LightGray" IsEnabled="False" LostFocus="cbxRol_LostFocus">
+                                <ComboBox x:Name="cbxRol" FontSize="18" Margin="21,0,0,0" Width="211" Height="30" Background="LightGray" IsEnabled="False" SelectionChanged="cbxRol_SelectionChanged">
                                     <ComboBoxItem Content="Administrador"/>
+                                    <ComboBoxItem Content="Camarero"/>
                                     <ComboBoxItem Content="Otro"/>
                                 </ComboBox>
-                                <Image x:Name="imgCheckRol" Source="/Img/icons/check.png" Margin="12,0,0,0" Width="20" Visibility="Hidden">
-                                    <Image.ToolTip>
-                                        <TextBlock x:Name="tbkImageToolTipRol"/>
-                                    </Image.ToolTip>
-                                </Image>
                             </StackPanel>
                         </Viewbox>
                     </Grid>

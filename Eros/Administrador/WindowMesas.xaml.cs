@@ -94,7 +94,7 @@ namespace Eros.Administrador
             string nom_ap;
             foreach (Mesas m in listMesas)
             {
-                nom_ap = m.zona.Substring(0, 1) + m._id + " " + m.zona + " " + m.numSillas;
+                nom_ap = m.numero + " " + m.zona + " " + m.numSillas + " " + m.estado;
                 if (nom_ap.ToLower().Contains(filter.ToLower()))
                 {
                     listFiltrada.Add(m);
@@ -126,7 +126,7 @@ namespace Eros.Administrador
             string respuesta = ControladorMesas.PostToApi(newMesa);
             if (respuesta == "Error Mesa Ya Existe")
             {
-                MessageBox.Show("Esta mesa ya existe pruebe con otra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Esta mesa ya existe, pruebe con otra.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             ChangeToState(state.Viendo);
@@ -196,9 +196,7 @@ namespace Eros.Administrador
         private void HideAllCheckImages()
         {
             imgCheckNumero.Visibility = Visibility.Hidden;
-            imgCheckZona.Visibility = Visibility.Hidden;
             imgCheckSillas.Visibility = Visibility.Hidden;
-            imgCheckEstado.Visibility = Visibility.Hidden;
         }
 
         private void UpdateInfoFromDataBase()
@@ -330,7 +328,14 @@ namespace Eros.Administrador
             m.numero = Int32.Parse(tbxNumero.Text);
             m.zona = cbxZona.SelectedItem.ToString();
             m.numSillas = Int32.Parse(tbxSillas.Text);
-            m.estado = cbxEstado.SelectedItem.ToString();
+            if (cbxEstado.SelectedItem == null)
+            {
+                m.estado = "Libre";
+            } 
+            else
+            {
+                m.estado = cbxEstado.SelectedItem.ToString();
+            }
 
             return m;
         }
@@ -351,12 +356,12 @@ namespace Eros.Administrador
 
             if (tbxNumero.Text == "")
             {
-                errorString += "-El campo Numero no puede estar vacío" + Environment.NewLine;
+                errorString += "-El campo Numero no puede estar vacío." + Environment.NewLine;
 
             }
             else if (!Regex.IsMatch(tbxNumero.Text, @"^([0-9]+)$"))
             {
-                errorString += "-El campo Numero solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
+                errorString += "-El campo Numero solo permite caracteres numéricos." + Environment.NewLine;
             }
 
             if (tbxSillas.Text == "")
@@ -364,9 +369,13 @@ namespace Eros.Administrador
                 errorString += "-El campo Sillas no puede estar vacío" + Environment.NewLine;
 
             }
+            else if (!Regex.IsMatch(tbxSillas.Text, @"^([0-9]+)$"))
+            {
+                errorString += "-El campo Sillas solo permite caracteres numéricos." + Environment.NewLine;
+            }
             else if (tbxSillas.Text == "0")
             {
-                errorString += "-El número de sillas no puede ser 0" + Environment.NewLine;
+                errorString += "-El campo Sillas debe ser mayor que 0." + Environment.NewLine;
             }
 
             return errorString;
@@ -384,12 +393,12 @@ namespace Eros.Administrador
             string errorString = "";
             if (tbxNumero.Text == "")
             {
-                errorString = "El campo Nombre no puede estar vacío";
+                errorString = "El campo Numero no puede estar vacío.";
 
             }
             else if (!Regex.IsMatch(tbxNumero.Text, @"^([0-9]+)$"))
             {
-                errorString = "El campo Numero solo debe contener caracteres numéricos, sin caracteres especiales";
+                errorString = "El campo Numero solo permite caracteres numéricos.";
             }
 
             imgCheckNumero.Visibility = Visibility.Visible;
@@ -416,12 +425,16 @@ namespace Eros.Administrador
             string errorString = "";
             if (tbxSillas.Text == "")
             {
-                errorString = "El campo Nombre no puede estar vacío";
+                errorString = "El campo Sillas no puede estar vacío.";
 
             }
             else if (!Regex.IsMatch(tbxSillas.Text, @"^([0-9]+)$"))
             {
-                errorString = "El campo Numero solo debe contener caracteres numéricos, sin caracteres especiales";
+                errorString = "El campo Sillas solo permite caracteres numéricos.";
+            }
+            else if (tbxSillas.Text == "0")
+            {
+                errorString = "El campo Sillas debe ser mayor que 0.";
             }
 
             imgCheckSillas.Visibility = Visibility.Visible;
