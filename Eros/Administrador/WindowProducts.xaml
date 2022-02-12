@@ -107,7 +107,7 @@
                                 <ComboBox x:Name="cbIngredientes"  FontSize="18" Margin="21,0,0,0" Width="200" IsEnabled="True" Background="LightGray"></ComboBox>
                                 <Button Background="White"  Style="{StaticResource TabButton}" x:Name="btnAddIngredientes" Click="btnAddIngredientes_Click" Visibility="Hidden">
                                     <StackPanel>
-                                        <Image Source="/Administrador/edit.png" Width="20" Height="20"></Image>
+                                        <Image Source="/Img/edit.png" Width="20" Height="20"></Image>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
@@ -129,7 +129,7 @@
                                 <ComboBox x:Name="cbEspecificaciones"  FontSize="18" Margin="12,0,0,0" Width="200" IsReadOnly="True" Background="LightGray"></ComboBox>
                                 <Button Background="White"  Style="{StaticResource TabButton}" x:Name="btnAddSpecifications" Click="btnAddSpecifications_Click" Visibility="Hidden">
                                     <StackPanel>
-                                        <Image Source="/Administrador/edit.png" Width="20" Height="20"></Image>
+                                        <Image Source="/Img/edit.png" Width="20" Height="20"></Image>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>

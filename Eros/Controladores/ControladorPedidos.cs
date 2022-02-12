@@ -25,6 +25,17 @@ namespace Eros.Controladores
             return listaPedidos;
         }
 
+        public static Pedidos GetFromApiByIdMesa(int idMesa)
+        {
+            string respuesta = ControladorApi.GetHttp("http://localhost:8080/api/pedido/idMesa/" + idMesa);
+            if (respuesta == "Not Found")
+            {
+                return null;
+            }
+            Pedidos pedido = JsonConvert.DeserializeObject<Pedidos>(respuesta);
+            return pedido;
+        }
+
         public static string PostToApi(Pedidos pedido)
         {
             string jsonPedidos = JsonConvert.SerializeObject(pedido);

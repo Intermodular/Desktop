@@ -570,7 +570,7 @@ namespace Eros
             string errorString = "";
             if (tbxFnac.Text != "")
             {
-                if (!Regex.IsMatch(tbxFnac.Text, @"^[0-9]{1,2}[-/][0-9]{1,2}[-/][0-9]{1,4}$"))
+                if (!Regex.IsMatch(tbxFnac.Text, @"^[0-9]{1,2}[-/][0-9]{1,2}[-/][0-9]{2,4}$"))
                 {
                     errorString = "La Fecha de Nacimiento no es valida. Debe seguir el siguiente formato: (dd-mm-aa).";
                 }
@@ -687,38 +687,8 @@ namespace Eros
 
                 imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/waitingPoints.png", UriKind.Relative));
                 tbkImageToolTipUsuario.Text = "Esperando...";
-                /*if(currentState == state.Editando)
-                {
-                    userExists = ControladorEmpleados.DoesEmpleadoExist(tbxUsuario.Text,selectedEmpleado._id);
-                }
-                else
-                {
-                    userExists = ControladorEmpleados.DoesEmpleadoExist(tbxUsuario.Text);
-                }
-
-                if(userExists)
-                {
-                    errorString = "Este usuario ya existe, pruebe con otro";
-                }*/
+              
             }
-
-            /*imgCheckUsuario.Visibility = Visibility.Visible;
-
-            if (errorString == "")
-            {
-                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/check.png", UriKind.Relative));
-                tbkImageToolTipUsuario.Text = "Correcto";
-            }
-            else
-            {
-                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/wrong.png", UriKind.Relative));
-                tbkImageToolTipUsuario.Text = errorString;
-            }*/
-
-
-
-
         }
-
     }
 }

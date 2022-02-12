@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Eros.Modelos
 {
-    class Mesas
+    public class Mesas
     {
         public int _id { get; set; }
         public string zona { get; set; }
