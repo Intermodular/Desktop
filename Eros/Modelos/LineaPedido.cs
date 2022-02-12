@@ -21,7 +21,7 @@ namespace Eros.Modelos
             {
                 foreach (LineaExtra le in lineasExtras)
                 {
-                    costeLinea += le.extra.precio * le.cantidad;
+                    costeLinea += le.extra.precio * le.cantidad * cantidad;
                 }
             }
 

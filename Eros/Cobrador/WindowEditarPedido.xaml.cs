@@ -364,6 +364,7 @@ namespace Eros.Cobrador
                 lp.anotaciones = "";
                 CreateAndAddPanelLineaPedido(lp);
                 tbContador.Text = "0";
+                UpdateTotalTxt();
             }
         }
 
@@ -465,6 +466,7 @@ namespace Eros.Cobrador
             {
                 lp.CalcularCosteLinea();
                 CreateAndAddPanelLineaPedido(lp);
+                UpdateTotalTxt();
             }
         }
 
@@ -483,7 +485,6 @@ namespace Eros.Cobrador
             summaryListBox.Items.Insert(0, panelLinea.listBoxItem);
             linePanelList.Insert(0, panelLinea);
 
-            UpdateTotalTxt();
             summaryListBox.ScrollIntoView(panelLinea.listBoxItem);
         }
 
