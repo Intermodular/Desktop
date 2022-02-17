@@ -449,6 +449,43 @@ namespace Eros.Administrador
                 imgCheckSillas.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
                 tbkImageToolTipSillas.Text = errorString;
             }
-        }        
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateInfoFromDataBase();
+            ChangeToState(state.Viendo);
+            dtgMesas.SelectedItem = dtgMesas.Items[0];
+        }
+
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void Maximize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Maximized;
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            WindowZones wz = new WindowZones();
+            wz.Show();
+            this.Close();
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
     }        
 }

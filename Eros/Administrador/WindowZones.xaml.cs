@@ -342,5 +342,49 @@ namespace Eros.Administrador
             return errorString;
 
         }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            WindowMainAdministration wma = new WindowMainAdministration();
+            wma.Show();
+            this.Close();
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateInfoFromDataBase();
+            ChangeToState(state.Viendo);
+            dtgZonas.SelectedItem = dtgZonas.Items[0];
+        }
+
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void Maximize_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Btn_Mesas_Click(object sender, RoutedEventArgs e)
+        {
+            WindowMesas wm = new WindowMesas();
+            wm.Show();
+            this.Close();
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Eros.Controladores;
 using Eros.Modelos;
+using Eros.Administrador;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -195,6 +196,7 @@ namespace Eros
             infoTbxsList.Add(tbxDni);
             infoTbxsList.Add(tbxTelefono);
             infoTbxsList.Add(tbxFnac);
+            infoTbxsList.Add(tbxDir);
             infoTbxsList.Add(tbxUsuario);
             infoTbxsList.Add(tbxEmail);
            // infoTbxsList.Add(tbxRol);
@@ -208,6 +210,7 @@ namespace Eros
             imgCheckDNI.Visibility = Visibility.Hidden;
             imgCheckTelefono.Visibility = Visibility.Hidden;
             imgCheckFnac.Visibility = Visibility.Hidden;
+            imgCheckDir.Visibility = Visibility.Hidden;
             imgCheckUsuario.Visibility = Visibility.Hidden;
             imgCheckEmail.Visibility = Visibility.Hidden;
 
@@ -318,9 +321,11 @@ namespace Eros
             {
                 t.IsReadOnly = !enable;
                 t.Background = enable ? Brushes.White : Brushes.LightGray;
-                cbxRol.IsEnabled = enable;
-                cbxRol.Background = enable ? Brushes.White : Brushes.LightGray;
             }
+            btnContrasenya.IsEnabled = enable;
+            btnContrasenya.Background = enable ? Brushes.White : Brushes.LightGray;
+            cbxRol.IsEnabled = enable;
+            cbxRol.Background = enable ? Brushes.White : Brushes.LightGray;
         }
 
         private void EmptyTextBoxes()
@@ -626,6 +631,33 @@ namespace Eros
             }
         }
 
+        private void tbxDir_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbxDir.IsReadOnly)
+            {
+                return;
+            }
+            string errorString = "";
+            if (tbxDir.Text == "")
+            {
+                errorString = "El campo Nombre no puede estar vacío.";
+
+            }
+
+            imgCheckDir.Visibility = Visibility.Visible;
+
+            if (errorString == "")
+            {
+                imgCheckDir.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
+                tbkImageToolTipDir.Text = "Correcto";
+            }
+            else
+            {
+                imgCheckDir.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                tbkImageToolTipDir.Text = errorString;
+            }
+        }
+
         private void tbxUsuario_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxUsuario.IsReadOnly)
@@ -689,6 +721,60 @@ namespace Eros
                 tbkImageToolTipUsuario.Text = "Esperando...";
               
             }
+        }
+
+        private void btnContrasenya_Click(object sender, RoutedEventArgs e)
+        {            
+            Empleado emp = GetEmpleadoFromTextBoxes();
+            emp._id = selectedEmpleado._id;
+            emp.password = selectedEmpleado.password;
+            emp.newUser = selectedEmpleado.newUser;
+            if (emp.newUser == true)
+            {
+                MessageBox.Show("El empleado seleccionado ya se le ha dado permiso cambiar su contraseña.");
+                return;
+            }
+            emp.newUser = true;
+            MessageBox.Show("Cambio de contraseña permitido.");
+            ControladorEmpleados.UpdateInApi(emp);
+        }
+
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            WindowMainAdministration wma = new WindowMainAdministration();
+            wma.Show();
+            this.Close();
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateInfoFromDataBase();
+            ChangeToState(state.Viendo);
+            dtgEmpleados.SelectedItem = dtgEmpleados.Items[0];
+            
+        }
+
+        private void Maximize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Maximized;
         }
     }
 }

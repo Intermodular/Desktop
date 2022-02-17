@@ -27,7 +27,7 @@ namespace Eros
         int image_show = 0;
         Regex regex = new Regex("^[a-zA-Z0-9_]+$");
         List<Empleado> listEmpleados;
-        Empleado currentUser = new Empleado();
+        Empleado _currentUser = new Empleado();
 
         public MainWindow()
         {
@@ -172,8 +172,17 @@ namespace Eros
             //Cambiar la función por una validación en la api.
             if (validateUsernameAndPassword())
             {
-                
-                if (currentUser.rol.Equals("admin"))
+                if (_currentUser.newUser)
+                {
+                    PasswordConfig pc = new PasswordConfig(_currentUser);
+                    pc.ShowDialog();
+                    if (!pc._Valid)
+                    {
+                        return;
+                    }
+                }
+
+                if (_currentUser.rol.Equals("admin"))
                 {
                     Rol rol = new Rol();
                     rol.ShowDialog();
@@ -208,7 +217,7 @@ namespace Eros
                
                 if (i.usuario.Equals(user.Text) && (i.password.Equals(password.Password) || i.password.Equals(tb_pass.Text)))
                 {
-                    currentUser = i;
+                    _currentUser = i;
                     return true;
                 }
             }
@@ -233,7 +242,6 @@ namespace Eros
             {
                 this.DragMove();
             }
-
         }
         private void fillComboBox(ComboBox cb, List<String> ListCb)
         {

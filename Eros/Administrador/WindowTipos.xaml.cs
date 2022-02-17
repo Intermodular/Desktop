@@ -54,7 +54,7 @@ namespace Eros.Administrador
         {
             if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar este tipo?", "Borrar Tipo"))
             {
-                ControladorTipo.DeleteFromApi(idOfLastSelectedTipo);
+                ControladorTipos.DeleteFromApi(idOfLastSelectedTipo);
                 UpdateInfoFromDataBase();
             }
         }
@@ -123,7 +123,7 @@ namespace Eros.Administrador
                 return;
             }
             Tipos newTipo = GetTipoFromTextBoxes();
-            string respuesta = ControladorTipo.PostToApi(newTipo);
+            string respuesta = ControladorTipos.PostToApi(newTipo);
             if (respuesta == "Error Tipo Ya Existe")
             {
                 MessageBox.Show("Este tipo ya existe pruebe con otro.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -145,7 +145,7 @@ namespace Eros.Administrador
                 int idTipo = idOfLastSelectedTipo;
                 Tipos updateTipo = GetTipoFromTextBoxes();
                 updateTipo._id = idTipo;
-                string respuesta = ControladorTipo.UpdateInApi(updateTipo);
+                string respuesta = ControladorTipos.UpdateInApi(updateTipo);
                 MessageBox.Show(respuesta);
 
                 if (respuesta == "Error Tipo Ya Existe")
@@ -184,7 +184,7 @@ namespace Eros.Administrador
         }
         private void UpdateInfoFromDataBase()
         {
-            listTipos = ControladorTipo.GetAllFromApi();
+            listTipos = ControladorTipos.GetAllFromApi();
             //
             PutListInDataGrid(listTipos);
             tbxSearchBar.Text = "";
@@ -473,7 +473,7 @@ namespace Eros.Administrador
         public void btnAddExtras_Click(object sender, RoutedEventArgs e)
         {
 
-            List<Tipos> tipos = ControladorTipo.GetAllFromApi();
+            List<Tipos> tipos = ControladorTipos.GetAllFromApi();
             List<Extras> extras = new List<Extras>();
             foreach (Tipos t in tipos)
             {
@@ -501,5 +501,34 @@ namespace Eros.Administrador
             
         }
 
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Maximize_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

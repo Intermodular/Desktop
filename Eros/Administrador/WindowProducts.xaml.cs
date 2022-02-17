@@ -1,4 +1,5 @@
 ﻿using Eros.Administrador.UtilWindows;
+using Eros.Administrador;
 using Eros.Controladores;
 using Eros.Modelos;
 using System;
@@ -185,7 +186,7 @@ namespace Eros
         private void UpdateInfoFromDataBase()
         {
             listProductos = ControladorProductos.GetAllFromApi();
-            listTipos = ControladorTipo.GetAllFromApi();
+            listTipos = ControladorTipos.GetAllFromApi();
             cbTipo.Items.Clear();
             foreach (Tipos t in listTipos)
             {
@@ -581,6 +582,43 @@ namespace Eros
                 fillComboBox(cbEspecificaciones, wes._Specifications);
                 EnableButton(btGuardarEdicion, true);
             }
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            WindowMainAdministration wma = new WindowMainAdministration();
+            wma.Show();
+            this.Close();
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateInfoFromDataBase();
+            ChangeToState(state.Viendo);
+            dtgProductos.SelectedItem = dtgProductos.Items[0];
+        }
+
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void Maximize_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -5,9 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros.Administrador"
         mc:Ignorable="d"
-        Title="WindowMesas" Height="450" Width="800">
+        Title="WindowMesas" Height="450" Width="800" WindowStyle="None" MouseDown="Window_MouseDown">
     <Grid>
-        <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Button Name="Back" HorizontalAlignment="Left" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,30,0" Click="Back_Click">
+                <StackPanel>
+                    <Image>
+                        <Image.Source>
+                            <TransformedBitmap Source="../Img/icons/flecha.png">
+                                <TransformedBitmap.Transform>
+                                    <RotateTransform Angle='180' />
+                                </TransformedBitmap.Transform>
+                            </TransformedBitmap>
+                        </Image.Source>
+                    </Image>
+                </StackPanel>
+            </Button>
+
+            <Button Name="Refresh" HorizontalAlignment="Left" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="30,0,0,0" Click="Refresh_Click">
+                <StackPanel>
+                    <Image Source="../Img/icons/refresh.png" Width="20" Height="20" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+
+            <TextBlock Name="usuName" Text="User" Margin="70,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <TextBlock Text="Gestión de Mesas" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
+
+            <Button Name="Minimize" Grid.Column="2" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,60,0" Click="Minimize_Click">
+                <StackPanel>
+                    <Image Source="../Img/icons/minimizar.png" Width="20" Height="20" Margin="0,-3,0,0"></Image>
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="Maximize"  Grid.Column="2" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,30,0" Click="Maximize_Click">
+                <Image x:Name="img_cuadrado"  Source="/Img/icons/cuadrado.png" Width="15" Height="15" Margin="0,0,0,0"></Image>
+            </Button>
+
+            <Button x:Name="Close" Grid.Column="2" Style="{StaticResource btn_cerrar}" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,0,0" Click="Close_Click">
+                <StackPanel>
+                    <Image Source="../Img/icons/cerrar.png" Width="20" Height="20" Margin="0,5,0,0"></Image>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Grid Margin="5" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="32*"/>
                 <RowDefinition Height="318*"/>

@@ -150,21 +150,23 @@ namespace Eros.Administrador
 
         private void btn_productos_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
             WindowProducts wp = new WindowProducts();
-            wp.ShowDialog();
+            wp.Show();
+            this.Close();
         }
 
         private void btn_empleados_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
             WindowEmpleados we = new WindowEmpleados();
-            we.ShowDialog();
+            we.Show();
+            this.Close();
         }
 
         private void btn_zonas_Click(object sender, RoutedEventArgs e)
         {
-
+            WindowZones wz = new WindowZones();
+            wz.Show();
+            this.Close();
         }
 
         private void btn_empleados_MouseLeave(object sender, MouseEventArgs e)

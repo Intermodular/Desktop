@@ -63,9 +63,12 @@
     <None Remove="Img\icons\minusIcon.png" />
     <None Remove="Img\icons\NoShowPass.png" />
     <None Remove="Img\icons\plusIcon.png" />
+    <None Remove="Img\icons\refresh.png" />
     <None Remove="Img\icons\ShowPass.png" />
     <None Remove="Img\icons\waitingPoints.png" />
     <None Remove="Img\icons\wrong.png" />
+    <None Remove="Img\logo\eros_black.png" />
+    <None Remove="Img\logo\eros_red.png" />
     <None Remove="Img\orna.png" />
     <None Remove="Img\ornament.png" />
     <None Remove="Img\pizza.png" />
@@ -185,13 +188,13 @@
     </Resource>
     <Resource Include="Img\icons\cobrador.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
     <Content Include="Img\icons\cuadrado2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Img\icons\logout.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
     <Resource Include="Img\icons\deleteIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -233,6 +236,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\icons\plusIcon.png" />
+    <Content Include="Img\icons\refresh.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Img\icons\ShowPass.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -242,19 +248,25 @@
     <Resource Include="Img\icons\wrong.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Img\orna.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\pizza.png">
+    <Resource Include="Img\logo\eros_black.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Img\logo\eros_red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\orna.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Img\pizza.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Img\pizza.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\pizza2.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Img\productos.jpg">
+    <Content Include="Img\productos.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Img\zonas.jpg">
