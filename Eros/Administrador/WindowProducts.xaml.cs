@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Eros.Clases;
 
 namespace Eros
 {
@@ -35,10 +36,23 @@ namespace Eros
         public WindowProducts()
         {
             InitializeComponent();
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             InitializeTextBoxList();
             currentState = state.Viendo;
             UpdateInfoFromDataBase();
             listFiltrada = new List<Productos>();
+            usuName.Text = GlobalVariables.username;
+            if (GlobalVariables.max)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else if (GlobalVariables.left != -999)
+            {
+                Left = GlobalVariables.left;
+                Top = GlobalVariables.top;
+                Height = GlobalVariables.height;
+                Width = GlobalVariables.width;
+            }
         }
 
         //Eventos
@@ -288,7 +302,6 @@ namespace Eros
         {
             
             tbxSearchBar.IsReadOnly = !enable;
-            tbxSearchBar.Background = enable ? Brushes.White : Brushes.LightGray;
         }
 
         private void EnableTextBoxes(bool enable)
@@ -613,12 +626,28 @@ namespace Eros
 
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
-
+            Application.Current.Shutdown();
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
+            Application.Current.Shutdown();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            WindowTipos wt = new WindowTipos();
+            wt.Show();
             this.Close();
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            GlobalVariables.top = Top;
+            GlobalVariables.left = Top;
+            GlobalVariables.width = Width;
+            GlobalVariables.height = Height;
+            GlobalVariables.max = WindowState == WindowState.Maximized;
         }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros.Administrador"
         mc:Ignorable="d"
-        Title="WindowMesas" Height="450" Width="800" WindowStyle="None" MouseDown="Window_MouseDown">
+        Title="WindowMesas" Height="450" MinHeight="450" Width="800" MinWidth="700" WindowStyle="None" MouseDown="Window_MouseDown" SizeChanged="Window_SizeChanged">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -101,11 +101,8 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Viewbox  Margin="15" MaxWidth="400" >
-                    <Button x:Name="atras" Content="Atrás" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" Click="Atras_Click"/>
-                </Viewbox>
                 <Viewbox  Margin="15" MaxWidth="400" Grid.Column="1">
-                    <Button x:Name="btAnyadirMesa" Content="Crear Mesa" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" Click="btAnyadirMesa_Click" />
+                    <Button x:Name="btAnyadirMesa" Content="Crear Mesa" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" Click="btAnyadirMesa_Click" Style="{StaticResource btAdministracionPositivo}"/>
                 </Viewbox>
 
             </Grid>
@@ -133,7 +130,7 @@
                         <Viewbox Stretch="Uniform" Margin="10,0,10,0">
                             <StackPanel Orientation="Horizontal" Width="350" Margin="2">
                                 <TextBlock Text="Número:" FontSize="18" Margin="30,0,0,0"/>
-                                <TextBox x:Name="tbxNumero"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxNumero_LostFocus"/>
+                                <TextBox x:Name="tbxNumero"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxNumero_LostFocus"  Style="{StaticResource txb}"/>
                                 <Image x:Name="imgCheckNumero" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
                                     <Image.ToolTip>
                                         <TextBlock x:Name="tbkImageToolTipNumero"/>
@@ -152,7 +149,7 @@
                         <Viewbox Grid.Row="2" Stretch="Uniform" Margin="10,0,10,0" >
                             <StackPanel Orientation="Horizontal" Width="350" Margin="2">
                                 <TextBlock Text="Sillas:" FontSize="18" Margin="56,0,0,0"/>
-                                <TextBox x:Name="tbxSillas"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxSillas_LostFocus"/>
+                                <TextBox x:Name="tbxSillas"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxSillas_LostFocus"  Style="{StaticResource txb}"/>
                                 <Image x:Name="imgCheckSillas" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
                                     <Image.ToolTip>
                                         <TextBlock x:Name="tbkImageToolTipSillas"/>
@@ -177,11 +174,11 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Viewbox>
-                            <Button x:Name="btEliminar" Content="Eliminar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btEliminar_Click"/>
+                            <Button x:Name="btEliminar" Content="Eliminar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btEliminar_Click" Style="{StaticResource btAdministracionNegativo}"/>
                         </Viewbox>
 
                         <Viewbox Grid.Column="1">
-                            <Button x:Name="btEditar" Content="Editar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btEditar_Click"/>
+                            <Button x:Name="btEditar" Content="Editar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btEditar_Click" Style="{StaticResource btAdministracion}"/>
                         </Viewbox>
                     </Grid>
 
@@ -192,11 +189,11 @@
 
                         </Grid.ColumnDefinitions>
                         <Viewbox>
-                            <Button x:Name="btCancelarAgregar" Content="Cancelar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btCancelarAgregar_Click"/>
+                            <Button x:Name="btCancelarAgregar" Content="Cancelar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btCancelarAgregar_Click" Style="{StaticResource btAdministracionNegativo}"/>
                         </Viewbox>
 
                         <Viewbox Grid.Column="1">
-                            <Button x:Name="btAgregar" Content="Agregar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btAgregar_Click"/>
+                            <Button x:Name="btAgregar" Content="Agregar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btAgregar_Click" Style="{StaticResource btAdministracionPositivo}"/>
                         </Viewbox>
                     </Grid>
 
@@ -207,11 +204,11 @@
 
                         </Grid.ColumnDefinitions>
                         <Viewbox>
-                            <Button x:Name="btDescartarEdicion" Content="Descartar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btDescartarEdicion_Click"/>
+                            <Button x:Name="btDescartarEdicion" Content="Descartar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btDescartarEdicion_Click" Style="{StaticResource btAdministracionNegativo}"/>
                         </Viewbox>
 
                         <Viewbox Grid.Column="1">
-                            <Button x:Name="btGuardarEdicion" Content="Guardar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btGuardarEdicion_Click"/>
+                            <Button x:Name="btGuardarEdicion" Content="Guardar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btGuardarEdicion_Click" Style="{StaticResource btAdministracionPositivo}"/>
                         </Viewbox>
                     </Grid>
                 </Grid>

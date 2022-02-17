@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Eros.Clases;
 
 namespace Eros.Administrador
 {
@@ -26,10 +27,23 @@ namespace Eros.Administrador
         public WindowTipos()
         {
             InitializeComponent();
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             InitializeTextBoxList();
             currentState = state.Viendo;
             UpdateInfoFromDataBase();
             listFiltrada = new List<Tipos>();
+            usuName.Text = GlobalVariables.username;
+            if (GlobalVariables.max)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else if (GlobalVariables.left != -999)
+            {
+                Left = GlobalVariables.left;
+                Top = GlobalVariables.top;
+                Height = GlobalVariables.height;
+                Width = GlobalVariables.width;
+            }
         }
 
         List<Tipos> listTipos;
@@ -299,7 +313,6 @@ namespace Eros.Administrador
         {
 
             tbxSearchBar.IsReadOnly = !enable;
-            tbxSearchBar.Background = enable ? Brushes.White : Brushes.LightGray;
         }
 
         private void EnableTextBoxes(bool enable)
@@ -503,32 +516,48 @@ namespace Eros.Administrador
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-
+            WindowProducts wp = new WindowProducts();
+            wp.Show();
+            this.Close();
         }
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-
+            UpdateInfoFromDataBase();
+            ChangeToState(state.Viendo);
+            dtgTipos.SelectedItem = dtgTipos.Items[0];
         }
 
         private void Minimize_Click(object sender, RoutedEventArgs e)
         {
-
+            WindowState = WindowState.Minimized;
         }
 
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
-
+            WindowState = (WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
+            Application.Current.Shutdown();
+        }
 
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            GlobalVariables.top = Top;
+            GlobalVariables.left = Top;
+            GlobalVariables.width = Width;
+            GlobalVariables.height = Height;
+            GlobalVariables.max = WindowState == WindowState.Maximized;
         }
     }
 }

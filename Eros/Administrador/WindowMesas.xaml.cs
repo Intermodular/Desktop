@@ -15,6 +15,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Eros.Clases;
 
 namespace Eros.Administrador
 {
@@ -33,11 +34,24 @@ namespace Eros.Administrador
         public WindowMesas()
         {
             InitializeComponent();
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             InitializeTextBoxList();
             currentState = state.Viendo;
             SetupComboBoxes();
             UpdateInfoFromDataBase();
             listFiltrada = new List<Mesas>();
+            usuName.Text = GlobalVariables.username;
+            if (GlobalVariables.max)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                Left = GlobalVariables.left;
+                Top = GlobalVariables.top;
+                Height = GlobalVariables.height;
+                Width = GlobalVariables.width;
+            }
         }
 
         //Eventos
@@ -299,7 +313,6 @@ namespace Eros.Administrador
         private void EnableSearchTextBox(bool enable)
         {
             tbxSearchBar.IsReadOnly = !enable;
-            tbxSearchBar.Background = enable ? Brushes.White : Brushes.LightGray;
         }
 
         private void EnableTextBoxes(bool enable)
@@ -465,12 +478,12 @@ namespace Eros.Administrador
 
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
-            WindowState = WindowState.Maximized;
+            WindowState = (WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Application.Current.Shutdown();
         }
 
         private void Back_Click(object sender, RoutedEventArgs e)
@@ -486,6 +499,15 @@ namespace Eros.Administrador
             {
                 this.DragMove();
             }
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            GlobalVariables.top = Top;
+            GlobalVariables.left = Top;
+            GlobalVariables.width = Width;
+            GlobalVariables.height = Height;
+            GlobalVariables.max = WindowState == WindowState.Maximized;
         }
     }        
 }

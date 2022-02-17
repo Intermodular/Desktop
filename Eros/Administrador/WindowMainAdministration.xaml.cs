@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Shell;
+using Eros.Clases;
 
 namespace Eros.Administrador
 {
@@ -27,8 +28,20 @@ namespace Eros.Administrador
             WindowChrome wc = new WindowChrome();
             wc.CaptionHeight = 0.1;
             WindowChrome.SetWindowChrome(this, wc);
-
+            WindowState = WindowState.Maximized;
+            if (GlobalVariables.max)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                Left = GlobalVariables.left;
+                Top = GlobalVariables.top;
+                Height = GlobalVariables.height;
+                Width = GlobalVariables.width;
+            }
         }
+
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (ActualHeight > 800 && ActualWidth > 1600)
@@ -71,6 +84,11 @@ namespace Eros.Administrador
                 btn_logout.Margin = new Thickness(60, 30, 0, 0);
                 btn_cobrador.Margin = new Thickness(0, 30, 60, 0);
             }
+            GlobalVariables.top = Top;
+            GlobalVariables.left = Top;
+            GlobalVariables.width = Width;
+            GlobalVariables.height = Height;
+            GlobalVariables.max = WindowState == WindowState.Maximized;
         }
 
         private void changeSize(Button btn, int height, int width, int fontsize)

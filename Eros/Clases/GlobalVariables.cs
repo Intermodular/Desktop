@@ -6,10 +6,16 @@ using System.Threading.Tasks;
 
 namespace Eros.Clases
 {
-    class GlobalVariables
+    public class GlobalVariables
     {
-        public double width { get; set; }
-        public double height { get; set; }
-        public Boolean max { get; set; }
+        //User
+        static public string username { get; set; }
+
+        //Window
+        static public double width { get; set; }
+        static public double height { get; set; }
+        static public double top { get; set; }
+        static public double left { get; set; }
+        static public Boolean max { get; set; }
     }
 }

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros"
         mc:Ignorable="d"
-        Title="WindowEmpleados" Height="450" Width="800" WindowStyle="None" MouseDown="Window_MouseDown">
+        Title="WindowEmpleados" Height="450" MinHeight="450" Width="800" MinWidth="700" WindowStyle="None" MouseDown="Window_MouseDown" SizeChanged="Window_SizeChanged">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -108,10 +108,10 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Viewbox  Margin="15" MaxWidth="400" >
-                    <Button Content="Nóminas" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" />
+                    <Button Content="Nóminas" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" Style="{StaticResource btAdministracion}"/>
                 </Viewbox>
                 <Viewbox  Margin="15" MaxWidth="400" Grid.Column="1">
-                    <Button x:Name="btAnyadirEmpleado" Content="Añadir Empleado" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" Click="btAnyadirEmpleado_Click" />
+                    <Button x:Name="btAnyadirEmpleado" Content="Añadir Empleado" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" Click="btAnyadirEmpleado_Click" Style="{StaticResource btAdministracionPositivo}"/>
                 </Viewbox>
 
             </Grid>
@@ -129,7 +129,7 @@
                             <Viewbox Stretch="Uniform" Margin="10,0,10,5">
                                 <StackPanel Orientation="Horizontal" Width="350" Margin="2">
                                     <TextBlock Text="Nombre:" FontSize="18" Margin="30,0,0,0"/>
-                                    <TextBox x:Name="tbxNombre" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxNombre_LostFocus"/>
+                                    <TextBox x:Name="tbxNombre" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxNombre_LostFocus" Style="{StaticResource txb}"/>
                                     <Image x:Name="imgCheckNombre" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
                                         <Image.ToolTip>
                                             <TextBlock x:Name="tbkImageToolTipNombre"/>
@@ -140,7 +140,7 @@
                             <Viewbox Stretch="Uniform" Margin="10,0,10,5" >
                                 <StackPanel Orientation="Horizontal" Width="350" Margin="2">
                                     <TextBlock Text="Apellido:" FontSize="18" Margin="30,0,0,0"/>
-                                    <TextBox x:Name="tbxApellido"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxApellido_LostFocus"/>
+                                        <TextBox x:Name="tbxApellido"  FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxApellido_LostFocus" Style="{StaticResource txb}"/>
                                     <Image x:Name="imgCheckApellido" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
                                         <Image.ToolTip>
                                             <TextBlock x:Name="tbkImageToolTipApellido"/>
@@ -151,7 +151,7 @@
                             <Viewbox Stretch="Uniform" Margin="10,0,10,5">
                                 <StackPanel Orientation="Horizontal" Width="350" Margin="2">
                                     <TextBlock Text="DNI:" FontSize="18" Margin="65,0,0,0"/>
-                                    <TextBox x:Name="tbxDni" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxDni_LostFocus"/>
+                                        <TextBox x:Name="tbxDni" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxDni_LostFocus" Style="{StaticResource txb}"/>
                                     <Image x:Name="imgCheckDNI" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
                                         <Image.ToolTip>
                                             <TextBlock x:Name="tbkImageToolTipDNI"/>
@@ -161,8 +161,8 @@
                             </Viewbox>
                             <Viewbox Stretch="Uniform" Margin="10,0,10,5">
                                 <StackPanel Orientation="Horizontal" Width="350" Margin="2">
-                                    <TextBlock Text="Telefono:" FontSize="18" Margin="28,0,0,0"/>
-                                    <TextBox x:Name="tbxTelefono" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxTelefono_LostFocus"/>
+                                    <TextBlock Text="Teléfono:" FontSize="18" Margin="28,0,0,0"/>
+                                        <TextBox x:Name="tbxTelefono" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxTelefono_LostFocus" Style="{StaticResource txb}"/>
                                     <Image x:Name="imgCheckTelefono" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
                                         <Image.ToolTip>
                                             <TextBlock x:Name="tbkImageToolTipTelefono"/>
@@ -173,7 +173,7 @@
                             <Viewbox Stretch="Uniform" Margin="10,0,10,5">
                                 <StackPanel Orientation="Horizontal" Width="350" Margin="2">
                                     <TextBlock Text="Email:" FontSize="18" Margin="53,0,0,0"/>
-                                    <TextBox x:Name="tbxEmail" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxEmail_LostFocus"/>
+                                        <TextBox x:Name="tbxEmail" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxEmail_LostFocus" Style="{StaticResource txb}"/>
                                     <Image x:Name="imgCheckEmail" Source="../Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
                                         <Image.ToolTip>
                                             <TextBlock x:Name="tbkImageToolTipEmail"/>
@@ -183,8 +183,8 @@
                             </Viewbox>
                             <Viewbox Stretch="Uniform" Margin="10,0,10,5">
                                 <StackPanel Orientation="Horizontal" Width="350" Margin="2">
-                                    <TextBlock Text="F.Nacimiento:" FontSize="18" Margin="-10,0,0,0"/>
-                                    <TextBox x:Name="tbxFnac" FontSize="18" Margin="21,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxFnac_LostFocus"/>
+                                    <TextBlock Text="Fecha Nac.:" FontSize="18" Margin="8,0,0,0"/>
+                                        <TextBox x:Name="tbxFnac" FontSize="18" Margin="21,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxFnac_LostFocus" Style="{StaticResource txb}"/>
                                     <Image x:Name="imgCheckFnac" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
                                         <Image.ToolTip>
                                             <TextBlock x:Name="tbkImageToolTipFnac"/>
@@ -194,8 +194,8 @@
                             </Viewbox>
                             <Viewbox Stretch="Uniform" Margin="10,0,10,5">
                                 <StackPanel Orientation="Horizontal" Width="350" Margin="2">
-                                    <TextBlock Text="Direccion:" FontSize="18" Margin="19,0,0,0"/>
-                                    <TextBox x:Name="tbxDir" FontSize="18" Margin="21,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxDir_LostFocus"/>
+                                    <TextBlock Text="Dirección:" FontSize="18" Margin="19,0,0,0"/>
+                                        <TextBox x:Name="tbxDir" FontSize="18" Margin="21,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxDir_LostFocus" Style="{StaticResource txb}"/>
                                     <Image x:Name="imgCheckDir" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
                                         <Image.ToolTip>
                                             <TextBlock x:Name="tbkImageToolTipDir"/>
@@ -206,33 +206,32 @@
                             <Viewbox Stretch="Uniform" Margin="10,0,10,5">
                                 <StackPanel Orientation="Horizontal" Width="350" Margin="2">
                                     <TextBlock Text="Usuario:" FontSize="18" Margin="35,0,0,0"/>
-                                    <TextBox x:Name="tbxUsuario" FontSize="18" Margin="19,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxUsuario_LostFocus"/>
+                                        <TextBox x:Name="tbxUsuario" FontSize="18" Margin="19,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" LostFocus="tbxUsuario_LostFocus" Style="{StaticResource txb}"/>
                                     <Image x:Name="imgCheckUsuario" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
                                         <Image.ToolTip>
                                             <TextBlock x:Name="tbkImageToolTipUsuario"/>
                                         </Image.ToolTip>
                                     </Image>
                                 </StackPanel>
-                                </Viewbox>
-                                <Viewbox Stretch="Uniform" Margin="10,0,10,0">
-                                    <StackPanel Orientation="Horizontal" Width="367" Margin="2">
-                                        <TextBlock Text="Rol:" FontSize="18" Margin="74,0,0,0"/>
-                                        <!--<TextBox x:Name="tbxRol" FontSize="18" Margin="19,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>-->
-                                        <ComboBox x:Name="cbxRol" FontSize="18" Margin="21,0,0,0" Width="200" Height="30" Background="LightGray" IsEnabled="False" SelectionChanged="cbxRol_SelectionChanged">
-                                            <ComboBoxItem Content="Administrador"/>
-                                            <ComboBoxItem Content="Camarero"/>
-                                            <ComboBoxItem Content="Otro"/>
-                                        </ComboBox>
-                                    </StackPanel>
-                                </Viewbox>
-                                <Viewbox Stretch="Uniform" Margin="10,0,10,0">
-                                <StackPanel Orientation="Horizontal" Width="367" Margin="2">
-                                    <TextBlock Text="Contraseña:" FontSize="18" Margin="14,0,0,0"/>
-                                    <Button x:Name="btnContrasenya" FontSize="18" Margin="19,0,0,0" Width="200" Height="30" Background="LightGray" IsEnabled="False" Click="btnContrasenya_Click" Content="Permitir Cambio"/>
-                                    </StackPanel>
                             </Viewbox>
-                            
+                            <Viewbox Stretch="Uniform" Margin="10,0,10,0">
+                            <StackPanel Orientation="Horizontal" Width="367" Margin="2">
+                                <TextBlock Text="Contraseña:" FontSize="18" Margin="14,0,0,0"/>
+                                    <Button x:Name="btnContrasenya" FontSize="18" Margin="19,0,0,0" Width="200" Height="30" Background="LightGray" IsEnabled="False" Click="btnContrasenya_Click" Content="Permitir Cambio" Style="{StaticResource btAdministracion}"/>
                             </StackPanel>
+                            </Viewbox>
+                            <Viewbox Stretch="Uniform" Margin="10,0,10,0">
+                                <StackPanel Orientation="Horizontal" Width="367" Margin="2">
+                                    <TextBlock Text="Rol:" FontSize="18" Margin="74,0,0,0"/>
+                                    <!--<TextBox x:Name="tbxRol" FontSize="18" Margin="19,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"/>-->
+                                    <ComboBox x:Name="cbxRol" FontSize="18" Margin="21,0,0,0" Width="200" Height="30" Background="LightGray" IsEnabled="False" SelectionChanged="cbxRol_SelectionChanged" Style="{StaticResource txb}">
+                                        <ComboBoxItem Content="Administrador"/>
+                                        <ComboBoxItem Content="Camarero"/>
+                                        <ComboBoxItem Content="Otro"/>
+                                    </ComboBox>
+                                </StackPanel>
+                            </Viewbox>
+                        </StackPanel>
                         </Viewbox>
                     </ScrollViewer>
 
@@ -243,15 +242,15 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Viewbox>
-                            <Button x:Name="btEliminar" Content="Eliminar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btEliminar_Click"/>
+                            <Button x:Name="btEliminar" Content="Eliminar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btEliminar_Click" Style="{StaticResource btAdministracionNegativo}"/>
                         </Viewbox>
 
                         <Viewbox Grid.Column="1">
-                            <Button x:Name="btEditar" Content="Editar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btEditar_Click"/>
+                            <Button x:Name="btEditar" Content="Editar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btEditar_Click" Style="{StaticResource btAdministracion}"/>
                         </Viewbox>
 
                         <Viewbox Grid.Column="2">
-                            <Button Content=" Ver Nominas" FontSize="16" Width="100" Height="30" Margin="10,15,10,0"/>
+                            <Button Content=" Ver Nominas" FontSize="16" Width="100" Height="30" Margin="10,15,10,0" Style="{StaticResource btAdministracion}"/>
                         </Viewbox>
                     </Grid>
 
@@ -262,11 +261,11 @@
 
                         </Grid.ColumnDefinitions>
                         <Viewbox>
-                            <Button x:Name="btCancelarAgregar" Content="Cancelar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btCancelarAgregar_Click"/>
+                            <Button x:Name="btCancelarAgregar" Content="Cancelar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btCancelarAgregar_Click" Style="{StaticResource btAdministracionNegativo}"/>
                         </Viewbox>
 
                         <Viewbox Grid.Column="1">
-                            <Button x:Name="btAgregar" Content="Agregar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btAgregar_Click"/>
+                            <Button x:Name="btAgregar" Content="Agregar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btAgregar_Click" Style="{StaticResource btAdministracionPositivo}"/>
                         </Viewbox>
                     </Grid>
 
@@ -277,11 +276,11 @@
 
                         </Grid.ColumnDefinitions>
                         <Viewbox>
-                            <Button x:Name="btDescartarEdicion" Content="Descartar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btDescartarEdicion_Click"/>
+                            <Button x:Name="btDescartarEdicion" Content="Descartar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btDescartarEdicion_Click" Style="{StaticResource btAdministracionNegativo}"/>
                         </Viewbox>
 
                         <Viewbox Grid.Column="1">
-                            <Button x:Name="btGuardarEdicion" Content="Guardar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btGuardarEdicion_Click"/>
+                            <Button x:Name="btGuardarEdicion" Content="Guardar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btGuardarEdicion_Click" Style="{StaticResource btAdministracionPositivo}"/>
                         </Viewbox>
                     </Grid>
                 </Grid>

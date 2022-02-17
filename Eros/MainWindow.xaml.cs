@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Eros.Clases;
 
 
 namespace Eros
@@ -36,6 +37,8 @@ namespace Eros
             dispatcherTimer.Tick += new EventHandler(img_transition);
             dispatcherTimer.Interval = new TimeSpan(0, 0, 8);
             dispatcherTimer.Start();
+            GlobalVariables.left = -999;
+            GlobalVariables.max = false;
         }
         /*
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -182,7 +185,7 @@ namespace Eros
                     }
                 }
 
-                if (_currentUser.rol.Equals("admin"))
+                if (_currentUser.rol.Equals("Administrador"))
                 {
                     Rol rol = new Rol();
                     rol.ShowDialog();
@@ -218,6 +221,7 @@ namespace Eros
                 if (i.usuario.Equals(user.Text) && (i.password.Equals(password.Password) || i.password.Equals(tb_pass.Text)))
                 {
                     _currentUser = i;
+                    GlobalVariables.username = _currentUser.usuario;
                     return true;
                 }
             }
@@ -242,10 +246,6 @@ namespace Eros
             {
                 this.DragMove();
             }
-        }
-        private void fillComboBox(ComboBox cb, List<String> ListCb)
-        {
-
         }
     }
 }

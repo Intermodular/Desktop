@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Eros.Clases;
 
 namespace Eros.Administrador
 {
@@ -34,10 +35,23 @@ namespace Eros.Administrador
         public WindowZones()
         {
             InitializeComponent();
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             InitializeTextBoxList();
             currentState = state.Viendo;
             UpdateInfoFromDataBase();
             listFiltrada = new List<Zonas>();
+            usuName.Text = GlobalVariables.username;
+            if (GlobalVariables.max)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else if (GlobalVariables.left != -999)
+            {
+                Left = GlobalVariables.left;
+                Top = GlobalVariables.top;
+                Height = GlobalVariables.height;
+                Width = GlobalVariables.width;
+            }
         }
 
         //Eventos
@@ -258,7 +272,7 @@ namespace Eros.Administrador
         {
             tbxNombre.Text = zo.nombre;
             //tbxAbreviacion.Text = zo.abreviación;
-            tbxNºMesas.Text = zo.nºMesas.ToString();
+            tbxNºMesas.Text = zo.numMesas.ToString();
            
         }
 
@@ -273,7 +287,6 @@ namespace Eros.Administrador
             foreach (TextBox t in enabledInfoTbxsList)
             {
                 t.IsReadOnly = !enable;
-                t.Background = enable ? Brushes.White : Brushes.LightGray;
             }
             
         }
@@ -293,7 +306,7 @@ namespace Eros.Administrador
 
             zo.nombre = tbxNombre.Text.Trim();
             //zo.abreviación = tbxAbreviacion.Text.Trim();
-            zo.nºMesas = int.Parse(tbxNºMesas.Text);
+            zo.numMesas = int.Parse(tbxNºMesas.Text);
             
 
             return zo;
@@ -372,12 +385,12 @@ namespace Eros.Administrador
 
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
-
+            WindowState = (WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Application.Current.Shutdown();
         }
 
         private void Btn_Mesas_Click(object sender, RoutedEventArgs e)
@@ -385,6 +398,15 @@ namespace Eros.Administrador
             WindowMesas wm = new WindowMesas();
             wm.Show();
             this.Close();
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            GlobalVariables.top = Top;
+            GlobalVariables.left = Top;
+            GlobalVariables.width = Width;
+            GlobalVariables.height = Height;
+            GlobalVariables.max = WindowState == WindowState.Maximized;
         }
     }
 }
