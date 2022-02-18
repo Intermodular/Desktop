@@ -69,7 +69,14 @@ namespace Eros.Administrador
         {
             if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar a esta mesa?", "Borrar Mesa"))
             {
-                ControladorMesas.DeleteFromApi(selectedMesa._id);
+                try
+                {
+                    ControladorMesas.DeleteFromApi(selectedMesa._id);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                }
                 UpdateInfoFromDataBase();
             }
         }
@@ -131,13 +138,21 @@ namespace Eros.Administrador
         private void btAgregar_Click(object sender, RoutedEventArgs e)
         {
             string errorMessage;
+            string respuesta = "";
             if ((errorMessage = GetValidationErrorString()) != "")
             {
                 MessageBox.Show(errorMessage);
                 return;
             }
             Mesas newMesa = GetTableFromTextBoxes();
-            string respuesta = ControladorMesas.PostToApi(newMesa);
+            try
+            {
+                respuesta = ControladorMesas.PostToApi(newMesa);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Posible error de conexión: \n" + ex);
+            }
             if (respuesta == "Error Mesa Ya Existe")
             {
                 MessageBox.Show("Esta mesa ya existe, pruebe con otra.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -160,7 +175,15 @@ namespace Eros.Administrador
             {
                 Mesas mesaActualizada = GetTableFromTextBoxes();
                 mesaActualizada._id = selectedMesa._id;
-                string respuesta = ControladorMesas.UpdateInApi(mesaActualizada);
+                string respuesta = "";
+                try
+                {
+                    respuesta = ControladorMesas.UpdateInApi(mesaActualizada);
+                } 
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                }
                 if (respuesta == "Error Mesa Ya Existe")
                 {
                     MessageBox.Show("Esta mesa ya existe pruebe con otra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -215,7 +238,14 @@ namespace Eros.Administrador
 
         private void UpdateInfoFromDataBase()
         {
-            listMesas = ControladorMesas.GetAllFromApi();
+            try
+            {
+                listMesas = ControladorMesas.GetAllFromApi();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Posible error de conexión: \n" + ex);
+            }
             PutListInDataGrid(listMesas);
             tbxSearchBar.Text = "";
 
@@ -223,17 +253,24 @@ namespace Eros.Administrador
 
         private void SetupComboBoxes()
         {
-            foreach (Zonas z in ControladorZonas.GetAllFromApi())
+            try
             {
-                cbxZona.Items.Add(z.nombre);
-            }
-
-            foreach (Mesas m in ControladorMesas.GetAllFromApi())
-            {
-                if (!cbxEstado.Items.Contains(m.estado))
+                foreach (Zonas z in ControladorZonas.GetAllFromApi())
                 {
-                    cbxEstado.Items.Add(m.estado);
+                    cbxZona.Items.Add(z.nombre);
                 }
+
+                foreach (Mesas m in ControladorMesas.GetAllFromApi())
+                {
+                    if (!cbxEstado.Items.Contains(m.estado))
+                    {
+                        cbxEstado.Items.Add(m.estado);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Posible error de conexión: \n" + ex);
             }
         }
 

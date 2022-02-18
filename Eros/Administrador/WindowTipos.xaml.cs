@@ -68,7 +68,14 @@ namespace Eros.Administrador
         {
             if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar este tipo?", "Borrar Tipo"))
             {
-                ControladorTipos.DeleteFromApi(idOfLastSelectedTipo);
+                try
+                {
+                    ControladorTipos.DeleteFromApi(idOfLastSelectedTipo);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                }                
                 UpdateInfoFromDataBase();
             }
         }
@@ -136,8 +143,16 @@ namespace Eros.Administrador
                 MessageBox.Show(errorMessage);
                 return;
             }
+            string respuesta = "";
             Tipos newTipo = GetTipoFromTextBoxes();
-            string respuesta = ControladorTipos.PostToApi(newTipo);
+            try
+            {
+                respuesta = ControladorTipos.PostToApi(newTipo);
+            } 
+            catch (Exception ex)
+            {
+                MessageBox.Show("Posible error de conexión: \n" + ex);
+            }
             if (respuesta == "Error Tipo Ya Existe")
             {
                 MessageBox.Show("Este tipo ya existe pruebe con otro.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -159,7 +174,15 @@ namespace Eros.Administrador
                 int idTipo = idOfLastSelectedTipo;
                 Tipos updateTipo = GetTipoFromTextBoxes();
                 updateTipo._id = idTipo;
-                string respuesta = ControladorTipos.UpdateInApi(updateTipo);
+                string respuesta = "";
+                try
+                {
+                    respuesta = ControladorTipos.UpdateInApi(updateTipo);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                }
                 MessageBox.Show(respuesta);
 
                 if (respuesta == "Error Tipo Ya Existe")
@@ -198,8 +221,14 @@ namespace Eros.Administrador
         }
         private void UpdateInfoFromDataBase()
         {
-            listTipos = ControladorTipos.GetAllFromApi();
-            //
+            try
+            {
+                listTipos = ControladorTipos.GetAllFromApi();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Posible error de conexión: \n" + ex);
+            }            
             PutListInDataGrid(listTipos);
             tbxSearchBar.Text = "";
             dtgTipos.SelectedItem = listTipos[0];
@@ -485,8 +514,15 @@ namespace Eros.Administrador
 
         public void btnAddExtras_Click(object sender, RoutedEventArgs e)
         {
-
-            List<Tipos> tipos = ControladorTipos.GetAllFromApi();
+            List<Tipos> tipos = new List<Tipos>();
+            try
+            {
+                tipos = ControladorTipos.GetAllFromApi();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Posible error de conexión: \n" + ex);
+            }
             List<Extras> extras = new List<Extras>();
             foreach (Tipos t in tipos)
             {

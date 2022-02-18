@@ -52,9 +52,9 @@ namespace Eros.Controladores
             return respuesta;
         }
 
-        public static string DeleteFromApi(int id_pedido)
+        public static string DeleteFromApi(Pedidos pedido)
         {
-            string respuesta = ControladorApi.DeleteHttp("http://localhost:8080/api/pedido/id/" + id_pedido);
+            string respuesta = ControladorApi.DeleteHttp("http://localhost:8080/api/pedido/id/" + pedido._id + "/idMesa/" + pedido.idMesa);
             return respuesta;
         }
     }

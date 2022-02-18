@@ -68,7 +68,14 @@ namespace Eros.Administrador
         {
             if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar esta zona?", "Borrar Zona"))
             {
-                ControladorZonas.DeleteFromApi(idOfLastSelectedZone);
+                try
+                {
+                    ControladorZonas.DeleteFromApi(idOfLastSelectedZone);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                }
                 UpdateInfoFromDataBase();
             }
         }
@@ -138,7 +145,15 @@ namespace Eros.Administrador
                 return;
             }
             Zonas newZone = GetZonaFromTextBoxes();
-            string respuesta = ControladorZonas.PostToApi(newZone);
+            string respuesta = "";
+            try
+            {            
+                respuesta = ControladorZonas.PostToApi(newZone);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Posible error de conexión: \n" + ex);
+            }
             if (respuesta == "Error zona Ya Existe")
             {
                 MessageBox.Show("Esta zona existe pruebe con otra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -161,7 +176,15 @@ namespace Eros.Administrador
                 int idZone = idOfLastSelectedZone;
                 Zonas zonaActualizada = GetZonaFromTextBoxes();
                 zonaActualizada._id = idZone;
-                string respuesta = ControladorZonas.UpdateInApi(zonaActualizada);
+                string respuesta = "";
+                try
+                {
+                    respuesta = ControladorZonas.UpdateInApi(zonaActualizada);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                }
                 if (respuesta == "Error zona Ya Existe")
                 {
                     MessageBox.Show("Esta zona ya existe pruebe con otra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -200,7 +223,14 @@ namespace Eros.Administrador
         }
         private void UpdateInfoFromDataBase()
         {
-            listZonas = ControladorZonas.GetAllFromApi();
+            try
+            {
+                listZonas = ControladorZonas.GetAllFromApi();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Posible error de conexión: \n" + ex);
+            }
             PutListInDataGrid(listZonas);
             tbxSearchBar.Text = "";
             dtgZonas.SelectedItem = listZonas[0];

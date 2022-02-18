@@ -30,6 +30,7 @@
     <None Remove="hamburguesa.jpg" />
     <None Remove="hamburguesa2 - Copia.jpeg" />
     <None Remove="hamburguesa2.jpg" />
+    <None Remove="Img\adminBG.jpg" />
     <None Remove="Img\carga\hamburguesa.jpeg" />
     <None Remove="Img\carga\hamburguesa2.jpeg" />
     <None Remove="Img\carga\hamburguesa3.jpeg" />
@@ -104,6 +105,9 @@
     <Content Include="Img\icons\check.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Img\icons\cuadrado.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Img\icons\edit.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -141,6 +145,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Img\adminBG.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Img\carga\hamburguesa.jpeg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros.Administrador"
         mc:Ignorable="d"
-        Title="WindowTipos" Height="450" MinHeight="450" Width="800" MinWidth="700" WindowStyle="None" MouseDown="Window_MouseDown" SizeChanged="Window_SizeChanged">
+        Title="WindowTipos" Height="450" MinHeight="450" Width="800" MinWidth="700" WindowStyle="None" MouseDown="Window_MouseDown" SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -18,6 +18,8 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+
+            <Border BorderThickness="0 0 0 1" BorderBrush="Black" Grid.ColumnSpan="3"/>
 
             <Button Name="Back" HorizontalAlignment="Left" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,30,0" Click="Back_Click">
                 <StackPanel>
@@ -60,7 +62,10 @@
             </Button>
         </Grid>
 
-        <Grid Margin="5" Grid.Row="1">
+        <Grid Grid.Row="1">
+            <Grid.Background>
+                <ImageBrush ImageSource="../Img/adminBG.jpg" Stretch="UniformToFill"/>
+            </Grid.Background>
             <Grid.RowDefinitions>
                 <RowDefinition Height="32*"/>
                 <RowDefinition Height="318*"/>
@@ -79,7 +84,7 @@
                     <TextBlock Text="Tipos" FontSize="20" />
                 </Viewbox>
 
-                <Border Grid.Column="1" Height="26" Margin="0,0,0,5" VerticalAlignment="Bottom" BorderBrush="Black" BorderThickness="1" Padding="1">
+                <Border Grid.Column="1" Height="26" Margin="0,0,0,3" VerticalAlignment="Bottom" BorderBrush="Black" BorderThickness="1" Padding="1">
                     <DockPanel>
                         <Image Source="../Img/icons/lupa.png" DockPanel.Dock="Right"/>
                         <TextBox x:Name="tbxSearchBar" VerticalContentAlignment="Center" FontSize="15" BorderBrush="Transparent" TextChanged="tbxSearchBar_TextChanged"/>
@@ -105,7 +110,7 @@
 
             </Grid>
 
-            <Border Grid.RowSpan="1" Grid.Column="1" Grid.Row="1" Margin="20,0,10,0" BorderBrush="Black" BorderThickness="2" MaxWidth="600" MaxHeight="600" Padding="10">
+            <Border Grid.RowSpan="1" Grid.Column="1" Grid.Row="1" Margin="20,0,10,0" BorderBrush="Black" BorderThickness="1" Padding="10" Background="White">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="5*"/>

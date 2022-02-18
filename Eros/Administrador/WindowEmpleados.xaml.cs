@@ -72,7 +72,15 @@ namespace Eros
         {
             if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar a este empleado?", "Borrar Empleado"))
             {
-                ControladorEmpleados.DeleteFromApi(selectedEmpleado._id);
+                try
+                {
+                    ControladorEmpleados.DeleteFromApi(selectedEmpleado._id);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                }
+                
                 UpdateInfoFromDataBase();
             }
         }
@@ -138,13 +146,21 @@ namespace Eros
         private void btAgregar_Click(object sender, RoutedEventArgs e)
         {
             string errorMessage;
+            string respuesta = "";
             if ((errorMessage = GetValidationErrorString()) != "")
             {
                 MessageBox.Show(errorMessage);
                 return;
             }
             Empleado newEm = GetEmpleadoFromTextBoxes();
-            string respuesta = ControladorEmpleados.PostToApi(newEm);
+            try
+            {
+                respuesta = ControladorEmpleados.PostToApi(newEm);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Posible error de conexión: \n" + ex);
+            }
             if (respuesta == "Error Usuario Ya Existe")
             {
                 MessageBox.Show("Esta cuenta de usuario ya existe pruebe con otra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -168,7 +184,15 @@ namespace Eros
                 Empleado empleadoActualizado = GetEmpleadoFromTextBoxes();
                 empleadoActualizado._id = selectedEmpleado._id;
                 empleadoActualizado.password = selectedEmpleado.password;
-                string respuesta = ControladorEmpleados.UpdateInApi(empleadoActualizado);
+                string respuesta = "";
+                try
+                {
+                    respuesta = ControladorEmpleados.UpdateInApi(empleadoActualizado);
+                } 
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                }
                 if (respuesta == "Error Usuario Ya Existe")
                 {
                     MessageBox.Show("Esta cuenta de usuario ya existe pruebe con otra", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -232,7 +256,14 @@ namespace Eros
 
         private void UpdateInfoFromDataBase()
         {
-            listEmpleados = ControladorEmpleados.GetAllFromApi();
+            try
+            {
+                listEmpleados = ControladorEmpleados.GetAllFromApi();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Posible error de conexión: \n" + ex);
+            }
             PutListInDataGrid(listEmpleados);
             tbxSearchBar.Text = "";
             dtgEmpleados.SelectedItem = listEmpleados[0];
@@ -564,8 +595,6 @@ namespace Eros
                 return;
             }
 
-
-
             if (errorString == "")
             {
                 imgCheckTelefono.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
@@ -698,15 +727,29 @@ namespace Eros
             }
             else
             {
-                Task<bool> task;
+                Task<bool> task = null;
                 string userText = tbxUsuario.Text;
                 if (currentState == state.Editando)
                 {
-                    task = Task.Run(() => ControladorEmpleados.DoesEmpleadoExistAsync(userText, selectedEmpleado._id));
+                    try
+                    {
+                        task = Task.Run(() => ControladorEmpleados.DoesEmpleadoExistAsync(userText, selectedEmpleado._id));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Posible error de conexión: \n" + ex);
+                    }
                 }
                 else
                 {
-                    task = Task.Run(() => ControladorEmpleados.DoesEmpleadoExistAsync(userText));
+                    try
+                    {
+                        task = Task.Run(() => ControladorEmpleados.DoesEmpleadoExistAsync(userText));
+                    } 
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Posible error de conexión: \n" + ex);
+                    }
                 }
 
                 task.ContinueWith(t =>
@@ -749,7 +792,15 @@ namespace Eros
             }
             emp.newUser = true;
             MessageBox.Show("Cambio de contraseña permitido.");
-            ControladorEmpleados.UpdateInApi(emp);
+            try
+            {
+                ControladorEmpleados.UpdateInApi(emp);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Posible error de conexión: \n" + ex);
+            }
+            
         }
 
         private void Minimize_Click(object sender, RoutedEventArgs e)

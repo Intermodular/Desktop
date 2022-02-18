@@ -25,10 +25,10 @@ namespace Eros.Administrador
         public WindowMainAdministration()
         {
             InitializeComponent();
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             WindowChrome wc = new WindowChrome();
             wc.CaptionHeight = 0.1;
             WindowChrome.SetWindowChrome(this, wc);
-            WindowState = WindowState.Maximized;
             if (GlobalVariables.max)
             {
                 WindowState = WindowState.Maximized;

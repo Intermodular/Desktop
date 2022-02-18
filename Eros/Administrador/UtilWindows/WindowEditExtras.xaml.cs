@@ -108,6 +108,7 @@ namespace Eros.Administrador.UtilWindows
                     spEditExtra.Visibility = Visibility.Hidden;
                     btnEditar.Visibility = Visibility.Hidden;
                     btnEliminar.Visibility = Visibility.Hidden;
+                    ChangeGridToNormal();
                     break;
                 case state.Agregando:
                     lvExtras.Visibility = Visibility.Hidden;
@@ -116,6 +117,7 @@ namespace Eros.Administrador.UtilWindows
                     spEditExtra.Visibility = Visibility.Hidden;
                     btnEditar.Visibility = Visibility.Hidden;
                     btnEliminar.Visibility = Visibility.Hidden;
+                    ChangeGridToEdit();
                     break; 
                 case state.Editando:
                     spEditExtra.Visibility = Visibility.Visible;
@@ -124,10 +126,21 @@ namespace Eros.Administrador.UtilWindows
                     spDefaultButtons.Visibility = Visibility.Hidden;
                     btnEditar.Visibility = Visibility.Hidden;
                     btnEliminar.Visibility = Visibility.Hidden;
+                    ChangeGridToEdit();
                     break;
                 default:
                     break;
             }
+        }
+
+        private void ChangeGridToEdit()
+        {
+            GridCentral.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+        }
+
+        private void ChangeGridToNormal()
+        {
+            GridCentral.ColumnDefinitions[1].Width = new GridLength(0, GridUnitType.Star);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -154,6 +167,7 @@ namespace Eros.Administrador.UtilWindows
         {
             btnEditar.Visibility = Visibility.Visible;
             btnEliminar.Visibility = Visibility.Visible;
+            ChangeGridToEdit();
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)

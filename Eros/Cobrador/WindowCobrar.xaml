@@ -5,62 +5,64 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros.Cobrador"
         mc:Ignorable="d"
-        Title="WindowCobrar" Height="450" Width="800">
+        Title="WindowCobrar" Height="450" Width="800" WindowStyle="None">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="2.50*"/>
-            <RowDefinition Height="70"/>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="70"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/>
-            <ColumnDefinition Width="3*"/>
-        </Grid.ColumnDefinitions>
-
-        <Grid Grid.RowSpan="3">
+        <Grid>
             <Grid.RowDefinitions>
+                <RowDefinition Height="2.50*"/>
+                <RowDefinition Height="70"/>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="7*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
+                <RowDefinition Height="70"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Vista previa del pedido:" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="15" Margin="0,15,0,0"/>
+            <Grid Grid.RowSpan="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="7*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                </Grid.RowDefinitions>
 
-            <DataGrid Grid.Row="1" Margin="15,0,15,0">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Cantidad"/>
-                    <DataGridTextColumn Header="Descripción"/>
-                    <DataGridTextColumn Header="Precio por Unidad"/>
-                    <DataGridTextColumn Header="Precio Total"/>
-                </DataGrid.Columns>
-            </DataGrid>
+                <TextBlock Text="Vista previa del pedido:" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="15" Margin="0,15,0,0"/>
 
-            <TextBlock Text="XX,XX + IVA (X,XX)" FontWeight="Bold" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,15,5"/>
+                <DataGrid Grid.Row="1" Margin="15,0,15,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Cantidad"/>
+                        <DataGridTextColumn Header="Descripción"/>
+                        <DataGridTextColumn Header="Precio por Unidad"/>
+                        <DataGridTextColumn Header="Precio Total"/>
+                    </DataGrid.Columns>
+                </DataGrid>
 
-            <TextBlock Text="Total: X" FontWeight="Bold" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,15,0"/>
+                <TextBlock Text="XX,XX + IVA (X,XX)" FontWeight="Bold" Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,15,5"/>
+
+                <TextBlock Text="Total: X" FontWeight="Bold" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,5,15,0"/>
+            </Grid>
+
+            <WrapPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">
+                <Button Name="CobrarTarjeta" Content="Cobrar Tarjeta" Padding="5" Height="40" Margin="0,0,10,0" Click="CobrarTarjeta_Click"/>
+                <Button Name="CobrarEfectivo" Content="Cobrar Efectivo" Padding="5" Height="40" Margin="0,0,15,0" Click="CobrarEfectivo_Click"/>
+            </WrapPanel>
+
+            <Border Grid.Column="1" Grid.Row="2" Background="LightGray" Margin="0,0,15,0">
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <TextBlock Text="Pago: X" Margin="20,0,0,20"/>
+                    <TextBlock Text="Retorno: X" Margin="20,0,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <WrapPanel Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                <Button Name="Atras" Content="Atrás" Padding="5" Height="40" Margin="15,0,0,15" Click="Atras_Click"/>
+                <Button Name="DividirCuenta"  Content="Dividir Cuenta" Padding="5" Height="40" Margin="10,0,0,15" Click="DividirCuenta_Click"/>
+            </WrapPanel>
+
+            <WrapPanel Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                <Button Name="ImprimirCopia" Content="Imprimir Copia" Padding="5" Height="40" Margin="0,0,15,15" Click="ImprimirCopia_Click"/>
+            </WrapPanel>
         </Grid>
-
-        <WrapPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right">
-            <Button Name="CobrarTarjeta" Content="Cobrar Tarjeta" Padding="5" Height="40" Margin="0,0,10,0" Click="CobrarTarjeta_Click"/>
-            <Button Name="CobrarEfectivo" Content="Cobrar Efectivo" Padding="5" Height="40" Margin="0,0,15,0" Click="CobrarEfectivo_Click"/>
-        </WrapPanel>
-
-        <Border Grid.Column="1" Grid.Row="2" Background="LightGray" Margin="0,0,15,0">
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left">
-                <TextBlock Text="Pago: X" Margin="20,0,0,20"/>
-                <TextBlock Text="Retorno: X" Margin="20,0,0,0"/>
-            </StackPanel>
-        </Border>
-
-        <WrapPanel Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Left">
-            <Button Name="Atras" Content="Atrás" Padding="5" Height="40" Margin="15,0,0,15" Click="Atras_Click"/>
-            <Button Name="DividirCuenta"  Content="Dividir Cuenta" Padding="5" Height="40" Margin="10,0,0,15" Click="DividirCuenta_Click"/>
-        </WrapPanel>
-
-        <WrapPanel Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-            <Button Name="ImprimirCopia" Content="Imprimir Copia" Padding="5" Height="40" Margin="0,0,15,15" Click="ImprimirCopia_Click"/>
-        </WrapPanel>
     </Grid>
 </Window>

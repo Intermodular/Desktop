@@ -467,7 +467,7 @@ namespace Eros.Cobrador
                 return true;
             }
             else
-            {
+            {                
                 int comensales = Convert.ToInt32(tbComensales.Text.Trim());
                 if (panelMesa.mesa.numSillas >= comensales)
                 {

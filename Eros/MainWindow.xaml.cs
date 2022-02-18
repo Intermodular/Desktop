@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Eros.Clases;
+using Eros.Cobrador;
 
 
 namespace Eros
@@ -198,7 +199,7 @@ namespace Eros
                     else if (rol._Mensaje.Equals("cobrador"))
                     {
                         this.Hide();
-                        WindowMesas wm = new WindowMesas();
+                        WindowGestionMesas wm = new WindowGestionMesas();
                         wm.ShowDialog();
 
                     }

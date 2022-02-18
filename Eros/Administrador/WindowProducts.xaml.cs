@@ -69,7 +69,14 @@ namespace Eros
         {
             if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar este producto?", "Borrar Producto"))
             {
-                ControladorProductos.DeleteFromApi(idOfLastSelectedProduct);
+                try
+                {
+                    ControladorProductos.DeleteFromApi(idOfLastSelectedProduct);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                }
                 UpdateInfoFromDataBase();
             }
         }
@@ -138,7 +145,14 @@ namespace Eros
                 return;
             }
             Productos newProduct = GetProductFromTextBoxes();
-            string respuesta = ControladorProductos.PostToApi(newProduct);
+            try
+            {
+                string respuesta = ControladorProductos.PostToApi(newProduct);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Posible error de conexión: \n" + ex);
+            }
             ChangeToState(state.Viendo);
             UpdateInfoFromDataBase();
         }
@@ -155,7 +169,15 @@ namespace Eros
                 int idProduct = idOfLastSelectedProduct;
                 Productos updateProduct= GetProductFromTextBoxes();
                 updateProduct._id = idProduct;
-                string respuesta = ControladorProductos.UpdateInApi(updateProduct);
+                string respuesta = "";
+                try
+                {
+                    respuesta = ControladorProductos.UpdateInApi(updateProduct);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                }
                 MessageBox.Show(respuesta);
 
                 if (respuesta == "Error Producto Ya Existe")
@@ -199,8 +221,15 @@ namespace Eros
         }
         private void UpdateInfoFromDataBase()
         {
-            listProductos = ControladorProductos.GetAllFromApi();
-            listTipos = ControladorTipos.GetAllFromApi();
+            try
+            {
+                listProductos = ControladorProductos.GetAllFromApi();
+                listTipos = ControladorTipos.GetAllFromApi();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Posible error de conexión: \n" + ex);
+            }
             cbTipo.Items.Clear();
             foreach (Tipos t in listTipos)
             {
