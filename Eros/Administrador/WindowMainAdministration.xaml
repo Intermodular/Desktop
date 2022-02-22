@@ -21,7 +21,7 @@
             </Button.ToolTip>
             <Image Source="/Img/icons/logout.png"></Image>
         </Button>
-        <Button x:Name="btn_cobrador" Width="30" Height="30" VerticalAlignment="Top" Margin="0,60,70,0" BorderThickness="0" Background="Transparent">
+        <Button x:Name="btn_cobrador" Width="30" Height="30" VerticalAlignment="Top" Margin="0,60,70,0" BorderThickness="0" Background="Transparent" Click="btn_cobrador_Click">
             <Button.ToolTip>
                 <TextBlock Text="Cambiar a cobrador"></TextBlock>
             </Button.ToolTip>

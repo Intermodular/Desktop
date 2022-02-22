@@ -24,6 +24,8 @@ namespace Eros
     /// </summary>
     public partial class WindowEmpleados : Window
     {
+        BitmapImage checkIconSource = new BitmapImage(new Uri(@"../Img/icons/check.png", UriKind.Relative));
+        BitmapImage wrongIconSource = new BitmapImage(new Uri(@"../Img/icons/wrong.png", UriKind.Relative));
         List<Empleado> listEmpleados;
         List<Empleado> listFiltrada;
         Empleado selectedEmpleado;
@@ -78,7 +80,10 @@ namespace Eros
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                    MainWindow mw = new MainWindow();
+                    mw.Show();
+                    this.Close();
                 }
                 
                 UpdateInfoFromDataBase();
@@ -144,12 +149,20 @@ namespace Eros
         }
 
         private void btAgregar_Click(object sender, RoutedEventArgs e)
-        {
-            string errorMessage;
+        {           
             string respuesta = "";
-            if ((errorMessage = GetValidationErrorString()) != "")
+
+            bool val1 = ValidateName();
+            bool val2 = ValidateSurname();
+            bool val3 = ValidateDni();
+            bool val4 = ValidateEmail();
+            bool val5 = ValidateTelefono();
+            bool val6 = ValidateUser();
+            bool val7 = ValidateDir();
+            bool val8 = ValidateFnac();
+            if (!(val1 && val2 && val3 && val4 && val5 && val6 && val7 && val8))
             {
-                MessageBox.Show(errorMessage);
+                MessageBox.Show("Errores encontrados...");
                 return;
             }
             Empleado newEm = GetEmpleadoFromTextBoxes();
@@ -159,7 +172,10 @@ namespace Eros
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Posible error de conexión: \n" + ex);
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
             }
             if (respuesta == "Error Usuario Ya Existe")
             {
@@ -172,10 +188,17 @@ namespace Eros
 
         private void btGuardarEdicion_Click(object sender, RoutedEventArgs e)
         {
-            string errorMessage;
-            if ((errorMessage = GetValidationErrorString()) != "")
+            bool val1 = ValidateName();
+            bool val2 = ValidateSurname();
+            bool val3 = ValidateDni();
+            bool val4 = ValidateEmail();
+            bool val5 = ValidateTelefono();
+            bool val6 = ValidateUser();
+            bool val7 = ValidateDir();
+            bool val8 = ValidateFnac();
+            if (!(val1 && val2 && val3 && val4 && val5 && val6 && val7 && val8))
             {
-                MessageBox.Show(errorMessage);
+                MessageBox.Show("Errores encontrados...");
                 return;
             }
 
@@ -191,7 +214,10 @@ namespace Eros
                 } 
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                    MainWindow mw = new MainWindow();
+                    mw.Show();
+                    this.Close();
                 }
                 if (respuesta == "Error Usuario Ya Existe")
                 {
@@ -262,7 +288,10 @@ namespace Eros
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Posible error de conexión: \n" + ex);
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
             }
             PutListInDataGrid(listEmpleados);
             tbxSearchBar.Text = "";
@@ -296,6 +325,8 @@ namespace Eros
                     //Codigo desaparecer botones descartar cambios y guardar
                     gridEditando.Visibility = Visibility.Hidden;
                     EnableSearchTextBox(true);
+                    btnContrasenya.IsEnabled = false;
+                    btnContrasenya.Background = Brushes.LightGray;
                     break;
             }
 
@@ -318,6 +349,7 @@ namespace Eros
                     EnableTextBoxes(true);
                     EmptyTextBoxes();
                     tbxNombre.Focus();
+                    cbxRol.SelectedItem = cbxRol.Items[2];
                     break;
 
                 case state.Editando:
@@ -327,6 +359,8 @@ namespace Eros
                     EnableTextBoxes(true);
                     tbxNombre.Focus();
                     EnableButton(btGuardarEdicion, false);
+                    btnContrasenya.IsEnabled = true;
+                    btnContrasenya.Background = Brushes.White;
                     break;
             }
 
@@ -340,6 +374,7 @@ namespace Eros
             tbxDni.Text = emp.dni;
             tbxTelefono.Text = emp.telefono;
             tbxFnac.Text = emp.fnac;
+            tbxDir.Text = emp.direccion;
             tbxUsuario.Text = emp.usuario;
             tbxEmail.Text = emp.email;
             foreach (ComboBoxItem i in cbxRol.Items)
@@ -365,9 +400,7 @@ namespace Eros
             {
                 t.IsReadOnly = !enable;
                 t.Background = enable ? Brushes.White : Brushes.LightGray;
-            }
-            btnContrasenya.IsEnabled = enable;
-            btnContrasenya.Background = enable ? Brushes.White : Brushes.LightGray;
+            }            
             cbxRol.IsEnabled = enable;
             cbxRol.Background = enable ? Brushes.White : Brushes.LightGray;
         }
@@ -390,6 +423,7 @@ namespace Eros
             emp.dni = tbxDni.Text;
             emp.telefono = tbxTelefono.Text;
             emp.email = tbxEmail.Text;
+            emp.direccion = tbxDir.Text;
             emp.fnac = tbxFnac.Text;
             emp.usuario = tbxUsuario.Text;
             emp.rol = cbxRol.Text;
@@ -407,323 +441,222 @@ namespace Eros
             return false;
         }
 
-        private string GetValidationErrorString()
-        {
-            string errorString = "";
-
-            if (tbxNombre.Text == "")
-            {
-                errorString += "-El campo Nombre no puede estar vacío." + Environment.NewLine;
-
-            }
-            else if (!Regex.IsMatch(tbxNombre.Text, @"^([a-zA-Z ]+)$"))
-            {
-                errorString += "-El campo Nombre solo permite caracteres alfabéticos." + Environment.NewLine;
-            }
-
-            if (tbxApellido.Text == "")
-            {
-                errorString += "-El campo Apellido no puede estar vacío." + Environment.NewLine;
-
-            }
-            else if (!Regex.IsMatch(tbxApellido.Text, @"^([a-zA-Z ]+)$"))
-            {
-                errorString += "-El campo Apellido solo permite caracteres alfabéticos." + Environment.NewLine;
-            }
-
-            if (tbxDni.Text == "")
-            {
-                errorString += "-El campo DNI no puede estar vacío." + Environment.NewLine;
-
-            }
-            else if (!Regex.IsMatch(tbxDni.Text, @"^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$"))
-            {
-                errorString += "-El formato del DNI no es válido. Debe estar formado por 8 dígitos, seguido por un carácter alfabético." + Environment.NewLine;
-            }
-
-            if (tbxTelefono.Text != "")
-            {
-                if (!Regex.IsMatch(tbxTelefono.Text, @"^(\+[0-9]{2} ?)?[0-9]{9}$"))
-                {
-                    errorString += "-El formato del Telefono no es válido. Debe estar formado por 9 dígitos (prefijo opcional)." + Environment.NewLine;
-                }
-            }
-
-            if (tbxEmail.Text != "")
-            {
-                if (!Regex.IsMatch(tbxEmail.Text, @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"))
-                {
-                    errorString += "-El formato del Email no es válido." + Environment.NewLine;
-                }
-            }
-
-            if (tbxFnac.Text != "")
-            {
-                if (!Regex.IsMatch(tbxFnac.Text, @"^[0-9]{1,2}[-/][0-9]{1,2}[-/][0-9]{1,4}$"))
-                {
-                    errorString += "-La Fecha de Nacimiento no es valida. Debe seguir el siguiente formato: (dd-mm-aa)." + Environment.NewLine;
-                }
-            }
-
-            if (tbxUsuario.Text == "")
-            {
-                errorString += "-El campo Usuario no puede estar vacío." + Environment.NewLine;
-            }
-            else if (!Regex.IsMatch(tbxUsuario.Text, @"^[a-zA-Z0-9]+$"))
-            {
-                errorString += "-El campo usuario solo permite caracteres alfanuméricos." + Environment.NewLine;
-            }
-
-            return errorString;
-
-        }
-
         //Validaciones
         private void tbxNombre_LostFocus(object sender, RoutedEventArgs e)
         {
-            
             if (tbxNombre.IsReadOnly)
-            {
                 return;
-            }
-            string errorString = "";
+            ValidateName();
+        }
+
+        public bool ValidateName()
+        {
+            imgCheckNombre.Visibility = Visibility.Visible;
+
             if (tbxNombre.Text == "")
             {
-                errorString = "El campo Nombre no puede estar vacío.";
+                imgCheckNombre.Source = wrongIconSource;
+                tbkImageToolTipNombre.Text = "Campo Obligatorio";
+                return false;
 
             }
             else if (!Regex.IsMatch(tbxNombre.Text, @"^([a-zA-Z ]+)$"))
             {
-                errorString = "El campo Nombre solo permite caracteres alfabéticos.";
+                imgCheckNombre.Source = wrongIconSource;
+                tbkImageToolTipNombre.Text = "El campo Nombre solo permite caracteres alfabéticos.";
+                return false;
             }
 
-            imgCheckNombre.Visibility = Visibility.Visible;
-
-            if (errorString == "")
-            {
-                imgCheckNombre.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipNombre.Text = "Correcto";
-            }
-            else
-            {
-                imgCheckNombre.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipNombre.Text = errorString;
-            }
+            imgCheckNombre.Source = checkIconSource;
+            tbkImageToolTipNombre.Text = "Correcto";
+            return true;
         }
 
         private void tbxApellido_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxApellido.IsReadOnly)
-            {
                 return;
-            }
-            string errorString = "";
+            ValidateSurname();
+        }
+
+        public bool ValidateSurname()
+        {
+            imgCheckApellido.Visibility = Visibility.Visible;
+
             if (tbxApellido.Text == "")
             {
-                errorString = "El campo Apellido no puede estar vacío.";
+                imgCheckApellido.Source = wrongIconSource;
+                tbkImageToolTipApellido.Text = "Campo Obligatorio";
+                return false;
 
             }
             else if (!Regex.IsMatch(tbxApellido.Text, @"^([a-zA-Z ]+)$"))
             {
-                errorString = "El campo Apellido solo permite carácteres alfabéticos";
+                imgCheckApellido.Source = wrongIconSource;
+                tbkImageToolTipApellido.Text = "El campo Nombre solo permite caracteres alfabéticos.";
+                return false;
             }
 
-            imgCheckApellido.Visibility = Visibility.Visible;
-
-            if (errorString == "")
-            {
-                imgCheckApellido.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipApellido.Text = "Correcto";
-            }
-            else
-            {
-                imgCheckApellido.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipApellido.Text = errorString;
-            }
+            imgCheckApellido.Source = checkIconSource;
+            tbkImageToolTipApellido.Text = "Correcto";
+            return true;
         }
 
         private void tbxDni_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxDni.IsReadOnly)
-            {
                 return;
-            }
-            string errorString = "";
+            ValidateDni();
+        }
+
+        public bool ValidateDni()
+        {
+            imgCheckDNI.Visibility = Visibility.Visible;
+
             if (tbxDni.Text == "")
             {
-                errorString = "El campo DNI no puede estar vacío.";
+                imgCheckDNI.Source = wrongIconSource;
+                tbkImageToolTipDNI.Text = "Campo Obligatorio";
+                return false;
 
             }
             else if (!Regex.IsMatch(tbxDni.Text, @"^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$"))
             {
-                errorString += "El formato del DNI no es válido. Debe estar formado por 8 dígitos, seguido por un carácter alfabético.";
+                imgCheckDNI.Source = wrongIconSource;
+                tbkImageToolTipDNI.Text = "El formato del DNI no es válido. Debe estar formado por 8 dígitos, seguido por un carácter alfabético.";
+                return false;
             }
 
-            imgCheckDNI.Visibility = Visibility.Visible;
-
-            if (errorString == "")
-            {
-                imgCheckDNI.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipDNI.Text = "Correcto";
-            }
-            else
-            {
-                imgCheckDNI.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipDNI.Text = errorString;
-            }
+            imgCheckDNI.Source = checkIconSource;
+            tbkImageToolTipDNI.Text = "Correcto";
+            return true;
         }
 
         private void tbxTelefono_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxTelefono.IsReadOnly)
-            {
                 return;
-            }
-            //Le ponemos la visibilidad primero porque  en caso de que esta vacio la pondremos en hidden
+            ValidateTelefono();
+        }
+
+        public bool ValidateTelefono()
+        {
             imgCheckTelefono.Visibility = Visibility.Visible;
-            string errorString = "";
-            if (tbxTelefono.Text != "")
+
+            if (!Regex.IsMatch(tbxTelefono.Text, @"^(\+[0-9]{2} ?)?[0-9]{9}$"))
             {
-                if (!Regex.IsMatch(tbxTelefono.Text, @"^(\+[0-9]{2} ?)?[0-9]{9}$"))
-                {
-                    errorString = "El formato del Telefono no es válido. Debe estar formado por 9 dígitos (prefijo opcional).";
-                }
-            }
-            else
-            {
-                imgCheckTelefono.Visibility = Visibility.Hidden;
-                return;
+                imgCheckTelefono.Source = wrongIconSource;
+                tbkImageToolTipTelefono.Text = "El formato del Telefono no es válido. Debe estar formado por 9 dígitos (prefijo opcional).";
+                return false;
             }
 
-            if (errorString == "")
-            {
-                imgCheckTelefono.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipTelefono.Text = "Correcto";
-            }
-            else
-            {
-                imgCheckTelefono.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipTelefono.Text = errorString;
-            }
+            imgCheckTelefono.Source = checkIconSource;
+            tbkImageToolTipTelefono.Text = "Correcto";
+            return true;
         }
 
         private void tbxFnac_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxFnac.IsReadOnly)
-            {
                 return;
-            }
+            ValidateFnac();
+        }
+
+        public bool ValidateFnac()
+        {
             imgCheckFnac.Visibility = Visibility.Visible;
-            string errorString = "";
-            if (tbxFnac.Text != "")
+
+            if (tbxFnac.Text == "")
             {
-                if (!Regex.IsMatch(tbxFnac.Text, @"^[0-9]{1,2}[-/][0-9]{1,2}[-/][0-9]{2,4}$"))
-                {
-                    errorString = "La Fecha de Nacimiento no es valida. Debe seguir el siguiente formato: (dd-mm-aa).";
-                }
+                imgCheckFnac.Source = wrongIconSource;
+                tbkImageToolTipFnac.Text = "Campo Obligatorio";
+                return false;
+
             }
-            else
+            else if (!Regex.IsMatch(tbxFnac.Text, @"^([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1][0-2])[./-]([0-9]{4}|[0-9]{2})$"))
             {
-                imgCheckFnac.Visibility = Visibility.Hidden;
-                return;
+                imgCheckFnac.Source = wrongIconSource;
+                tbkImageToolTipFnac.Text = "La Fecha de Nacimiento no es valida. Debe seguir el siguiente formato: (dd-mm-aa).";
+                return false;
             }
 
-            if (errorString == "")
-            {
-                imgCheckFnac.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipFnac.Text = "Correcto";
-            }
-            else
-            {
-                imgCheckFnac.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipFnac.Text = errorString;
-            }
+            imgCheckFnac.Source = checkIconSource;
+            tbkImageToolTipFnac.Text = "Correcto";
+            return true;
         }
 
         private void tbxEmail_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxEmail.IsReadOnly)
-            {
                 return;
-            }
+            ValidateEmail();
+        }
+
+        public bool ValidateEmail()
+        {
             imgCheckEmail.Visibility = Visibility.Visible;
-            string errorString = "";
-            if (tbxEmail.Text != "")
+
+            if (tbxEmail.Text == "")
             {
-                if (!Regex.IsMatch(tbxEmail.Text, @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"))
-                {
-                    errorString = "El formato del Email no es válido.";
-                }
+                imgCheckEmail.Source = wrongIconSource;
+                tbkImageToolTipEmail.Text = "Campo Obligatorio";
+                return false;
+
             }
-            else
+            else if (!Regex.IsMatch(tbxEmail.Text, @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"))
             {
-                imgCheckEmail.Visibility = Visibility.Hidden;
-                return;
+                imgCheckEmail.Source = wrongIconSource;
+                tbkImageToolTipEmail.Text = "El formato del Email no es válido.";
+                return false;
             }
 
-            if (errorString == "")
-            {
-                imgCheckEmail.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipEmail.Text = "Correcto";
-            }
-            else
-            {
-                imgCheckEmail.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipEmail.Text = errorString;
-            }
+            imgCheckEmail.Source = checkIconSource;
+            tbkImageToolTipEmail.Text = "Correcto";
+            return true;
         }
 
         private void tbxDir_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxDir.IsReadOnly)
-            {
                 return;
-            }
-            string errorString = "";
-            if (tbxDir.Text == "")
-            {
-                errorString = "El campo Nombre no puede estar vacío.";
+            ValidateDir();
+        }
 
-            }
-
+        public bool ValidateDir()
+        {
             imgCheckDir.Visibility = Visibility.Visible;
 
-            if (errorString == "")
+            if (tbxDir.Text == "")
             {
-                imgCheckDir.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipDir.Text = "Correcto";
+                imgCheckDir.Source = wrongIconSource;
+                tbkImageToolTipDir.Text = "Campo Obligatorio";
+                return false;
+
             }
-            else
-            {
-                imgCheckDir.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipDir.Text = errorString;
-            }
+
+            imgCheckDir.Source = checkIconSource;
+            tbkImageToolTipDir.Text = "Correcto";
+            return true;
         }
 
         private void tbxUsuario_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxUsuario.IsReadOnly)
-            {
                 return;
-            }
-            string errorString = "";
-            bool userExists;
-
             imgCheckUsuario.Visibility = Visibility.Visible;
+
+            bool userExists;
 
             if (tbxUsuario.Text == "")
             {
-                errorString = "El campo Usuario no puede estar vacío.";
-                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipUsuario.Text = errorString;
+                imgCheckUsuario.Source = wrongIconSource;
+                tbkImageToolTipUsuario.Text = "Campo Obligatorio";
 
             }
-            else if (!Regex.IsMatch(tbxUsuario.Text, @"^[a-zA-Z0-9]+$"))
+            else if (!Regex.IsMatch(tbxEmail.Text, @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"))
             {
-                errorString = "El campo usuario solo permite caracteres alfanuméricos.";
-                imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipUsuario.Text = errorString;
-
+                imgCheckUsuario.Source = wrongIconSource;
+                tbkImageToolTipUsuario.Text = "El formato del Usuario no es válido.";
             }
             else
             {
@@ -737,7 +670,10 @@ namespace Eros
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Posible error de conexión: \n" + ex);
+                        MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                        MainWindow mw = new MainWindow();
+                        mw.Show();
+                        this.Close();
                     }
                 }
                 else
@@ -745,22 +681,20 @@ namespace Eros
                     try
                     {
                         task = Task.Run(() => ControladorEmpleados.DoesEmpleadoExistAsync(userText));
-                    } 
+                    }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("Posible error de conexión: \n" + ex);
+                        MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                        MainWindow mw = new MainWindow();
+                        mw.Show();
+                        this.Close();
                     }
                 }
 
                 task.ContinueWith(t =>
                 {
                     userExists = t.Result;
-                    if (userExists)
-                    {
-                        errorString = "Este usuario ya existe, pruebe con otro.";
-                    }
-
-                    if (errorString == "")
+                    if (!userExists)
                     {
                         imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
                         tbkImageToolTipUsuario.Text = "Correcto";
@@ -768,15 +702,82 @@ namespace Eros
                     else
                     {
                         imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                        tbkImageToolTipUsuario.Text = errorString;
+                        tbkImageToolTipUsuario.Text = "Este usuario ya existe, pruebe con otro.";
                     }
 
                 }, TaskScheduler.FromCurrentSynchronizationContext());
 
                 imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/waitingPoints.png", UriKind.Relative));
                 tbkImageToolTipUsuario.Text = "Esperando...";
-              
+
             }
+        }
+
+        public bool ValidateUser()
+        {
+            imgCheckUsuario.Visibility = Visibility.Visible;
+
+            bool userExists = false;
+
+            if (tbxUsuario.Text == "")
+            {
+                imgCheckUsuario.Source = wrongIconSource;
+                tbkImageToolTipUsuario.Text = "Campo Obligatorio";
+                return false;
+
+            }
+            else if (!Regex.IsMatch(tbxEmail.Text, @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"))
+            {
+                imgCheckUsuario.Source = wrongIconSource;
+                tbkImageToolTipUsuario.Text = "El formato del Usuario no es válido.";
+                return false;
+            }
+            else
+            {
+                string userText = tbxUsuario.Text;
+                if (currentState == state.Editando)
+                {
+                    try
+                    {
+                        userExists = ControladorEmpleados.DoesEmpleadoExist(userText, selectedEmpleado._id);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                        MainWindow mw = new MainWindow();
+                        mw.Show();
+                        this.Close();
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        userExists = ControladorEmpleados.DoesEmpleadoExist(userText);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                        MainWindow mw = new MainWindow();
+                        mw.Show();
+                        this.Close();
+                    }
+                }    
+                if (!userExists)
+                {
+                    imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
+                    tbkImageToolTipUsuario.Text = "Correcto";
+                    return true;
+                }
+                else
+                {
+                    imgCheckUsuario.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                    tbkImageToolTipUsuario.Text = "Este usuario ya existe, pruebe con otro.";
+                    return false;
+                }
+
+            }
+
         }
 
         private void btnContrasenya_Click(object sender, RoutedEventArgs e)
@@ -798,7 +799,10 @@ namespace Eros
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Posible error de conexión: \n" + ex);
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
             }
             
         }
@@ -849,5 +853,20 @@ namespace Eros
             GlobalVariables.height = Height;
             GlobalVariables.max = WindowState == WindowState.Maximized;
         }
+
+        private void VerNominas_Click(object sender, RoutedEventArgs e)
+        {
+            WindowNominas wn = new WindowNominas(selectedEmpleado);
+            wn.Show();
+            this.Close();
+        }
+
+        private void Nominas_Click(object sender, RoutedEventArgs e)
+        {
+            WindowNominas wn = new WindowNominas();
+            wn.Show();
+            this.Close();
+        }
+
     }
 }

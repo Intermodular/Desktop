@@ -215,13 +215,21 @@ namespace Eros
        
         private bool validateUsernameAndPassword()
         {
-            listEmpleados = ControladorEmpleados.GetAllFromApi();
+            try
+            {
+                listEmpleados = ControladorEmpleados.GetAllFromApi();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+            }
             foreach (Empleado i in listEmpleados)
             {
                
                 if (i.usuario.Equals(user.Text) && (i.password.Equals(password.Password) || i.password.Equals(tb_pass.Text)))
                 {
                     _currentUser = i;
+                    GlobalVariables.employee = _currentUser;
                     GlobalVariables.username = _currentUser.usuario;
                     return true;
                 }
@@ -241,6 +249,7 @@ namespace Eros
                 user.BorderBrush = System.Windows.Media.Brushes.DarkGray;
             }
         }
+
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)

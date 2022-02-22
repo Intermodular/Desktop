@@ -10,8 +10,17 @@
         </Style>
         <Style x:Key="Contenido">
             <Setter Property="TextElement.FontFamily" Value="./Fuentes/Montserrat-Regular.ttf"></Setter>
-        </Style>  
-
+        </Style>
+        <Style TargetType="{x:Type DataGrid}" x:Key="dtg">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGrid}">
+                        <Border CornerRadius="5">
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style TargetType="Button" x:Key="TabButton">
             <Setter Property="Background" Value="White" />
             <Setter Property="TextBlock.TextAlignment" Value="Center" />
@@ -66,14 +75,7 @@
                 </Setter.Value>
             </Setter>
             <Setter Property="TextElement.FontWeight" Value="SemiBold"></Setter>
-        </Style>
-
-
-
-
-
-
-
+        </Style>        
         <Style x:Key="btNoHoverBackground" TargetType="{x:Type Button}">
             <Setter Property="Background" Value="Gray"/>
             <Setter Property="Template">
@@ -211,6 +213,58 @@
                                 <Setter Property="Background" Value="#FF5FB463"/>
                                 <Setter Property="Foreground" Value="White" />
                                 <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="nominaListBox" TargetType="ListBoxItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border
+                BorderThickness="{TemplateBinding Border.BorderThickness}"
+                Padding="{TemplateBinding Control.Padding}"
+                BorderBrush="{TemplateBinding Border.BorderBrush}"
+                Background="{TemplateBinding Panel.Background}"
+                SnapsToDevicePixels="True">
+                            <ContentPresenter
+                    Content="{TemplateBinding ContentControl.Content}"
+                    ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                    HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}"
+                    VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}"
+                    SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Button" x:Key="btAdministracionPositivoCustom" BasedOn="{StaticResource clickableResizableButtonWithNoHoverResize}">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Name="borderBt" CornerRadius="10" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#FF5FB463"/>
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="Cursor" Value="Hand"/>
+                                <Setter TargetName="borderBt" Property="BorderBrush" Value="Black"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

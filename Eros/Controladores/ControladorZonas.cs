@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Eros.Controladores
 {
@@ -45,6 +46,77 @@ namespace Eros.Controladores
         {
             string respuesta = ControladorApi.DeleteHttp("http://localhost:8080/api/zona/id/" + id_zona);
             return respuesta;
+        }
+
+        //Validacion
+
+        public async static Task<bool> DoesZonaExistAsync(string zona)
+        {
+            string respuesta = await ControladorApi.GetHttpAsync("http://localhost:8080/api/zona/nombre/" + zona);
+            Thread.Sleep(2000);
+            if (respuesta == "Not Found")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public async static Task<bool> DoesZonaExistAsync(string zona, int exceptionId)
+        {
+            string respuesta = await ControladorApi.GetHttpAsync("http://localhost:8080/api/zona/nombre/" + zona);
+            Thread.Sleep(2000);
+            if (respuesta == "Not Found")
+            {
+                return false;
+            }
+            else
+            {
+                Zonas e = JsonConvert.DeserializeObject<Zonas>(respuesta);
+                if (e._id == exceptionId)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+        public static bool DoesZonaExist(string zona)
+        {
+            string respuesta = ControladorApi.GetHttp("http://localhost:8080/api/zona/nombre/" + zona);
+            if (respuesta == "Not Found")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        public static bool DoesZonaExist(string zona, int exceptionId)
+        {
+            string respuesta = ControladorApi.GetHttp("http://localhost:8080/api/zona/nombre/" + zona);
+            if (respuesta == "Not Found")
+            {
+                return false;
+            }
+            else
+            {
+                Zonas e = JsonConvert.DeserializeObject<Zonas>(respuesta);
+                if (e._id == exceptionId)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
         }
     }
 }

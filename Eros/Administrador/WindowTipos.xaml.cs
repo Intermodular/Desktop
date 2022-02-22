@@ -25,7 +25,7 @@ namespace Eros.Administrador
     public partial class WindowTipos : Window
     {
         public WindowTipos()
-        {
+        {            
             InitializeComponent();
             this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             InitializeTextBoxList();
@@ -46,12 +46,15 @@ namespace Eros.Administrador
             }
         }
 
+        BitmapImage checkIconSource = new BitmapImage(new Uri(@"../Img/icons/check.png", UriKind.Relative));
+        BitmapImage wrongIconSource = new BitmapImage(new Uri(@"../Img/icons/wrong.png", UriKind.Relative));
         List<Tipos> listTipos;
         List<Tipos> listFiltrada;
         int idOfLastSelectedTipo;
         enum state { Agregando, Viendo, Editando };
         state currentState;
         List<TextBox> infoTbxsList;
+        List<Extras> addedExtras = new List<Extras>();
 
 
         //Eventos
@@ -74,7 +77,10 @@ namespace Eros.Administrador
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                    MainWindow mw = new MainWindow();
+                    mw.Show();
+                    this.Close();
                 }                
                 UpdateInfoFromDataBase();
             }
@@ -137,10 +143,11 @@ namespace Eros.Administrador
         }
         private void btAgregar_Click(object sender, RoutedEventArgs e)
         {
-            string errorMessage;
-            if ((errorMessage = GetValidationErrorString()) != "")
+            bool val1 = ValidateNombre();
+            bool val2 = ValidateImagen();
+            if (!(val1 && val2))
             {
-                MessageBox.Show(errorMessage);
+                MessageBox.Show("Errores encontrados...");
                 return;
             }
             string respuesta = "";
@@ -151,22 +158,28 @@ namespace Eros.Administrador
             } 
             catch (Exception ex)
             {
-                MessageBox.Show("Posible error de conexión: \n" + ex);
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
             }
             if (respuesta == "Error Tipo Ya Existe")
             {
                 MessageBox.Show("Este tipo ya existe pruebe con otro.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+
+            addedExtras.Clear();
             ChangeToState(state.Viendo);
             UpdateInfoFromDataBase();
         }
         private void btGuardarEdicion_Click(object sender, RoutedEventArgs e)
         {
-            string errorMessage;
-            if ((errorMessage = GetValidationErrorString()) != "")
+            bool val1 = ValidateNombre();
+            bool val2 = ValidateImagen();
+            if (!(val1 && val2))
             {
-                MessageBox.Show(errorMessage);
+                MessageBox.Show("Errores encontrados...");
                 return;
             }
             if (GetYesNoMessageBoxResponse("Estás seguro de que quieres guardar los cambios?", "Editar Tipo"))
@@ -181,15 +194,18 @@ namespace Eros.Administrador
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                    MainWindow mw = new MainWindow();
+                    mw.Show();
+                    this.Close();
                 }
-                MessageBox.Show(respuesta);
 
                 if (respuesta == "Error Tipo Ya Existe")
                 {
                     MessageBox.Show("Este tipo ya existe pruebe con otro.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
+                addedExtras.Clear();
                 ChangeToState(state.Viendo);
                 UpdateInfoFromDataBase();
             }
@@ -227,7 +243,10 @@ namespace Eros.Administrador
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Posible error de conexión: \n" + ex);
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
             }            
             PutListInDataGrid(listTipos);
             tbxSearchBar.Text = "";
@@ -237,20 +256,6 @@ namespace Eros.Administrador
 
         private void PutListInDataGrid(List<Tipos> lista)
         {
-            List<dtgTipo> newList = new List<dtgTipo>();
-            List<string> extras = new List<string>();
-
-            foreach (Tipos t in lista)
-            {
-                foreach (Extras e in t.listaExtras)
-                {
-                    extras.Add(e.nombre);
-                }
-                dtgTipo dtg = new dtgTipo(t.nombre, extras);
-                newList.Add(dtg);
-                extras.Clear();
-            }
-
             dtgTipos.ItemsSource = null;
             dtgTipos.ItemsSource = lista;
         }
@@ -330,7 +335,15 @@ namespace Eros.Administrador
             {
                 foreach (Extras e in tipo.listaExtras)
                 {
+                    try
+                    {
                         listExtras.Add(e.nombre);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.Write(ex);
+                    }
+                        
                 }
             }
 
@@ -366,11 +379,7 @@ namespace Eros.Administrador
 
             Tipos tipo = new Tipos();
             tipo.nombre = tbxNombre.Text.Trim();
-
-            List<String> extras = new List<string>();
-            foreach (String e in cbExtras.Items) extras.Add(e);
-            //tipo.extras = extras;
-
+            tipo.listaExtras = addedExtras;
             tipo.img = tbxImagen.Text;
 
             return tipo;
@@ -386,123 +395,67 @@ namespace Eros.Administrador
             return false;
         }
 
-        private string GetValidationErrorString()
-        {
-            string errorString = "";
-
-            if (tbxNombre.Text == "")
-            {
-                errorString += "-El campo Nombre no puede estar vacío." + Environment.NewLine;
-
-            }
-            else if (!Regex.IsMatch(tbxNombre.Text, @"^([a-zA-Z ]+)$"))
-            {
-                errorString += "-El campo Nombre solo permite caracteres alfabéticos." + Environment.NewLine;
-            }
-
-            if (tbxImagen.Text == "")
-            {
-                errorString += "-El campo Imagen no puede estar vacío." + Environment.NewLine;
-
-            }
-
-
-            //Validar por tipo de producto existente ¿?
-            /* else if (!Regex.IsMatch(tbxApellido.Text, @"^([a-zA-Z ]+)$"))
-             {
-                 errorString += "-El campo Apellido solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
-             }
-            */
-            /*
-             if (tbxIngredientes.Text == "")
-             {
-                 errorString += "-El campo Ingredientes no puede estar vacío" + Environment.NewLine;
-             }*/
-            /*
-            else if (!Regex.IsMatch(tbxIngredientes.Text.Trim(), @"^([a-zA-Z ]+)$"))
-            {
-                errorString += "-El campo Tipo solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
-            }
-            */
-            /*
-
-             if (tbxPrecio.Text != "")
-             {
-
-                 errorString += "-El campo Precio No puede estar vacio" + Environment.NewLine;
-             }
-             else if (!Regex.IsMatch(tbxPrecio.Text, @"^[0-9]."));
-             {
-                 errorString += "-El campo Precio debe ser numérico" + Environment.NewLine;
-
-             }
-             */
-            return errorString;
-
-        }
-
         private void tbxNombre_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxNombre.IsReadOnly)
-            {
                 return;
-            }
-            string errorString = "";
+            ValidateNombre();
+        }
+
+        public bool ValidateNombre()
+        {
+            imgCheckNombre.Visibility = Visibility.Visible;
+
             if (tbxNombre.Text == "")
             {
-                errorString = "El campo Nombre no puede estar vacío.";
+                imgCheckNombre.Source = wrongIconSource;
+                tbkImageToolTipNombre.Text = "Campo Obligatorio";
+                return false;
 
             }
             else if (!Regex.IsMatch(tbxNombre.Text, @"^([a-zA-Z ]+)$"))
             {
-                errorString = "El campo Nombre solo permite caracteres alfabéticos.";
+                imgCheckNombre.Source = wrongIconSource;
+                tbkImageToolTipNombre.Text = "El campo Nombre solo permite caracteres alfabéticos.";
+                return false;
             }
 
-            imgCheckNombre.Visibility = Visibility.Visible;
-
-            if (errorString == "")
-            {
-                imgCheckNombre.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipNombre.Text = "Correcto";
-            }
-            else
-            {
-                imgCheckNombre.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipNombre.Text = errorString;
-            }
+            imgCheckNombre.Source = checkIconSource;
+            tbkImageToolTipNombre.Text = "Correcto";
+            return true;
         }
 
         private void tbxImagen_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxImagen.IsReadOnly)
-            {
                 return;
-            }
-            string errorString = "";
-            if (tbxImagen.Text == "")
-            {
-                errorString = "El campo Imagen no puede estar vacío.";
+            ValidateImagen();
+        }
 
-            }
-
+        public bool ValidateImagen()
+        {
             imgCheckImagen.Visibility = Visibility.Visible;
 
-            if (errorString == "")
+            if (tbxImagen.Text == "")
             {
-                imgCheckImagen.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipImagen.Text = "Correcto";
+                imgCheckImagen.Source = wrongIconSource;
+                tbkImageToolTipImagen.Text = "Campo Obligatorio";
+                return false;
+
             }
-            else
-            {
-                imgCheckImagen.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipImagen.Text = errorString;
-            }
+
+            imgCheckImagen.Source = checkIconSource;
+            tbkImageToolTipImagen.Text = "Correcto";
+            previewImage.Visibility = Visibility.Visible;
+            tipoImage.Source = new BitmapImage(new Uri(tbxImagen.Text));
+            return true;
         }
 
         private void hideIcons()
         {
             imgCheckNombre.Visibility = Visibility.Hidden;
             imgCheckImagen.Visibility = Visibility.Hidden;
+            previewImage.Visibility = Visibility.Hidden;
         }
 
         public void fillComboBox(ComboBox cb, List<String> values)
@@ -521,7 +474,10 @@ namespace Eros.Administrador
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Posible error de conexión: \n" + ex);
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
             }
             List<Extras> extras = new List<Extras>();
             foreach (Tipos t in tipos)
@@ -543,6 +499,7 @@ namespace Eros.Administrador
                 foreach (Extras ex in wee._Extras)
                 {
                     stringExtras.Add(ex.nombre);
+                    addedExtras.Add(ex);
                 }
                 fillComboBox(cbExtras, stringExtras);
                 EnableButton(btGuardarEdicion, true);

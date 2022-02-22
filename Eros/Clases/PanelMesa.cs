@@ -18,6 +18,13 @@ namespace Eros.Clases
         public ContextMenu contextMenu { get; set; }
         public MenuItem menuItemLibre { get; set; }
         public MenuItem menuItemOcupar { get; set; }
+        public MenuItem menuItemPasarPedido { get; set; }
+        public Image imgMIL { get; set; }
+        public Image imgMIO { get; set; }
+        public Image imgMIPP { get; set; }
+        public ToolTip ttReservado { get; set; }
+        public TextBlock tbkReservado { get; set; }
+
 
         public PanelMesa()
         {
@@ -28,6 +35,14 @@ namespace Eros.Clases
             contextMenu = new ContextMenu();
             menuItemLibre = new MenuItem();
             menuItemOcupar = new MenuItem();
+            menuItemPasarPedido = new MenuItem();
+            imgMIL = new Image();
+            imgMIO = new Image();
+            imgMIPP = new Image();
+            ttReservado = new ToolTip();
+            tbkReservado = new TextBlock();
+
+
         }
 
         public void ConstruirPanel()
@@ -38,12 +53,25 @@ namespace Eros.Clases
             button.ContextMenu = contextMenu;
             if (mesa.estado == "Libre")
             {
+                menuItemOcupar.Icon = imgMIO;
                 contextMenu.Items.Add(menuItemOcupar);
             }
-            else
+            else if (mesa.estado == "Ocupada")
             {
+                menuItemLibre.Icon = imgMIL;
                 contextMenu.Items.Add(menuItemLibre);
+
+                menuItemPasarPedido.Icon = imgMIPP;
+                contextMenu.Items.Add(menuItemPasarPedido);
             }
+            else if (mesa.estado == "Reservada")
+            {
+                button.ToolTip = ttReservado;
+                grid.Children.Add(tbkReservado);
+            }
+
+
+
 
 
         }

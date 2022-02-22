@@ -27,6 +27,13 @@ namespace Eros.Cobrador
         List<PanelMesa> listPanelesMesa;
         List<PanelMesa> listPanelesMesaSortedBySillas;
         List<Zonas> listZonas;
+        List<Reserva> listReservas;
+
+
+        BitmapImage sourceLiberarMesa = new BitmapImage(new Uri("../Img/icons/greenCheckIcon.png", UriKind.Relative));
+        BitmapImage sourceOcuparMesa = new BitmapImage(new Uri("../Img/icons/forbiddenIcon.png", UriKind.Relative));
+        BitmapImage sourceCambiarPedidoDeMesa = new BitmapImage(new Uri("../Img/icons/forwardArrowIcon.png", UriKind.Relative));
+
         //Filter 
         float percentageHeightOfFilter = 0.15f;
         bool IsFilterExpanded = false;
@@ -37,10 +44,16 @@ namespace Eros.Cobrador
         enum filterState { Normal, OrderedBySillas }
         filterState currentFilterState = filterState.Normal;
 
+        //Pasar el pedido
+        enum windowState { Normal, PasandoPedido };
+        windowState currentWindowState = windowState.Normal;
+        Storyboard sbIdleTbkPasarPedido;
+        Pedidos passingPedido = null;
+        Mesas passingPedidoMesa = null;
         public WindowGestionMesas()
         {
             InitializeComponent();
-            InitializeStoryBoard();
+            InitializeStoryBoards();
             InitializeUIControlProperties();
 
             InitializeAndPlaceListPanelesMesa();
@@ -49,15 +62,53 @@ namespace Eros.Cobrador
         }
 
 
+
         private void InitializeUIControlProperties()
         {
             borderFiltros.Height = percentageHeightOfFilter * this.Height;
             borderFiltros.Margin = new Thickness(0, -borderFiltros.Height, 0, 0);
         }
 
+        private void ChangeWindowState(windowState newState)
+        {
+            btReiniciar_Click(null, null);
+
+            switch (currentWindowState)
+            {
+                case windowState.Normal:
+                    break;
+                case windowState.PasandoPedido:
+                    gridPasarPedido.Visibility = Visibility.Hidden;
+                    sbIdleTbkPasarPedido.Stop();
+                    break;
+            }
+            switch (newState)
+            {
+                case windowState.Normal:
+                    gridPpal.Background = Brushes.White;
+                    ChangeGridToNormal();
+                    break;
+                case windowState.PasandoPedido:
+                    ChangeGridToPassPedido();
+                    gridPasarPedido.Visibility = Visibility.Visible;
+                    gridPpal.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#f9f9f9");
+                    sbIdleTbkPasarPedido.Begin();
+                    break;
+            }
+            currentWindowState = newState;
+        }
+        public void ChangeGridToPassPedido()
+        {
+            gridPpal.RowDefinitions[3].Height = new GridLength(60, GridUnitType.Star);
+        }
+        public void ChangeGridToNormal()
+        {
+            gridPpal.RowDefinitions[3].Height = new GridLength(0, GridUnitType.Star);
+        }
+
         //FILTRO UI ------------------------------------------------------------------------------------------------------------------------------------------
 
-        private void InitializeStoryBoard()
+        private void InitializeStoryBoards()
         {
             storyboard = new Storyboard();
             storyboard.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 300));
@@ -79,6 +130,7 @@ namespace Eros.Cobrador
                 To = new Thickness(0, 0, 0, 0),
                 Duration = storyboard.Duration,
                 DecelerationRatio = 0.5d
+
             };
 
             Storyboard.SetTarget(thicknessAnimation, borderFiltros);
@@ -87,7 +139,28 @@ namespace Eros.Cobrador
 
             storyboard.Completed += StoryBoardCompleted;
 
+            //StoryBoard2
+            sbIdleTbkPasarPedido = new Storyboard();
+            storyboard.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 1000));
+            tbkPasandoPedido.RenderTransform = new TranslateTransform();
+            DoubleAnimation idleAnimation = new DoubleAnimation()
+            {
+                From = 9,
+                To = -5,
+                Duration = sbIdleTbkPasarPedido.Duration,
+                DecelerationRatio = 0.5d,
+                AccelerationRatio = 0.5d,
+                AutoReverse = true
+
+            };
+            idleAnimation.RepeatBehavior = RepeatBehavior.Forever;
+            Storyboard.SetTarget(idleAnimation, tbkPasandoPedido);
+            Storyboard.SetTargetProperty(idleAnimation, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.Y)"));
+
+            sbIdleTbkPasarPedido.Children.Add(idleAnimation);
+
         }
+
 
         private void StoryBoardCompleted(object sender, EventArgs e)
         {
@@ -167,8 +240,34 @@ namespace Eros.Cobrador
 
         private List<Mesas> GetMesas()
         {
-           
-            List<Mesas> list = ControladorMesas.GetAllFromApi();
+            //Prueba
+            /*List<Mesas> list = new List<Mesas>();
+            list.Add(new Mesas() { _id = 1, numero = 1, zona = "Interior", numSillas = 6,estado="Libre" });
+            list.Add(new Mesas() { _id = 17, numero = 2, zona = "Interior", numSillas = 5, estado = "Libre" });
+            list.Add(new Mesas() { _id = 2, numero = 14, zona = "Interior", numSillas = 8, estado = "Libre" });
+            list.Add(new Mesas() { _id = 4, numero = 3, zona = "Interior", numSillas = 4, estado = "Ocupada" });
+            list.Add(new Mesas() { _id = 6, numero = 4, zona = "Interior", numSillas = 4, estado = "Libre" });
+            list.Add(new Mesas() { _id = 8, numero = 5, zona = "Interior", numSillas = 4, estado = "Libre" });
+            list.Add(new Mesas() { _id = 9, numero = 6, zona = "Interior", numSillas = 6, estado = "Ocupada" });
+            list.Add(new Mesas() { _id = 10, numero = 7, zona = "Interior", numSillas = 4, estado = "Libre" });
+            list.Add(new Mesas() { _id = 11, numero = 8, zona = "Interior", numSillas = 6, estado = "Libre" });
+            list.Add(new Mesas() { _id = 12, numero = 9, zona = "Terraza", numSillas = 4, estado = "Ocupada" });
+            list.Add(new Mesas() { _id = 13, numero = 10, zona = "Terraza", numSillas = 6, estado = "Libre" });
+            list.Add(new Mesas() { _id = 14, numero = 11, zona = "Terraza", numSillas = 10, estado = "Libre" });
+            list.Add(new Mesas() { _id = 15, numero = 12, zona = "Terraza", numSillas = 4, estado = "Ocupada" });
+            list.Add(new Mesas() { _id = 16, numero = 13, zona = "Terraza", numSillas = 4, estado = "Libre" });*/
+            List<Mesas> list = new List<Mesas>();
+            try
+            {
+                list = ControladorMesas.GetAllFromApi();
+            } 
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
+            }
 
             return list;
         }
@@ -176,6 +275,8 @@ namespace Eros.Cobrador
         private void InitializeAndPlaceListPanelesMesa()
         {
             List<Mesas> listaMesas = GetMesas();
+            InitializeListReservas();
+
             listPanelesMesa = new List<PanelMesa>();
             wrapPanelTables.Children.Clear();
             foreach (Mesas mesa in listaMesas)
@@ -185,6 +286,26 @@ namespace Eros.Cobrador
             listPanelesMesa = listPanelesMesa.OrderBy(p => p.mesa.numero).ToList();
             listPanelesMesaSortedBySillas = listPanelesMesa.OrderBy(p => p.mesa.numSillas).ToList();
             FillWrapPanelWithPanelesMesas(listPanelesMesa);
+        }
+
+        private void InitializeListReservas()
+        {
+            int year = DateTime.Now.Year;
+            int month = DateTime.Now.Month;
+            int day = DateTime.Now.Day;
+            int hour = DateTime.Now.Hour;
+            int minute = DateTime.Now.Minute;
+            try
+            {
+                listReservas = ControladorReservas.GetAllFromApi(year, month, day, hour, minute);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
+            }
         }
 
         private void ConstructPanelMesa(Mesas mesa)
@@ -197,6 +318,7 @@ namespace Eros.Cobrador
             panel.button.Margin = new Thickness(10);
             panel.button.HorizontalContentAlignment = HorizontalAlignment.Stretch;
             panel.button.VerticalContentAlignment = VerticalAlignment.Stretch;
+            panel.button.Style = Application.Current.Resources["clickableResizableButtonWithNoHoverResize"] as Style;
             panel.tbkSuperior.FontSize = 20d;
             panel.tbkSuperior.VerticalAlignment = VerticalAlignment.Top;
             panel.tbkSuperior.HorizontalAlignment = HorizontalAlignment.Center;
@@ -205,14 +327,75 @@ namespace Eros.Cobrador
             panel.tbkNumeroMesa.VerticalAlignment = VerticalAlignment.Center;
             panel.tbkNumeroMesa.HorizontalAlignment = HorizontalAlignment.Center;
             panel.tbkNumeroMesa.Text = mesa.numero + "";
-            panel.menuItemLibre.Header = "Dejar Libre";
-            panel.menuItemLibre.Click += CtxMenuDejarLibre_Click;
-            panel.menuItemOcupar.Header = "Dejar Ocupada";
-            panel.menuItemOcupar.Click += CtxMenuOcupar_Click;
+
+            Reserva reserva = GetReservaFromMesa(mesa);
+            if (reserva != null)
+            {
+                mesa.estado = "Reservada";
+                panel.ttReservado.Content = reserva.nombre + Environment.NewLine + String.Format("{0:00}/{1:00}/{2:00}", reserva.dia, reserva.mes, reserva.anyo) + String.Format("{0:00}:{1:00}", reserva.hora, reserva.minuto);
+                panel.tbkReservado.FontSize = 20d;
+                panel.tbkReservado.VerticalAlignment = VerticalAlignment.Bottom;
+                panel.tbkReservado.HorizontalAlignment = HorizontalAlignment.Center;
+                panel.tbkReservado.TextWrapping = TextWrapping.Wrap;
+                panel.tbkReservado.Text = reserva.nombre;
+
+            }
+            else
+            {
+                if (mesa.estado == "Libre")
+                {
+                    panel.menuItemOcupar.Header = "Dejar Ocupada";
+                    panel.menuItemOcupar.Height = 40d;
+                    panel.menuItemOcupar.FontSize = 20d;
+                    panel.menuItemOcupar.Click += CtxMenuOcupar_Click;
+                    panel.imgMIO.Source = sourceOcuparMesa;
+                    panel.imgMIO.Width = 20d;
+                    panel.imgMIO.Height = 20d;
+                    panel.imgMIO.Margin = new Thickness(-3, -3, -3, -3);
+                    RenderOptions.SetBitmapScalingMode(panel.imgMIO, BitmapScalingMode.HighQuality);
+                }
+                else
+                {
+                    if (mesa.estado == "Ocupada")
+                    {
+                        panel.menuItemLibre.Header = "Dejar Libre";
+                        panel.menuItemLibre.Height = 40d;
+                        panel.menuItemLibre.FontSize = 20d;
+                        panel.menuItemLibre.Click += CtxMenuDejarLibre_Click;
+                        panel.imgMIL.Source = sourceLiberarMesa;
+                        panel.imgMIL.Width = 20d;
+                        panel.imgMIL.Height = 20d;
+                        panel.imgMIL.Margin = new Thickness(-3, -3, -3, -3);
+                        RenderOptions.SetBitmapScalingMode(panel.imgMIL, BitmapScalingMode.HighQuality);
+
+                        panel.menuItemPasarPedido.Header = "Pasar pedido a otra mesa";
+                        panel.menuItemPasarPedido.Height = 40d;
+                        panel.menuItemPasarPedido.FontSize = 20d;
+                        panel.menuItemPasarPedido.Click += CtxMenuPasarPedido_Click;
+                        panel.imgMIPP.Source = sourceCambiarPedidoDeMesa;
+                        panel.imgMIPP.Width = 20d;
+                        panel.imgMIPP.Height = 20d;
+                        panel.imgMIPP.Margin = new Thickness(-3, -3, -3, -3);
+                        RenderOptions.SetBitmapScalingMode(panel.imgMIPP, BitmapScalingMode.HighQuality);
+                    }
+                }
+            }
+
             EstablishButtonMesaColor(panel);
             panel.ConstruirPanel();
 
             listPanelesMesa.Add(panel);
+        }
+        private Reserva GetReservaFromMesa(Mesas mesa)
+        {
+            foreach (Reserva reserva in listReservas)
+            {
+                if (reserva.idMesa == mesa._id)
+                {
+                    return reserva;
+                }
+            }
+            return null;
         }
         private void EstablishButtonMesaColor(PanelMesa panel)
         {
@@ -223,6 +406,11 @@ namespace Eros.Cobrador
             else if (panel.mesa.estado == "Ocupada")
             {
                 panel.button.Background = new SolidColorBrush(Color.FromArgb(255, 199, 77, 77));
+
+            }
+            else if (panel.mesa.estado == "Reservada")
+            {
+                panel.button.Background = new SolidColorBrush(Color.FromArgb(255, 242, 240, 80));
             }
         }
 
@@ -243,7 +431,22 @@ namespace Eros.Cobrador
             Pedidos pedido = new Pedidos();
             pedido.lineasPedido = new List<LineaPedido>();
             pedido.idMesa = idMesa;
-            string respuesta = ControladorPedidos.PostToApi(pedido); //Meter funcion api para comprobar al postear que no hay ningun pedido para esta mesa, por si alguien lo ha creado mientras le dabas al si del messagebox
+            string respuesta = "";
+            try
+            {
+                respuesta = ControladorPedidos.PostToApi(pedido); //Meter funcion api para comprobar al postear que no hay ningun pedido para esta mesa, por si alguien lo ha creado mientras le dabas al si del messagebox
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
+            }
+            if (respuesta == "Error idMesa repetido")
+            {
+                return null;
+            }
             string asignedId = respuesta.Split('=')[1];
             pedido._id = Convert.ToInt32(asignedId);
             return pedido;
@@ -253,29 +456,131 @@ namespace Eros.Cobrador
         private void PanelMesaButton_Clicked(object sender, RoutedEventArgs e)
         {
             PanelMesa panelMesaClickado = GetPanelMesaFromButton(sender as Button);
-            Pedidos pedidoMesa = ControladorPedidos.GetFromApiByIdMesa(panelMesaClickado.mesa._id);
-            if (pedidoMesa == null)
+            Pedidos pedidoMesa = new Pedidos();
+            try
             {
-                MessageBoxResult result = MessageBox.Show("Quieres crear un pedido nuevo para esta mesa?", "Creacion pedido", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                if (result == MessageBoxResult.Yes)
+                pedidoMesa = ControladorPedidos.GetFromApiByIdMesa(panelMesaClickado.mesa._id);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
+            }
+            if (currentWindowState == windowState.Normal)
+            {
+                if (pedidoMesa == null)
                 {
-                    Pedidos pedido = CreateGetAndPostNewPedido(panelMesaClickado.mesa._id);
-                    panelMesaClickado.mesa.estado = "Ocupada";
-                    ControladorMesas.UpdateInApi(panelMesaClickado.mesa);
-                    MessageBox.Show("Pedido Creado");
-                    OpenWindowEditarPedido(pedido);
+                    if (panelMesaClickado.mesa.estado == "Reservada")
+                    {
+                        MessageBoxResult result = MessageBox.Show("Quieres ocupar la mesa reservada?", "Ocupar Reserva", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            panelMesaClickado.mesa.estado = "Ocupada";
+                            try
+                            {
+                                ControladorMesas.UpdateInApi(panelMesaClickado.mesa);
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                                MainWindow mw = new MainWindow();
+                                mw.Show();
+                                this.Close();
+                            }
+                            Reserva reserva = GetReservaFromMesa(panelMesaClickado.mesa);
+                            //ControladorReservas
+                            btReiniciar_Click(sender, null);
+                        }
+                    }
+                    else
+                    {
+                        MessageBoxResult result = MessageBox.Show("Quieres crear un pedido nuevo para esta mesa?", "Creacion pedido", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                        if (result == MessageBoxResult.Yes)
+                        {
+                            Pedidos pedido = CreateGetAndPostNewPedido(panelMesaClickado.mesa._id);
+                            if (pedido == null)
+                            {
+                                MessageBox.Show("A esta mesa se le acaba de asignar otro pedido", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                            else
+                            {
+                                panelMesaClickado.mesa.estado = "Ocupada";
+                                try
+                                {
+                                    ControladorMesas.UpdateInApi(panelMesaClickado.mesa);
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                                    MainWindow mw = new MainWindow();
+                                    mw.Show();
+                                    this.Close();
+                                }
+                                MessageBox.Show("Pedido Creado");
+                                OpenWindowEditarPedido(pedido, panelMesaClickado.mesa.numero);
+                            }
+                        }
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("Tiene un pedido");
+                    OpenWindowEditarPedido(pedidoMesa, panelMesaClickado.mesa.numero);
                 }
             }
-            else
+            else if (currentWindowState == windowState.PasandoPedido)
             {
-                MessageBox.Show("Tiene un pedido");
-                OpenWindowEditarPedido(pedidoMesa);
+                if (pedidoMesa == null)
+                {
+                    string response = "";
+                    try
+                    {
+                        response = ControladorPedidos.DeleteFromApi(passingPedido);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                        MainWindow mw = new MainWindow();
+                        mw.Show();
+                        this.Close();
+                    }
+                    if (response == "Not Found")
+                    {
+                        MessageBox.Show("El pedido que intentas cambiar ya no existe", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else
+                    {
+                        passingPedido.idMesa = panelMesaClickado.mesa._id;
+                        try
+                        {
+                            ControladorPedidos.PostToApi(passingPedido);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                            MainWindow mw = new MainWindow();
+                            mw.Show();
+                            this.Close();
+                        }
+
+                        MessageBox.Show("Pedido traspasado de la Mesa " + passingPedidoMesa.numero + " a la Mesa " + panelMesaClickado.mesa.numero, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Esta mesa ya tiene un pedido asignado", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                }
+                ChangeWindowState(windowState.Normal);
             }
         }
 
-        private void OpenWindowEditarPedido(Pedidos pedido)
+        private void OpenWindowEditarPedido(Pedidos pedido, int numMesa)
         {
-            WindowEditarPedido windowEditarPedido = new WindowEditarPedido(pedido);
+            WindowEditarPedido windowEditarPedido = new WindowEditarPedido(pedido, numMesa);
             windowEditarPedido.Show();
             this.Close();
         }
@@ -284,7 +589,7 @@ namespace Eros.Cobrador
         {
             foreach (PanelMesa pm in listPanelesMesa)
             {
-                if (pm.menuItemLibre == menuI || pm.menuItemOcupar == menuI)
+                if (pm.menuItemLibre == menuI || pm.menuItemOcupar == menuI || pm.menuItemPasarPedido == menuI)
                 {
                     return pm;
                 }
@@ -295,16 +600,37 @@ namespace Eros.Cobrador
         private void CtxMenuDejarLibre_Click(object sender, RoutedEventArgs e)
         {
             PanelMesa pm = GetPanelMesaFromContextMenuItem(sender as MenuItem);
-            Pedidos pedidoMesa = ControladorPedidos.GetFromApiByIdMesa(pm.mesa._id);
+            Pedidos pedidoMesa = new Pedidos();
+            try
+            {
+                pedidoMesa = ControladorPedidos.GetFromApiByIdMesa(pm.mesa._id);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
+            }
             if (pedidoMesa == null)
             {
                 pm.mesa.estado = "Libre";
-                ControladorMesas.UpdateInApi(pm.mesa);
+                try
+                {
+                    ControladorMesas.UpdateInApi(pm.mesa);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                    MainWindow mw = new MainWindow();
+                    mw.Show();
+                    this.Close();
+                }
                 btReiniciar_Click(sender, null);
             }
             else
             {
-                MessageBox.Show("Esta mesa tiene un pedido pendiente, no se puede dejar Libre");
+                MessageBox.Show("Esta mesa tiene un pedido pendiente, no se puede dejar Libre", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -312,8 +638,46 @@ namespace Eros.Cobrador
         {
             PanelMesa pm = GetPanelMesaFromContextMenuItem(sender as MenuItem);
             pm.mesa.estado = "Ocupada";
-            ControladorMesas.UpdateInApi(pm.mesa);
+            try
+            {
+                ControladorMesas.UpdateInApi(pm.mesa);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
+            }
             btReiniciar_Click(sender, null);
+        }
+
+        private void CtxMenuPasarPedido_Click(object sender, RoutedEventArgs e)
+        {
+            PanelMesa pm = GetPanelMesaFromContextMenuItem(sender as MenuItem);
+            Pedidos pedidoMesa = new Pedidos();
+            try
+            {
+                pedidoMesa = ControladorPedidos.GetFromApiByIdMesa(pm.mesa._id);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
+            }
+            if (pedidoMesa == null)
+            {
+                MessageBox.Show("Esta mesa no contiene ningún pedido que se pueda trasladar", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                btReiniciar_Click(sender, null);
+                return;
+            }
+
+            passingPedido = pedidoMesa;
+            passingPedidoMesa = pm.mesa;
+            ChangeWindowState(windowState.PasandoPedido);
+
         }
 
         //FILTRO
@@ -383,6 +747,17 @@ namespace Eros.Cobrador
 
         private void tbComensales_TextChanged(object sender, TextChangedEventArgs e)
         {
+            try
+            {
+                if (tbComensales.Text != "")
+                    Convert.ToInt32(tbComensales.Text);
+
+            }
+            catch (Exception ex)
+            {
+                tbComensales.Text = tbComensales.Text.Substring(0, tbComensales.Text.Length - 1);
+                return;
+            }
             if (filterBoxAlreadyChanged == true)
             {
                 return;
@@ -467,12 +842,13 @@ namespace Eros.Cobrador
                 return true;
             }
             else
-            {                
+            {
                 int comensales = Convert.ToInt32(tbComensales.Text.Trim());
                 if (panelMesa.mesa.numSillas >= comensales)
                 {
                     return true;
                 }
+
             }
 
             return false;
@@ -494,5 +870,9 @@ namespace Eros.Cobrador
             UpdatePanelesMesasLayout();
         }
 
+        private void btCancelarTraspasoDePedido_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeWindowState(windowState.Normal);
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace Eros.Clases
     public class GlobalVariables
     {
         //User
+        static public Empleado employee { get; set; }
         static public string username { get; set; }
 
         //Window

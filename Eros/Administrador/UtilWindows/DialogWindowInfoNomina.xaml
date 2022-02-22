@@ -1,0 +1,33 @@
+﻿<Window x:Class="Eros.Administrador.UtilWindows.DialogWindowInfoNomina"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Eros.Administrador.UtilWindows"
+        mc:Ignorable="d"
+        Title="Info Nomina" Height="415" Width="638">
+    <ScrollViewer>
+        <Viewbox VerticalAlignment="Top">
+            <StackPanel Width="850">
+                <TextBlock x:Name="tbkFechas" Text="Del 12/10/2022 al 12/11/2022" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="35" Margin="0,10,0,0"/>
+                <Border Height="1" Background="Black" VerticalAlignment="Bottom" Margin="10,15,10,0" Opacity="0.6"/>
+                <TextBlock x:Name="tbkNombreYAp" Text="Simon Muñoz Baldo" HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="30" Margin="20,10,0,0"/>
+                <TextBlock x:Name="tbkDni" Text="49233248T" HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="30" Margin="20,10,0,0"/>
+                <TextBlock x:Name="tbkDireccion" Text="C/Aitana nº5 03580" HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="30" Margin="20,10,0,0"/>
+                <Border Height="1" Background="Black" VerticalAlignment="Bottom" Margin="10,20,10,0" Opacity="0.6"/>
+                <Grid Margin="20,10,20,0">
+                    <TextBlock x:Name="tbkHoras" Text="Horas Corrientes: 120" HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="30"/>
+                    <TextBlock x:Name="tbkPrecioHora" Text="€/H.C: 12,00€" HorizontalAlignment="Right" VerticalAlignment="Center"  FontSize="30" />
+                </Grid>
+                <Grid Margin="20,10,20,0">
+                    <TextBlock x:Name="tbkHorasEx" Text="Horas Extra: 12" HorizontalAlignment="Left" VerticalAlignment="Center"  FontSize="30" />
+                    <TextBlock x:Name="tbkPrecioHoraEx" Text="€/H.E: 12,00€" HorizontalAlignment="Right" VerticalAlignment="Center"  FontSize="30" />
+                </Grid>
+                <TextBlock Text="Remuneracion Total:"  HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="40" Margin="0,50,0,0"/>
+                <TextBlock x:Name="tbkRemuneracion" Text="2145,00€"  HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="40" />
+                <Border Height="1" Background="Black" VerticalAlignment="Bottom" Margin="10,10,10,40" Opacity="0.6"/>
+
+            </StackPanel>
+        </Viewbox>
+    </ScrollViewer>
+</Window>

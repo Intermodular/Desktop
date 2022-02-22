@@ -9,12 +9,16 @@
         Height="{x:Static SystemParameters.PrimaryScreenHeight}"
         WindowState="Maximized"
         Name="window" SizeChanged="window_SizeChanged">
+    <Window.Resources>
 
-    <Grid>
+    </Window.Resources>
+
+    <Grid x:Name="gridPpal" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="11*" />
             <RowDefinition Height="139*" />
+            <RowDefinition Height="60*" />
         </Grid.RowDefinitions>
         <Border x:Name="borderFiltros" Background="Black">
             <Grid>
@@ -57,11 +61,12 @@
         <Viewbox Grid.Row="1">
             <Button  x:Name="btExpandirFiltros" Width="100" Style="{StaticResource btNoHoverBackground}" Background="Transparent" FontSize="25" VerticalAlignment="Top" HorizontalAlignment="Center"  Click="btExpandirFiltros_Click" Height="54" Margin="906,0">
                 <StackPanel Orientation="Horizontal">
-                    <Image Width="50" Source="/Img/icons/filterIcon.png"/>
-                    <Image x:Name="imgFilterArrow" Width="30" Source="Img/icons/downIcon.png" Margin="5,0,0,0" RenderTransformOrigin="0.5,0.5" SnapsToDevicePixels="True"/>
+                    <Image Width="50" Source="../Img/icons/filterIcon.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                    <Image x:Name="imgFilterArrow" Width="30" Source="../Img/icons/downIcon.png" Margin="5,0,0,0" RenderTransformOrigin="0.5,0.5" SnapsToDevicePixels="True"/>
                 </StackPanel>
             </Button>
         </Viewbox>
+
         <ScrollViewer Grid.Row="2" Margin="0,40,0,0">
             <WrapPanel x:Name="wrapPanelTables" HorizontalAlignment="Center" >
 
@@ -71,9 +76,30 @@
                         <TextBlock Text="1" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                         <TextBlock Text="6" FontSize="20" Margin="0,0,10,0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
                     </Grid>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Height="20">
+                                Hola
+                            </MenuItem>
+                        </ContextMenu>
+                    </Button.ContextMenu>
                 </Button>
-
             </WrapPanel>
         </ScrollViewer>
+        <!--<Border Grid.Row="3" Height="2" Background="Black" VerticalAlignment="Top" Opacity="0.01" Margin="50,0"/>-->
+        <Grid Grid.Row="3" Name="gridPasarPedido" Visibility="Hidden">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="165*"/>
+                <RowDefinition Height="92*"/>
+            </Grid.RowDefinitions>
+
+            <Border Height="1" VerticalAlignment="Top" Background="Black" Opacity="0.2" Margin="100,0"/>
+            <Viewbox Grid.Column="0">
+                <TextBlock x:Name="tbkPasandoPedido"  Width="700" TextAlignment="Center" Text="Selecciona la mesa a la que le quieras pasar el pedido"   HorizontalAlignment="Center" FontSize="20" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"/>
+            </Viewbox>
+            <Viewbox Stretch="Uniform" VerticalAlignment="Bottom"  Grid.Row="2" >
+                <Button x:Name="btCancelarTraspasoDePedido" Content="Cancelar" Height="17" Width="60" FontSize="9" Margin="6,10,10,6"  Style="{StaticResource btAdministracionNegativo}" Click="btCancelarTraspasoDePedido_Click"/>
+            </Viewbox>
+        </Grid>
     </Grid>
 </Window>

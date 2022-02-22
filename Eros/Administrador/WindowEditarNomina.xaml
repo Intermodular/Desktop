@@ -1,0 +1,206 @@
+﻿<Window x:Class="Eros.Administrador.WindowEditarNomina"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Eros.Administrador"
+        mc:Ignorable="d"
+        Title="Edicion Nominas" Height="450" MinHeight="450" Width="800" MinWidth="700" WindowStyle="None" MouseDown="Window_MouseDown"  SizeChanged="Window_SizeChanged"  WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Border BorderThickness="0 0 0 1" BorderBrush="Black" Grid.ColumnSpan="3"/>
+
+            <Button Name="Back" HorizontalAlignment="Left" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,30,0" Click="Back_Click">
+                <StackPanel>
+                    <Image>
+                        <Image.Source>
+                            <TransformedBitmap Source="../Img/icons/flecha.png">
+                                <TransformedBitmap.Transform>
+                                    <RotateTransform Angle='180' />
+                                </TransformedBitmap.Transform>
+                            </TransformedBitmap>
+                        </Image.Source>
+                    </Image>
+                </StackPanel>
+            </Button>
+
+            <TextBlock Name="usuName" Text="User" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <TextBlock Text="Edición de Nóminas" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
+
+            <Button Name="Minimize" Grid.Column="2" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,60,0" Click="Minimize_Click">
+                <StackPanel>
+                    <Image Source="../Img/icons/minimizar.png" Width="20" Height="20" Margin="0,-3,0,0"></Image>
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="Maximize"  Grid.Column="2" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,30,0" Click="Maximize_Click">
+                <Image x:Name="img_cuadrado"  Source="/Img/icons/cuadrado.png" Width="15" Height="15" Margin="0,0,0,0"></Image>
+            </Button>
+
+            <Button x:Name="Close" Grid.Column="2" Style="{StaticResource btn_cerrar}" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,0,0" Click="Close_Click">
+                <StackPanel>
+                    <Image Source="../Img/icons/cerrar.png" Width="20" Height="20" Margin="0,5,0,0"></Image>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="7*"/>
+                <RowDefinition Height="60*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.RowSpan="4" Grid.ColumnSpan="4" Source="../Img/adminBG.jpg" Opacity="0.5" Stretch="UniformToFill"></Image>
+            <Viewbox>
+                <TextBlock x:Name="tbkTitle" Text="Creación Nomina" Margin="5" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource Title}"/>
+            </Viewbox>
+            <Border Height="1" VerticalAlignment="Bottom" Background="Black" Margin="20,0" Opacity="0.4"></Border>
+            <Grid Margin="20" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="138*"/>
+                    <ColumnDefinition Width="138*"/>
+                    <ColumnDefinition Width="138*"/>
+                    <ColumnDefinition Width="138*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="116*"/>
+                    <RowDefinition Height="136*"/>
+                    <RowDefinition Height="129*"/>
+                    <RowDefinition Height="129*"/>
+                    <RowDefinition Height="110*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.ColumnSpan="4" Height="1" Margin="0,0,0,0" VerticalAlignment="Bottom" Background="Black" Opacity="0.4"></Border>
+                <Viewbox Grid.Row="0" Grid.Column="0">
+                    <StackPanel Height="50" Width="100" Margin="10">
+                        <TextBlock Text="Nombre" Margin="0,0,0,2"/>
+                        <TextBox x:Name="tbNombre" Style="{StaticResource txb}" IsEnabled="False"/>
+                    </StackPanel>
+                </Viewbox>
+                <Viewbox Grid.Row="0" Grid.Column="1">
+                    <StackPanel Height="50" Width="100" Margin="10">
+                        <TextBlock Text="Apellido" Margin="0,0,0,2"/>
+                        <TextBox x:Name="tbApellido" Style="{StaticResource txb}" IsEnabled="False"/>
+                    </StackPanel>
+                </Viewbox>
+                <Viewbox Grid.Row="0" Grid.Column="2">
+                    <StackPanel Height="50" Width="100" Margin="10">
+                        <TextBlock Text="DNI" Margin="0,0,0,2"/>
+                        <TextBox x:Name="tbDNI" Style="{StaticResource txb}" IsEnabled="False"/>
+                    </StackPanel>
+                </Viewbox>
+                <Viewbox Grid.Row="0" Grid.Column="3">
+                    <StackPanel Height="50" Width="150" Margin="10">
+                        <TextBlock Text="Domicilio" Margin="0,0,0,2"/>
+                        <TextBox x:Name="tbDomicilio" Style="{StaticResource txb}" IsEnabled="False"/>
+                    </StackPanel>
+                </Viewbox>
+
+                <Viewbox Grid.Row="1" Grid.Column="1">
+                    <StackPanel Height="50" Width="180" Margin="0,10,0,10">
+                        <TextBlock Text="Fecha Inicial" Margin="0,0,0,2" HorizontalAlignment="Center"/>
+                        <Grid>
+                            <DatePicker Name="dpFInicial" Style="{StaticResource txb}" LostFocus="dpFInicial_LostFocus" Width="114"/>
+                            <Image x:Name="imgCheckFInicial" Visibility="Hidden" HorizontalAlignment="Right" Source="../Img/icons/check.png" Width="18" Margin="0,0,8,0">
+                                <Image.ToolTip>
+                                    <TextBlock x:Name="tbkImageToolTipFInic"/>
+                                </Image.ToolTip>
+                            </Image>
+                        </Grid>
+
+                    </StackPanel>
+                </Viewbox>
+                <Viewbox Grid.Row="1" Grid.Column="2">
+                    <StackPanel Height="50" Width="180" Margin="10,10,0,10">
+                        <TextBlock Text="Fecha Final" Margin="0,0,0,2" HorizontalAlignment="Center"/>
+                        <Grid>
+                            <DatePicker Name="dpFFinal" Style="{StaticResource txb}" Width="114" LostFocus="dpFFinal_LostFocus"/>
+                            <Image x:Name="imgCheckFFinal" Visibility="Hidden" HorizontalAlignment="Right" Source="../Img/icons/check.png" Width="18" Margin="0,0,8,0">
+                                <Image.ToolTip>
+                                    <TextBlock x:Name="tbkImageToolTipFFinal"/>
+                                </Image.ToolTip>
+                            </Image>
+                        </Grid>
+
+                    </StackPanel>
+                </Viewbox>
+                <Viewbox Grid.Row="2" Grid.Column="0">
+                    <StackPanel Height="50" Width="100" Margin="10">
+                        <TextBlock Text="Horas Corrientes" HorizontalAlignment="Center" Margin="0,0,0,2" />
+                        <Grid>
+                            <TextBox x:Name="tbHoras" Style="{StaticResource txb}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  Width="50" LostFocus="tbHoras_LostFocus"/>
+                            <Image x:Name="imgCheckHoras" Visibility="Hidden" HorizontalAlignment="Right" Source="../Img/icons/check.png" Width="15" Margin="0,0,5,0">
+                                <Image.ToolTip>
+                                    <TextBlock x:Name="tbkImageToolTipHoras"/>
+                                </Image.ToolTip>
+                            </Image>
+                        </Grid>
+
+                    </StackPanel>
+                </Viewbox>
+                <Viewbox Grid.Row="2" Grid.Column="1">
+                    <StackPanel Height="50" Width="100" Margin="10">
+                        <TextBlock Text="€/h H.C." HorizontalAlignment="Center" Margin="0,0,0,2"/>
+                        <Grid>
+                            <TextBox x:Name="tbEurosHora" Style="{StaticResource txb}"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="50" LostFocus="tbEurosHora_LostFocus"/>
+                            <Image x:Name="imgCheckPHoras" Visibility="Hidden" HorizontalAlignment="Right" Source="../Img/icons/check.png" Width="15" Margin="0,0,5,0">
+                                <Image.ToolTip>
+                                    <TextBlock x:Name="tbkImageToolTipPHoras"/>
+                                </Image.ToolTip>
+                            </Image>
+                        </Grid>
+
+                    </StackPanel>
+                </Viewbox>
+                <Viewbox Grid.Row="2" Grid.Column="2">
+                    <StackPanel Height="50" Width="100" Margin="10">
+                        <TextBlock Text="Horas Extra" HorizontalAlignment="Center" Margin="0,0,0,2"/>
+                        <Grid>
+                            <TextBox x:Name="tbHorasEx" Style="{StaticResource txb}"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Width="50" LostFocus="tbHorasEx_LostFocus"/>
+                            <Image x:Name="imgCheckHorasEx" Visibility="Hidden" HorizontalAlignment="Right" Source="../Img/icons/check.png" Width="15" Margin="0,0,5,0">
+                                <Image.ToolTip>
+                                    <TextBlock x:Name="tbkImageToolTipHorasEx"/>
+                                </Image.ToolTip>
+                            </Image>
+                        </Grid>
+                    </StackPanel>
+                </Viewbox>
+                <Viewbox Grid.Row="2" Grid.Column="3">
+                    <StackPanel Height="50" Width="150" Margin="10">
+                        <TextBlock Text="€/h H.E." HorizontalAlignment="Center" Margin="0,0,0,2"/>
+                        <Grid>
+                            <TextBox x:Name="tbEurosHoraEx" Style="{StaticResource txb}"  Width="50" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" LostFocus="tbEurosHoraEx_LostFocus"/>
+                            <Image x:Name="imgCheckPHorasEx" Visibility="Hidden" HorizontalAlignment="Right" Source="../Img/icons/check.png" Width="15" Margin="0,0,29,0">
+                                <Image.ToolTip>
+                                    <TextBlock x:Name="tbkImageToolTipPHorasEx"/>
+                                </Image.ToolTip>
+                            </Image>
+                        </Grid>
+                    </StackPanel>
+                </Viewbox>
+                <Viewbox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" >
+                    <StackPanel Height="50" Width="150" Margin="0">
+                        <TextBlock Text="Rem.Total" HorizontalAlignment="Center" Margin="0,0,0,2"/>
+                        <TextBox x:Name="tbRemuneracion" Style="{StaticResource txb}" IsEnabled="False" TextAlignment="Center" VerticalContentAlignment="Center" Width="70" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Viewbox>
+                <Viewbox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="1">
+                    <Button x:Name="btCancelar" Style="{StaticResource btAdministracionNegativo}" Content="Cancelar" Height="20" Margin="10,20,10,15" Width="140" Click="btCancelar_Click"/>
+                </Viewbox>
+                <Viewbox Grid.Row="4" Grid.Column="2" Grid.ColumnSpan="1">
+                    <Button x:Name="btGuardar" Style="{StaticResource btAdministracionPositivo}" Content="Guardar" Height="20" Margin="10,20,10,15" Width="140" Click="btGuardar_Click"   />
+                </Viewbox>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

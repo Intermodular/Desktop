@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros.Administrador"
         mc:Ignorable="d"
-        Title="WindowMesas" Height="450" MinHeight="450" Width="800" MinWidth="700" WindowStyle="None" MouseDown="Window_MouseDown" SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen">
+        Title="WindowMesas" Height="450" MinHeight="450" Width="800" MinWidth="700" WindowStyle="None" MouseDown="Window_MouseDown"  SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -37,7 +37,7 @@
 
             <Button Name="Refresh" HorizontalAlignment="Left" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="30,0,0,0" Click="Refresh_Click">
                 <StackPanel>
-                    <Image Source="../Img/icons/refresh.png" Width="20" Height="20" VerticalAlignment="Center"/>
+                    <Image Source="../Img/icons/refresh.png" RenderOptions.BitmapScalingMode="HighQuality"  Width="20" Height="20" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
 
@@ -92,7 +92,7 @@
                 </Border>
             </Grid>
 
-            <DataGrid FontSize="15" x:Name="dtgMesas" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dtgMesas_SelectionChanged">
+            <DataGrid FontSize="15" x:Name="dtgMesas" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dtgMesas_SelectionChanged" BorderThickness="2" BorderBrush="Black" Style="{StaticResource txb}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Número" Binding="{Binding Path=numero}"/>
                     <DataGridTextColumn Header="Zona" Binding="{Binding Path=zona}"/>
@@ -107,12 +107,12 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Viewbox  Margin="15" MaxWidth="400" Grid.Column="1">
-                    <Button x:Name="btAnyadirMesa" Content="Crear Mesa" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" Click="btAnyadirMesa_Click" Style="{StaticResource btAdministracionPositivo}"/>
+                    <Button x:Name="btAnyadirMesa" Content="Crear Mesa" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="150" Click="btAnyadirMesa_Click" Style="{StaticResource btAdministracionPositivo}"/>
                 </Viewbox>
 
             </Grid>
 
-            <Border Grid.RowSpan="1" Grid.Column="1" Grid.Row="1" Margin="20,0,10,0" BorderBrush="Black" BorderThickness="2" Padding="10" Background="White">
+            <Border Grid.RowSpan="1" Grid.Column="1" Grid.Row="1" Margin="20,0,10,0" BorderBrush="Black" BorderThickness="2" Padding="10" Background="White" CornerRadius="5">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="5*"/>

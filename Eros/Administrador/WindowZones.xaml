@@ -37,7 +37,7 @@
 
             <Button Name="Refresh" HorizontalAlignment="Left" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="30,0,0,0" Click="Refresh_Click">
                 <StackPanel>
-                    <Image Source="../Img/icons/refresh.png" Width="20" Height="20" VerticalAlignment="Center"/>
+                    <Image Source="../Img/icons/refresh.png" RenderOptions.BitmapScalingMode="HighQuality" Width="20" Height="20" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
 
@@ -94,7 +94,7 @@
 
             </Grid>
 
-            <DataGrid FontSize="15" x:Name="dtgZonas" Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dtgEmpleados_SelectionChanged">
+            <DataGrid FontSize="15" x:Name="dtgZonas"  Grid.Row="1" Margin="5,0,0,0" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dtgEmpleados_SelectionChanged" Background="White" Style="{StaticResource txb}" BorderThickness="2" BorderBrush="Black">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Nombre" Binding="{Binding Path=nombre}"/>
                     <DataGridTextColumn Header="Número de Mesas" Binding="{Binding Path=numMesas}"/>
@@ -107,15 +107,15 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Viewbox  Margin="15" MaxWidth="400" >
-                    <Button Name="Btn_Mesas"  Content="Mesas" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" Click="Btn_Mesas_Click" Style="{StaticResource btAdministracion}"/>
+                    <Button Name="Btn_Mesas"  Content="Mesas" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="150" Click="Btn_Mesas_Click" Style="{StaticResource btAdministracion}"/>
                 </Viewbox>
                 <Viewbox  Margin="15" MaxWidth="400" Grid.Column="1">
-                    <Button x:Name="btAnyadirZona" Content="Añadir Zona" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="224" Click="btAnyadirZona_Click" Style="{StaticResource btAdministracionPositivo}" />
+                    <Button x:Name="btAnyadirZona" Content="Añadir Zona" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="150" Click="btAnyadirZona_Click" Style="{StaticResource btAdministracionPositivo}" />
                 </Viewbox>
 
             </Grid>
 
-            <Border Grid.RowSpan="1" Grid.Column="1" Grid.Row="1" Margin="20,0,10,0" BorderBrush="Black" BorderThickness="2" Padding="10" Background="White">
+            <Border Grid.RowSpan="1" Grid.Column="1" Grid.Row="1" Margin="20,0,10,0" BorderBrush="Black" BorderThickness="2" Padding="10" Background="White" CornerRadius="5">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="5*"/>
@@ -131,7 +131,12 @@
                         <Viewbox Stretch="Uniform" Margin="10,0,10,0">
                             <StackPanel Orientation="Horizontal" Width="350" Margin="2">
                                 <TextBlock Text="Nombre:" FontSize="18" Margin="30,0,0,0"/>
-                                <TextBox x:Name="tbxNombre" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"  Style="{StaticResource txb}"/>
+                                <TextBox x:Name="tbxNombre" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"  Style="{StaticResource txb}" LostFocus="tbxNombre_LostFocus"/>
+                                <Image x:Name="imgCheckNombre" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
+                                    <Image.ToolTip>
+                                        <TextBlock x:Name="tbkImageToolTipNombre"/>
+                                    </Image.ToolTip>
+                                </Image>
                             </StackPanel>
                         </Viewbox>
                         <Viewbox Grid.Row="1" Stretch="Uniform" Margin="10,0,10,0" VerticalAlignment="Top">

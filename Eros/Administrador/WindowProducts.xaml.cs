@@ -25,6 +25,8 @@ namespace Eros
     /// </summary>
     public partial class WindowProducts : Window
     {
+        BitmapImage checkIconSource = new BitmapImage(new Uri(@"../Img/icons/check.png", UriKind.Relative));
+        BitmapImage wrongIconSource = new BitmapImage(new Uri(@"../Img/icons/wrong.png", UriKind.Relative));
         List<Productos> listProductos;
         List<Tipos> listTipos;
         List<Productos> listFiltrada;
@@ -75,7 +77,10 @@ namespace Eros
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                    MainWindow mw = new MainWindow();
+                    mw.Show();
+                    this.Close();
                 }
                 UpdateInfoFromDataBase();
             }
@@ -138,10 +143,13 @@ namespace Eros
         }
         private void btAgregar_Click(object sender, RoutedEventArgs e)
         {
-            string errorMessage;
-            if ((errorMessage = GetValidationErrorString()) != "")
+            bool val1 = ValidateNombre();
+            bool val2 = ValidatePrecio();
+            bool val3 = ValidateImagen();
+            bool val4 = ValidateStock();
+            if (!(val1 && val2 && val3 && val4))
             {
-                MessageBox.Show(errorMessage);
+                MessageBox.Show("Errores encontrados...");
                 return;
             }
             Productos newProduct = GetProductFromTextBoxes();
@@ -151,17 +159,23 @@ namespace Eros
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Posible error de conexión: \n" + ex);
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
             }
             ChangeToState(state.Viendo);
             UpdateInfoFromDataBase();
         }
         private void btGuardarEdicion_Click(object sender, RoutedEventArgs e)
         {
-            string errorMessage;
-            if ((errorMessage = GetValidationErrorString()) != "")
+            bool val1 = ValidateNombre();
+            bool val2 = ValidatePrecio();
+            bool val3 = ValidateImagen();
+            bool val4 = ValidateStock();
+            if (!(val1 && val2 && val3 && val4))
             {
-                MessageBox.Show(errorMessage);
+                MessageBox.Show("Errores encontrados...");
                 return;
             }
             if (GetYesNoMessageBoxResponse("Estás seguro de que quieres guardar los cambios?", "Editar Producto"))
@@ -176,9 +190,11 @@ namespace Eros
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                    MainWindow mw = new MainWindow();
+                    mw.Show();
+                    this.Close();
                 }
-                MessageBox.Show(respuesta);
 
                 if (respuesta == "Error Producto Ya Existe")
                 {
@@ -228,7 +244,10 @@ namespace Eros
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Posible error de conexión: \n" + ex);
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
             }
             cbTipo.Items.Clear();
             foreach (Tipos t in listTipos)
@@ -288,6 +307,7 @@ namespace Eros
                     EnableTextBoxes(false);
                     dtgProductos.IsEnabled = true;
                     dtgEmpleados_SelectionChanged(null, null);
+                    previewImage.Visibility = Visibility.Hidden;
 
                     break;
 
@@ -352,9 +372,8 @@ namespace Eros
         }
 
         private Productos GetProductFromTextBoxes()
-        {
-
-        
+        { 
+            
             Productos product = new Productos();
             product.nombre = tbxNombre.Text.Trim();
             product.tipo = cbTipo.Text.Trim();
@@ -372,8 +391,6 @@ namespace Eros
             product.imagen = tbxImagen.Text;
             product.stock = int.Parse(tbxStock.Text);
 
-            
-
             return product;
         }
 
@@ -387,199 +404,120 @@ namespace Eros
             return false;
         }
 
-        private string GetValidationErrorString()
-        {
-            string errorString = "";
-
-            if (tbxNombre.Text == "")
-            {
-                errorString += "-El campo Nombre no puede estar vacío." + Environment.NewLine;
-
-            }
-            else if (!Regex.IsMatch(tbxNombre.Text, @"^([a-zA-Z ]+)$"))
-            {
-                errorString += "-El campo Nombre solo permite caracteres alfabéticos." + Environment.NewLine;
-            }
-
-            if (tbxPrecio.Text == "")
-            {
-                errorString += "-El campo Precio no puede estar vacío." + Environment.NewLine;
-
-            }
-            else if (double.TryParse(tbxPrecio.Text, out _))
-            {
-                errorString += "-El campo Precio tiene que ser de tipo numérico." + Environment.NewLine;
-            }
-
-            if (tbxImagen.Text == "")
-            {
-                errorString += "-El campo Imagen no puede estar vacío." + Environment.NewLine;
-
-            }
-
-            if (tbxStock.Text == "")
-            {
-                errorString += "-El campo Stock no puede estar vacío." + Environment.NewLine;
-
-            }
-            else if (!Regex.IsMatch(tbxStock.Text, @"^[0-9]+$"))
-            {
-                errorString += "-El campo Stock tiene que ser de tipo numérico." + Environment.NewLine;
-            }
-
-
-
-
-            //Validar por tipo de producto existente ¿?
-            /* else if (!Regex.IsMatch(tbxApellido.Text, @"^([a-zA-Z ]+)$"))
-             {
-                 errorString += "-El campo Apellido solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
-             }
-            */
-            /*
-             if (tbxIngredientes.Text == "")
-             {
-                 errorString += "-El campo Ingredientes no puede estar vacío" + Environment.NewLine;
-             }*/
-            /*
-            else if (!Regex.IsMatch(tbxIngredientes.Text.Trim(), @"^([a-zA-Z ]+)$"))
-            {
-                errorString += "-El campo Tipo solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
-            }
-            */
-            /*
-
-             if (tbxPrecio.Text != "")
-             {
-
-                 errorString += "-El campo Precio No puede estar vacio" + Environment.NewLine;
-             }
-             else if (!Regex.IsMatch(tbxPrecio.Text, @"^[0-9]."));
-             {
-                 errorString += "-El campo Precio debe ser numérico" + Environment.NewLine;
-
-             }
-             */
-            return errorString;
-
-        }
-
         private void tbxNombre_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxNombre.IsReadOnly)
-            {
                 return;
-            }
-            string errorString = "";
+            ValidateNombre();
+        }
+
+        public bool ValidateNombre()
+        {
+            imgCheckNombre.Visibility = Visibility.Visible;
+
             if (tbxNombre.Text == "")
             {
-                errorString = "El campo Nombre no puede estar vacío.";
+                imgCheckNombre.Source = wrongIconSource;
+                tbkImageToolTipNombre.Text = "Campo Obligatorio";
+                return false;
 
             }
             else if (!Regex.IsMatch(tbxNombre.Text, @"^([a-zA-Z ]+)$"))
             {
-                errorString = "El campo Nombre solo permite caracteres alfabéticos.";
+                imgCheckNombre.Source = wrongIconSource;
+                tbkImageToolTipNombre.Text = "El campo Nombre solo permite caracteres alfabéticos.";
+                return false;
             }
 
-            imgCheckNombre.Visibility = Visibility.Visible;
-
-            if (errorString == "")
-            {
-                imgCheckNombre.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipNombre.Text = "Correcto";
-            }
-            else
-            {
-                imgCheckNombre.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipNombre.Text = errorString;
-            }
+            imgCheckNombre.Source = checkIconSource;
+            tbkImageToolTipNombre.Text = "Correcto";
+            return true;
         }
 
         private void tbxPrecio_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxPrecio.IsReadOnly)
-            {
                 return;
-            }
-            string errorString = "";
-            if (tbxPrecio.Text == "")
-            {
-                errorString = "El campo Precio no puede estar vacío.";
+            ValidatePrecio();
+        }
 
-            }
-
+        public bool ValidatePrecio()
+        {
             imgCheckPrecio.Visibility = Visibility.Visible;
 
-            if (errorString == "")
+            if (tbxPrecio.Text == "")
             {
-                imgCheckPrecio.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipPrecio.Text = "Correcto";
+                imgCheckPrecio.Source = wrongIconSource;
+                tbkImageToolTipPrecio.Text = "Campo Obligatorio";
+                return false;
+
             }
-            else
+            else if (!Regex.IsMatch(tbxPrecio.Text, @"^[0-9]\d*(\,\d+)?$"))
             {
-                imgCheckPrecio.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipPrecio.Text = errorString;
+                imgCheckPrecio.Source = wrongIconSource;
+                tbkImageToolTipPrecio.Text = "El campo Precio tien que ser de tipo numérico.";
+                return false;
             }
+
+            imgCheckPrecio.Source = checkIconSource;
+            tbkImageToolTipPrecio.Text = "Correcto";
+            return true;
         }
 
         private void tbxImagen_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxImagen.IsReadOnly)
-            {
                 return;
-            }
-            string errorString = "";
-            if (tbxImagen.Text == "")
-            {
-                errorString = "El campo Imagen no puede estar vacío.";
+            ValidateImagen();
+        }
 
-            }
-
+        public bool ValidateImagen()
+        {
             imgCheckImagen.Visibility = Visibility.Visible;
 
-            if (errorString == "")
+            if (tbxImagen.Text == "")
             {
-                imgCheckImagen.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipImagen.Text = "Correcto";
+                imgCheckImagen.Source = wrongIconSource;
+                tbkImageToolTipImagen.Text = "Campo Obligatorio";
+                return false;
+
             }
-            else
-            {
-                imgCheckPrecio.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipPrecio.Text = errorString;
-            }
+
+            imgCheckImagen.Source = checkIconSource;
+            tbkImageToolTipImagen.Text = "Correcto";
+            previewImage.Visibility = Visibility.Visible;
+            tipoImage.Source = new BitmapImage(new Uri(tbxImagen.Text));
+            return true;
         }
 
         private void tbxStock_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxStock.IsReadOnly)
-            {
                 return;
-            }
+            ValidateStock();
+        }
+
+        public bool ValidateStock()
+        {
             imgCheckStock.Visibility = Visibility.Visible;
-            string errorString = "";
-            if (tbxStock.Text != "")
+
+            if (tbxStock.Text == "")
             {
-                if (!Regex.IsMatch(tbxStock.Text, @"^[0-9]+$"))
-                {
-                    errorString = "El campo Stock tiene que ser de tipo numérico.";
-                }
+                imgCheckStock.Source = wrongIconSource;
+                tbkImageToolTipStock.Text = "Campo Obligatorio";
+                return false;
+
             }
-            else
+            else if (!Regex.IsMatch(tbxStock.Text, @"^([0-9]+)$"))
             {
-                imgCheckStock.Visibility = Visibility.Hidden;
-                return;
+                imgCheckStock.Source = wrongIconSource;
+                tbkImageToolTipStock.Text = "El campo Stock solo permite números enteros.";
+                return false;
             }
 
-            if (errorString == "")
-            {
-                imgCheckStock.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipStock.Text = "Correcto";
-            }
-            else
-            {
-                imgCheckStock.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipStock.Text = errorString;
-            }
+            imgCheckStock.Source = checkIconSource;
+            tbkImageToolTipStock.Text = "Correcto";
+            return true;
         }
 
         private void hideIcons()
@@ -655,7 +593,7 @@ namespace Eros
 
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            WindowState = (WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)

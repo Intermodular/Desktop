@@ -68,7 +68,7 @@ namespace Eros.Clases
                     res += Environment.NewLine + "  *EXTRA " + le.extra.nombre;
                     if (le.cantidad > 1)
                     {
-                        res += " x" + le.cantidad;
+                        res += " x " + le.cantidad;
                     }
                 }
             }

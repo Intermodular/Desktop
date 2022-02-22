@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Eros
 {
@@ -45,6 +46,77 @@ namespace Eros
         {
             string respuesta = ControladorApi.DeleteHttp("http://localhost:8080/api/mesa/id/" + id_mesa);
             return respuesta;
+        }
+
+        //Funciones de validación
+
+        public async static Task<bool> DoesMesaExistAsync(string mesa)
+        {
+            string respuesta = await ControladorApi.GetHttpAsync("http://localhost:8080/api/mesa/numero/" + mesa);
+            Thread.Sleep(2000);
+            if (respuesta == "Not Found")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public async static Task<bool> DoesMesaExistAsync(string mesa, int exceptionId)
+        {
+            string respuesta = await ControladorApi.GetHttpAsync("http://localhost:8080/api/mesa/numero/" + mesa);
+            Thread.Sleep(2000);
+            if (respuesta == "Not Found")
+            {
+                return false;
+            }
+            else
+            {
+                Mesas m = JsonConvert.DeserializeObject<Mesas>(respuesta);
+                if (m._id == exceptionId)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+        public static bool DoesMesaExist(string mesa)
+        {
+            string respuesta = ControladorApi.GetHttp("http://localhost:8080/api/mesa/numero/" + mesa);
+            if (respuesta == "Not Found")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        public static bool DoesMesaExist(string mesa, int exceptionId)
+        {
+            string respuesta = ControladorApi.GetHttp("http://localhost:8080/api/mesa/numero/" + mesa);
+            if (respuesta == "Not Found")
+            {
+                return false;
+            }
+            else
+            {
+                Mesas m = JsonConvert.DeserializeObject<Mesas>(respuesta);
+                if (m._id == exceptionId)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
+            }
         }
     }
 }

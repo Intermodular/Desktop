@@ -1,7 +1,4 @@
-﻿using Eros.Clases;
-using Eros.Controladores;
-using Eros.Modelos;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +9,17 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Eros.Controladores;
+using Eros.Clases;
+using Eros.Modelos;
+using System.Windows.Media.Animation;
 
 namespace Eros.Cobrador
 {
     /// <summary>
-    /// Lógica de interacción para WindowEditarPedido.xaml
+    /// Interaction logic for WindowEditarPedido.xaml
     /// </summary>
     public partial class WindowEditarPedido : Window
     {
@@ -30,9 +30,9 @@ namespace Eros.Cobrador
 
         //Variables Pedido
         Pedidos pedido;
+        int numMesa;
         List<PanelLineaPedido> linePanelList;
         PanelLineaPedido linePanelBeingEdited = null;
-        int tableId;
 
         //Extras
         List<PanelLineaExtra> extraLinePanelList;
@@ -44,10 +44,12 @@ namespace Eros.Cobrador
         List<Tipos> typeList;
         List<Button> typeButtonList;
         double minTypeButtonWidth = 150;
+        double typeButtonHeight = 50;
+        double typeButtonFontsize = 14;
         int numberOfTypeButtonsPerBlock = 0;
         int currentRoundOfTypeButtons;
         double widthAux = 800, heightAux = 400;
-        string currentType;
+        Button currentTypeButton;
 
         //Filtros
         Storyboard storyBoardFiltros;
@@ -57,9 +59,7 @@ namespace Eros.Cobrador
         Duration durationCome;
         float filterWidthProportion = 0.20f;
         List<CheckBox> cbxFiltersList;
-
-
-        public WindowEditarPedido(Pedidos pedido)
+        public WindowEditarPedido(Pedidos pedido, int numMesa)
         {
             InitializeComponent();
 
@@ -73,19 +73,35 @@ namespace Eros.Cobrador
             BuildPanelGrid();
             InitializeFilterCheckBoxes();
             PutPanelsInGrid(typeList[0].nombre);
-            currentType = typeList[0].nombre;
+            currentTypeButton = typeButtonList[0];
+            currentTypeButton.Style = Application.Current.Resources["buttonTiposSeleccionado"] as Style;
             LoadImages();
 
             this.pedido = pedido;
+            this.numMesa = numMesa;
             summaryListBox.Items.Clear();
             linePanelList = new List<PanelLineaPedido>();
             CreateAndAddPanelsLineaPedidoFromPedido();
+            WindowTitle.Text = "Edición de Pedido (Mesa " + numMesa + ")";
             //GetAndPlaceOrCreatePedido();
 
             tbContador.Text = "0";
 
             InitializeAnimations();
             borderFiltros.Width = this.Width * filterWidthProportion;
+
+            if (GlobalVariables.max)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                Left = GlobalVariables.left;
+                Top = GlobalVariables.top;
+                Height = GlobalVariables.height;
+                Width = GlobalVariables.width;
+            }
+
         }
 
 
@@ -141,12 +157,37 @@ namespace Eros.Cobrador
 
         private double GetProductsGridWidth()
         {
-            return (this.Width * (745d / (745d + 291d + 74d))) - (5 * 2); //Estrellitas del grid y margen del grid
+            double width = ((this.Width * (745d / (745d + 291d + 74d))) - (5 * 2)); //Estrellitas del grid y margen del grid
+            if (this.WindowState != WindowState.Maximized)
+            {
+                width -= 10;
+            }
+            return width;
         }
         private void CreateTypeList()
         {
-          
-            typeList = ControladorTipos.GetAllFromApi();
+            /*typeList = new List<Tipos>();
+            typeList.Add(new Tipos { _id = 1, nombre = "Bebidas",listaExtras = new List<Extras>() { new Extras {  nombre = "LimonBebidas",  precio = 0.20f }, new Extras {nombre = "NaranjaBebidas", precio = 0.30f } } });
+            typeList.Add(new Tipos { _id = 2, nombre = "Hamburguesas", listaExtras = new List<Extras>() { new Extras {  nombre = "QuesoHamburguesa", precio = 0.50f }, new Extras { nombre = "BaconHamburguesa", precio = 0.70f }, new Extras { nombre = "HuevoHamburguesa", precio = 1f } } });
+            typeList.Add(new Tipos { _id = 3, nombre = "Pescados", listaExtras = null });
+            typeList.Add(new Tipos { _id = 4, nombre = "Pasta", listaExtras = null });
+            typeList.Add(new Tipos { _id = 5, nombre = "Bocadillos", listaExtras = null });
+            typeList.Add(new Tipos { _id = 6, nombre = "Combinados", listaExtras = null });
+            typeList.Add(new Tipos { _id = 7, nombre = "Helados", listaExtras = null });
+            typeList.Add(new Tipos { _id = 8, nombre = "Postres", listaExtras = null });
+            typeList.Add(new Tipos { _id = 9, nombre = "Carnes", listaExtras = null });
+            typeList.Add(new Tipos { _id = 10, nombre = "Asdsdasd", listaExtras = null });*/
+            try
+            {
+                typeList = ControladorTipos.GetAllFromApi();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
+            }
 
         }
         private void CreateTypeButtonList()
@@ -157,13 +198,13 @@ namespace Eros.Cobrador
             {
                 Button b = new Button();
                 b.Width = minTypeButtonWidth;
-                b.Height = minTypeButtonWidth * 0.3;
+                b.Height = typeButtonHeight;
                 b.Content = tipo.nombre;
-                b.FontSize = 14;
+                b.FontSize = typeButtonFontsize;
                 b.Padding = new Thickness(5);
                 b.Name = tipo.nombre;
                 b.Click += btType_Click;
-                b.Style = Application.Current.Resources["clickableResizableButtonWithNoHoverResize"] as Style;
+                b.Style = Application.Current.Resources["buttonTipos"] as Style;
                 b.RenderTransformOrigin = new Point(0.5f, 0.5f);
                 typeButtonList.Add(b);
             }
@@ -183,7 +224,14 @@ namespace Eros.Cobrador
 
             for (int i = 0; i < typeButtonList.Count; i++)
             {
+
                 typeButtonList[i].Width = fixedTypeButtonWidth;
+                typeButtonList[i].FontSize = typeButtonFontsize;
+                typeButtonList[i].Height = typeButtonHeight;
+                btRight.Height = typeButtonHeight;
+                btRight.Width = typeButtonHeight;
+                btLeft.Height = typeButtonHeight;
+                btLeft.Width = typeButtonHeight;
             }
 
             PutRoundOfTypeButtons();
@@ -252,8 +300,16 @@ namespace Eros.Cobrador
 
         private void btType_Click(object sender, RoutedEventArgs e)
         {
-            string type = ((Button)sender).Name;
-            currentType = type;
+            Button newBt = sender as Button;
+
+            if (newBt != currentTypeButton)
+            {
+                currentTypeButton.Style = Application.Current.Resources["buttonTipos"] as Style;
+                newBt.Style = Application.Current.Resources["buttonTiposSeleccionado"] as Style;
+                currentTypeButton = newBt;
+            }
+
+            string type = newBt.Content as string;
             PutPanelsInGrid(type);
         }
 
@@ -262,8 +318,53 @@ namespace Eros.Cobrador
         //Product Placing ------------------------------------------------------------------------------------------------------------------------------------------------
         private List<Productos> GetProductList()
         {
-     
-            List<Productos> pl = ControladorProductos.GetAllFromApi();
+            /*List<Productos> pl = new List<Productos>();
+            pl.Add(new Productos { _id = 1,precio = 2.50f, tipo = "Hamburguesas", nombre = "McAitana", imagen = "https://lapublicidad.net/wp-content/uploads/2017/11/BK_Web_bigking_XXL_500X540px.png", stock = 30, especificaciones = new List<string>() {"Vegano","Picante"}, ingredientes = new List<string>() {"Cebolla","Pimiento","Pan","Carne","Lechuga","Huevo","TuMadre"} });
+            pl.Add(new Productos { _id = 2, precio = 2.45f, tipo = "Hamburguesas", nombre = "BigMac", imagen = "https://www.chollosocial.com/media/data/2019/11/678gf34.png" });
+            pl.Add(new Productos { _id = 3, precio = 2, tipo = "Hamburguesas", nombre = "CheeseAndBacon", imagen = "https://lapublicidad.net/wp-content/uploads/2017/11/BK_Web_bigking_XXL_500X540px.png" });
+            pl.Add(new Productos { _id = 4, precio = 1, tipo = "Hamburguesas", nombre = "Obama Prism", imagen = "https://cdn131.picsart.com/309150312204211.png" });
+            pl.Add(new Productos { _id = 5, precio = 5, tipo = "Hamburguesas", nombre = "BigMac", imagen = "https://s3.eu-central-1.amazonaws.com/www.burgerking.com.mx/wp-content/uploads/sites/3/2021/02/24094446/1200x800_01_GuacamoleCrunchKing-1-1.png" });
+            pl.Add(new Productos { _id = 6, precio = 6, tipo = "Hamburguesas", nombre = "CheeseAndBacon", imagen = "https://www.chollosocial.com/media/data/2019/11/678gf34.png" });
+            pl.Add(new Productos { _id = 7, precio = 2, tipo = "Hamburguesas", nombre = "McAitana", imagen = "https://lapublicidad.net/wp-content/uploads/2017/11/BK_Web_bigking_XXL_500X540px.png" });
+            pl.Add(new Productos { _id = 8, precio = 4, tipo = "Hamburguesas", nombre = "BigMac", imagen = "https://www.chollosocial.com/media/data/2019/11/678gf34.png" });
+            pl.Add(new Productos { _id = 9, precio = 7, tipo = "Hamburguesas", nombre = "CheeseAndBacon", imagen = "https://lapublicidad.net/wp-content/uploads/2017/11/BK_Web_bigking_XXL_500X540px.png" });
+            pl.Add(new Productos { _id = 10, precio = 9, tipo = "Hamburguesas", nombre = "McAitana", imagen = "https://recursos.marketingnews.es/files/884/79.png" });
+            pl.Add(new Productos { _id = 11, precio = 2.5f, tipo = "Hamburguesas", nombre = "BigMac", imagen = "https://s3.eu-central-1.amazonaws.com/www.burgerking.com.mx/wp-content/uploads/sites/3/2021/02/24094446/1200x800_01_GuacamoleCrunchKing-1-1.png" });
+            pl.Add(new Productos { _id = 12, precio = 2.60f, tipo = "Hamburguesas", nombre = "CheeseAndBacon", imagen = "https://www.chollosocial.com/media/data/2019/11/678gf34.png" });
+            pl.Add(new Productos { _id = 13, precio = 6f, tipo = "Hamburguesas", nombre = "McAitana", imagen = "https://lapublicidad.net/wp-content/uploads/2017/11/BK_Web_bigking_XXL_500X540px.png" });
+            pl.Add(new Productos { _id = 14, precio = 2, tipo = "Hamburguesas", nombre = "BigMac", imagen = "https://www.chollosocial.com/media/data/2019/11/678gf34.png" });
+            pl.Add(new Productos { _id = 15, precio = 2, tipo = "Hamburguesas", nombre = "CheeseAndBacon", imagen = "https://lapublicidad.net/wp-content/uploads/2017/11/BK_Web_bigking_XXL_500X540px.png" });
+            pl.Add(new Productos { _id = 16, precio = 2.4f, tipo = "Hamburguesas", nombre = "McAitana", imagen = "https://recursos.marketingnews.es/files/884/79.png" });
+            pl.Add(new Productos { _id = 17, precio = 2.25f, tipo = "Hamburguesas", nombre = "BigMac", imagen = "https://s3.eu-central-1.amazonaws.com/www.burgerking.com.mx/wp-content/uploads/sites/3/2021/02/24094446/1200x800_01_GuacamoleCrunchKing-1-1.png" });
+            pl.Add(new Productos { _id = 18, precio = 2.35f, tipo = "Hamburguesas", nombre = "CheeseAndBacon", imagen = "https://www.chollosocial.com/media/data/2019/11/678gf34.png" });
+            pl.Add(new Productos { _id = 19, precio = 2, tipo = "Hamburguesas", nombre = "McAitana", imagen = "https://lapublicidad.net/wp-content/uploads/2017/11/BK_Web_bigking_XXL_500X540px.png" });
+            pl.Add(new Productos { _id = 20, precio = 2, tipo = "Hamburguesas", nombre = "BigMac", imagen = "https://www.chollosocial.com/media/data/2019/11/678gf34.png" });
+            pl.Add(new Productos { _id = 21, precio = 2, tipo = "Hamburguesas", nombre = "CheeseAndBacon", imagen = "https://lapublicidad.net/wp-content/uploads/2017/11/BK_Web_bigking_XXL_500X540px.png" });
+            pl.Add(new Productos { _id = 22, precio = 2, tipo = "Hamburguesas", nombre = "McAitana", imagen = "https://recursos.marketingnews.es/files/884/79.png" });
+            pl.Add(new Productos { _id = 23, precio = 2, tipo = "Hamburguesas", nombre = "BigMac", imagen = "https://s3.eu-central-1.amazonaws.com/www.burgerking.com.mx/wp-content/uploads/sites/3/2021/02/24094446/1200x800_01_GuacamoleCrunchKing-1-1.png" });
+            pl.Add(new Productos { _id = 24, precio = 2, tipo = "Hamburguesas", nombre = "CheeseAndBacon", imagen = "https://www.chollosocial.com/media/data/2019/11/678gf34.png" });
+            pl.Add(new Productos { _id = 25, precio = 3.50f, tipo = "Bebidas", nombre = "Agua 500ml", imagen = "https://mcdonalds.es/api/cms/images/mcdonalds-es/52cb6a85-a601-4993-8711-de79538c9a0c_producto-78.png?auto=compress,format" });
+            pl.Add(new Productos { _id = 28, precio = 4.50f, tipo = "Bebidas", nombre = "Agua 2L", imagen = "https://cdn.metro-group.com/es/es_pim_150358001001_01.png?w=400&h=400&mode=pad" });
+            pl.Add(new Productos { _id = 26, precio = 2, tipo = "Bebidas", nombre = "CocaCola 500ml", imagen = "https://www.toque.com.ar/sistema/uploads/571/articulos/591136208083.png" });
+            pl.Add(new Productos { _id = 27, precio = 4, tipo = "Bebidas", nombre = "CocaCola 1L", imagen = "https://storage.googleapis.com/grandchef-apps/gc4386/images/products/6022003683260.png" });
+            pl.Add(new Productos { _id = 29, precio = 2, tipo = "Bebidas", nombre = "Nestea 500ml", imagen = "https://sportavern.com/wp-content/uploads/productosImgs2Fbebida-nestea-33cl2.png" });
+            pl.Add(new Productos { _id = 30, precio = 2, tipo = "Bebidas", nombre = "Fanta Naranja 500ml", imagen = "https://tiatota.com/wp-content/uploads/2020/12/Lata-de-Fanta-de-Naranja-1.png" });
+            pl.Add(new Productos { _id = 31, precio = 100, tipo = "Hamburguesas", nombre = "McInvent", imagen = "asdasdasd" });*/
+
+            List<Productos> pl = new List<Productos>();
+
+            try
+            {
+                pl = ControladorProductos.GetAllFromApi();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
+            }
+
             return pl;
         }
 
@@ -280,6 +381,7 @@ namespace Eros.Cobrador
                 panel.boton.Click += ProductButtonClick;
                 panel.boton.MouseRightButtonDown += ProductButtonRightClick;
                 panel.boton.Style = Application.Current.Resources["clickableResizableButtonWithNoHoverResize"] as Style;
+                //panel.boton.Foreground = Brushes.White;
                 panel.boton.RenderTransformOrigin = new Point(0.5f, 0.5f);
                 panel.stackPanel.Margin = new Thickness(40, 40, 40, 20);
                 panel.imagen.Width = 250;
@@ -374,14 +476,14 @@ namespace Eros.Cobrador
             ChangeState(state.Info);
             imgInfoProduct.Source = clickedPanel.imagen.Source;
             tbkInfoProductName.Text = clickedPanel.producto.nombre;
-            tbkInfoPrecio.Text = String.Format("Precio: {0:0.00€}", clickedPanel.producto.precio);
-            tbkInfoStock.Text = "Stock: " + clickedPanel.producto.stock;
-            tbkInfoIngredientes.Text = GetStringFromStringListWithComas(clickedPanel.producto.ingredientes);
-            tbkInfoEspecificaciones.Text = GetStringFromStringListWithComas(clickedPanel.producto.especificaciones);
+            tbkInfoPrecio.Text = String.Format("{0:0.00€}", clickedPanel.producto.precio);
+            tbkInfoStock.Text = clickedPanel.producto.stock + "";
+            tbkInfoIngredientes.Text = GetStringWithLineJumpFromStringList(clickedPanel.producto.ingredientes);
+            tbkInfoEspecificaciones.Text = GetStringWithLineJumpFromStringList(clickedPanel.producto.especificaciones);
 
         }
 
-        private string GetStringFromStringListWithComas(List<string> list)
+        private string GetStringWithLineJumpFromStringList(List<string> list)
         {
             if (list == null)
             {
@@ -393,7 +495,7 @@ namespace Eros.Cobrador
                 res += list[i];
                 if (i != list.Count - 1)
                 {
-                    res += ", ";
+                    res += Environment.NewLine;
                 }
             }
 
@@ -436,7 +538,6 @@ namespace Eros.Cobrador
         {
             return (value - underValue) / (upperValue - underValue);
         }
-
         //Funcion para recalcular el fontsize de forma proporcional al tamaño de la pantalla igualando dos valores de estos
         private double GetFontSizeDependingOnScreenSize(double upperFontsize, double underFontsize, double upperScreenWidth, double underScreenWidth)
         {
@@ -458,6 +559,39 @@ namespace Eros.Cobrador
             }
             summaryListBox.UpdateLayout();
         }
+
+        /*private Pedidos GetPedidoFromMesa()
+        {
+            //Prueba
+            if(tableId == 1)
+            {
+                Pedidos p = new Pedidos();
+                List<LineaPedido> lp = new List<LineaPedido>();
+                lp.Add(new LineaPedido {anotaciones = "Sin Pepino,Sin Mayonesa",cantidad = 2,producto = new Productos{ _id = 1, precio = 2.50f, tipo = "Hamburguesas", nombre = "McAitana", imagen = "https://lapublicidad.net/wp-content/uploads/2017/11/BK_Web_bigking_XXL_500X540px.png" },lineasExtras = new List<LineaExtra> {new LineaExtra {cantidad = 1 , extra = new Extras() {_id = 20,nombre = "ChampiñonHamburguesa",nombreAMostrar="Champiñon",precio = 0.60f } }, new LineaExtra { cantidad = 0, extra = new Extras() { _id = 20, nombre = "Pepinillo", nombreAMostrar = "Pepinillo", precio = 0.70f } } } }) ;
+                lp.Add(new LineaPedido { anotaciones = "", cantidad = 1, producto = new Productos { _id = 30, precio = 2, tipo = "Bebidas", nombre = "Fanta Naranja 500ml", imagen = "https://tiatota.com/wp-content/uploads/2020/12/Lata-de-Fanta-de-Naranja-1.png" }});
+                p.lineasPedido = lp;
+                return p;
+            }
+            else
+            {
+                return null;
+            }
+        }*/
+
+        /*private void GetAndPlaceOrCreatePedido()
+        {
+            pedido = GetPedidoFromMesa();
+            
+            if (pedido == null)
+            {
+                pedido = new Pedidos();
+                pedido.lineasPedido = new List<LineaPedido>();
+            }
+            else
+            {
+                CreateAndAddPanelsLineaPedidoFromPedido();
+            }
+        }*/
 
 
         private void CreateAndAddPanelsLineaPedidoFromPedido()
@@ -486,6 +620,7 @@ namespace Eros.Cobrador
             linePanelList.Insert(0, panelLinea);
 
             summaryListBox.ScrollIntoView(panelLinea.listBoxItem);
+            //pedido.lineasPedido.Add(lp); L0 haremos al final mejor
         }
 
         private string GetEditAnnotationFromAnnotation(string annotation)
@@ -752,6 +887,7 @@ namespace Eros.Cobrador
 
             if (lp1.producto._id == lp2.producto._id && lp1.anotaciones == lp2.anotaciones)
             {
+
                 if (lp1.lineasExtras.Count != lp2.lineasExtras.Count)
                 {
                     return false;
@@ -802,13 +938,13 @@ namespace Eros.Cobrador
             ple.stackpanelInferior.HorizontalAlignment = HorizontalAlignment.Center;
             ple.stackpanelInferior.Margin = new Thickness(0, 12, 0, 0);
             ple.stackpanelInferior.Orientation = Orientation.Horizontal;
-            ple.btMenos.Style = Resources["clickableResizableButton"] as Style;
+            ple.btMenos.Style = Application.Current.Resources["clickableResizableButton"] as Style;
             ple.btMenos.Width = 40;
             ple.btMenos.BorderThickness = new Thickness(0);
             ple.btMenos.Margin = new Thickness(0, 0, 20, 0);
             ple.btMenos.Background = Brushes.Transparent;
             ple.btMenos.Click += btEditExtraMinus_Click;
-            ple.btMas.Style = Resources["clickableResizableButton"] as Style;
+            ple.btMas.Style = Application.Current.Resources["clickableResizableButton"] as Style;
             ple.btMas.Width = 40;
             ple.btMas.BorderThickness = new Thickness(0);
             ple.btMas.Margin = new Thickness(20, 0, 0, 0);
@@ -875,7 +1011,17 @@ namespace Eros.Cobrador
             {
                 pedido.lineasPedido.Add(panelLineaPedido.lineaPedido);
             }
-            ControladorPedidos.UpdateInApi(pedido);
+            try
+            {
+                ControladorPedidos.UpdateInApi(pedido);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
+            }
             MessageBox.Show("Pedido Actualizazdo");
 
         }
@@ -885,11 +1031,11 @@ namespace Eros.Cobrador
         {
             if (linePanelList.Count > 0)
             {
-                /*ResumeLineaPedidoList();
+                ResumeLineaPedidoList();
                 SavePedido();
-                WindowCobrarPedido wcp = new WindowCobrarPedido(pedido);
+                WindowCobrarPedido wcp = new WindowCobrarPedido(pedido, numMesa);
                 wcp.Show();
-                this.Close();*/
+                this.Close();
             }
 
         }
@@ -936,15 +1082,28 @@ namespace Eros.Cobrador
             Storyboard.SetTarget(movemenFilterAnimation, borderFiltros);
             Storyboard.SetTargetProperty(movemenFilterAnimation, new PropertyPath("(UIElement.RenderTransform).(TranslateTransform.X)"));
             storyBoardFiltros.Children.Add(movemenFilterAnimation);
+            storyBoardFiltros.Completed += sbFiltros_Completed;
 
         }
 
+        private void sbFiltros_Completed(object sender, EventArgs e)
+        {
+            if (filtroIsExpanded == false)
+            {
+                borderFiltros.Visibility = Visibility.Hidden;
+            }
+        }
+
+        bool filtroIsExpanded = false;
+
         private void btExpandirFiltros_Click(object sender, RoutedEventArgs e)
         {
+            borderFiltros.Visibility = Visibility.Visible;
             movemenFilterAnimation.From = -borderFiltros.Width;
             movemenFilterAnimation.To = 0;
             movemenFilterAnimation.Duration = durationGo;
             storyBoardFiltros.Begin();
+            filtroIsExpanded = true;
         }
 
         private void btAtrasFiltros_Click(object sender, RoutedEventArgs e)
@@ -953,6 +1112,7 @@ namespace Eros.Cobrador
             movemenFilterAnimation.To = -borderFiltros.Width * 2;
             movemenFilterAnimation.Duration = durationCome;
             storyBoardFiltros.Begin();
+            filtroIsExpanded = false;
 
         }
 
@@ -967,7 +1127,16 @@ namespace Eros.Cobrador
                 (sender as CheckBox).Opacity = 0.6f;
             }
 
-            PutPanelsInGrid(currentType);
+            ColocarImagenesFiltro();
+            PutPanelsInGrid(currentTypeButton.Content as string);
+        }
+        private void ColocarImagenesFiltro()
+        {
+            imgVegano.Visibility = cbxVegano.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
+            imgVegetariano.Visibility = cbxVegetariano.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
+            imgPescetariano.Visibility = cbxPescetariano.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
+            imgSinGluten.Visibility = cbxSinGluten.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
+            imgPicante.Visibility = cbxPicante.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private void InitializeFilterCheckBoxes()
@@ -1007,6 +1176,7 @@ namespace Eros.Cobrador
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             currentRoundOfTypeButtons = 0;
+            SetMinTypeButtonWidthAndFontsizeFromScreenWidth();
             PutButtons();
             ResizeAllOrderLines();
             borderFiltros.Width = this.ActualWidth * filterWidthProportion;
@@ -1038,6 +1208,75 @@ namespace Eros.Cobrador
 
         }
 
+        private void SetMinTypeButtonWidthAndFontsizeFromScreenWidth()
+        {
+            if (this.ActualWidth > 1400)
+            {
+                minTypeButtonWidth = 300;
+                typeButtonFontsize = 24;
+                typeButtonHeight = 70;
 
+            }
+            else
+            {
+                minTypeButtonWidth = 150;
+                typeButtonFontsize = 14;
+                typeButtonHeight = 41;
+            }
+
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            WindowGestionMesas wgm = new WindowGestionMesas();
+            wgm.Show();
+            this.Close();
+        }
+
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void Maximize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = (WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void btBorrarPedido_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Estás seguro de que quieres borrar el pedido de la Mesa " + numMesa + " ?", "Atencion", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                try
+                {
+                    ControladorPedidos.DeleteFromApi(pedido);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                    MainWindow mw = new MainWindow();
+                    mw.Show();
+                    this.Close();
+                }
+                MessageBox.Show("El pedido de la Mesa " + numMesa + " ha sido borrado", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                WindowGestionMesas wgm = new WindowGestionMesas();
+                this.Close();
+                wgm.Show();
+            }
+        }
     }
 }

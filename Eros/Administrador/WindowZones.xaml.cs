@@ -28,9 +28,11 @@ namespace Eros.Administrador
         int idOfLastSelectedZone;
         enum state { Agregando, Viendo, Editando };
         state currentState;
-
+        Zonas selectedZone;
         List<TextBox> infoTbxsList;
         List<TextBox> enabledInfoTbxsList;
+        BitmapImage checkIconSource = new BitmapImage(new Uri(@"../Img/icons/check.png", UriKind.Relative));
+        BitmapImage wrongIconSource = new BitmapImage(new Uri(@"../Img/icons/wrong.png", UriKind.Relative));
 
         public WindowZones()
         {
@@ -57,7 +59,7 @@ namespace Eros.Administrador
         //Eventos
         private void dtgEmpleados_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Zonas selectedZone= (Zonas) dtgZonas.SelectedItem;
+            selectedZone = (Zonas)dtgZonas.SelectedItem;
             if (selectedZone != null)
             {
                 ShowZoneInfo(selectedZone);
@@ -66,7 +68,7 @@ namespace Eros.Administrador
         }
         private void btEliminar_Click(object sender, RoutedEventArgs e)
         {
-            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar esta zona?", "Borrar Zona"))
+            if (GetYesNoMessageBoxResponse("Estás seguro de que quieres eliminar esta zona, si contiene mesas, se eliminarán estas también.", "Borrar Zona"))
             {
                 try
                 {
@@ -74,7 +76,10 @@ namespace Eros.Administrador
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                    MainWindow mw = new MainWindow();
+                    mw.Show();
+                    this.Close();
                 }
                 UpdateInfoFromDataBase();
             }
@@ -138,10 +143,9 @@ namespace Eros.Administrador
         }
         private void btAgregar_Click(object sender, RoutedEventArgs e)
         {
-            string errorMessage;
-            if ((errorMessage = GetValidationErrorString()) != "")
+            if (!ValidateNombre())
             {
-                MessageBox.Show(errorMessage);
+                MessageBox.Show("Errores encontrados...");
                 return;
             }
             Zonas newZone = GetZonaFromTextBoxes();
@@ -152,7 +156,10 @@ namespace Eros.Administrador
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Posible error de conexión: \n" + ex);
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
             }
             if (respuesta == "Error zona Ya Existe")
             {
@@ -164,10 +171,9 @@ namespace Eros.Administrador
         }
         private void btGuardarEdicion_Click(object sender, RoutedEventArgs e)
         {
-            string errorMessage;
-            if ((errorMessage = GetValidationErrorString()) != "")
+            if (!ValidateNombre())
             {
-                MessageBox.Show(errorMessage);
+                MessageBox.Show("Errores encontrados...");
                 return;
             }
 
@@ -183,7 +189,10 @@ namespace Eros.Administrador
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                    MainWindow mw = new MainWindow();
+                    mw.Show();
+                    this.Close();
                 }
                 if (respuesta == "Error zona Ya Existe")
                 {
@@ -229,7 +238,10 @@ namespace Eros.Administrador
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Posible error de conexión: \n" + ex);
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
             }
             PutListInDataGrid(listZonas);
             tbxSearchBar.Text = "";
@@ -273,6 +285,7 @@ namespace Eros.Administrador
                     EnableTextBoxes(false);
                     dtgZonas.IsEnabled = true;
                     dtgEmpleados_SelectionChanged(null, null);
+                    imgCheckNombre.Visibility = Visibility.Hidden;
 
                     break;
 
@@ -317,6 +330,7 @@ namespace Eros.Administrador
             foreach (TextBox t in enabledInfoTbxsList)
             {
                 t.IsReadOnly = !enable;
+                t.Background = enable ? Brushes.White : Brushes.LightGray;
             }
             
         }
@@ -350,40 +364,6 @@ namespace Eros.Administrador
                 return true;
             }
             return false;
-        }
-
-        private string GetValidationErrorString()
-        {
-            string errorString = "";
-            
-            if (tbxNombre.Text == "")
-            {
-                errorString += "-El campo Nombre no puede estar vacío." + Environment.NewLine;
-
-            }
-            else if (!Regex.IsMatch(tbxNombre.Text, @"^([a-zA-Z ]+)$"))
-            {
-                errorString += "-El campo Nombre solo permite caracteres alfabéticos." + Environment.NewLine;
-            }
-            /*
-            if (tbxAbreviacion.Text == "")
-            {
-                errorString += "-El campo Abreciación no puede estar vacío" + Environment.NewLine;
-
-            }
-            else if (!Regex.IsMatch(tbxAbreviacion.Text, @"^([a-zA-Z ]+)$"))
-            {
-                errorString += "-El campo Abreviación solo debe contener caracteres alfabéticos,sin caracteres especiales" + Environment.NewLine;
-            }
-
-            if (tbxNºMesas.Text == "")
-            {
-                errorString += "-El campo nºMesas no puede estar vacío" + Environment.NewLine;
-
-            }*/
-            
-            return errorString;
-
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -437,6 +417,157 @@ namespace Eros.Administrador
             GlobalVariables.width = Width;
             GlobalVariables.height = Height;
             GlobalVariables.max = WindowState == WindowState.Maximized;
+        }
+
+        private void tbxNombre_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (tbxNombre.IsReadOnly)
+            {
+                return;
+            }
+            string errorString = "";
+            bool zoneExists;
+
+            imgCheckNombre.Visibility = Visibility.Visible;
+
+            if (tbxNombre.Text == "")
+            {
+                errorString = "El campo Nombre no puede estar vacío.";
+                imgCheckNombre.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                tbkImageToolTipNombre.Text = errorString;
+
+            }
+            else if (!Regex.IsMatch(tbxNombre.Text, @"^([a-zA-Z 0-9]{1,10})$"))
+            {
+                errorString = "El campo Nombre solo permite caracteres alfanuméricos.";
+                imgCheckNombre.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                tbkImageToolTipNombre.Text = errorString;
+
+            }
+            else
+            {
+                Task<bool> task = null;
+                string zonaText = tbxNombre.Text;
+                if (currentState == state.Editando)
+                {
+                    try
+                    {
+                        task = Task.Run(() => ControladorZonas.DoesZonaExistAsync(zonaText, selectedZone._id));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                        MainWindow mw = new MainWindow();
+                        mw.Show();
+                        this.Close();
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        task = Task.Run(() => ControladorZonas.DoesZonaExistAsync(zonaText));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                        MainWindow mw = new MainWindow();
+                        mw.Show();
+                        this.Close();
+                    }
+                }
+
+                task.ContinueWith(t =>
+                {
+                    zoneExists = t.Result;
+                    if (zoneExists)
+                    {
+                        errorString = "Esta zona ya existe, pruebe con otro nombre.";
+                    }
+
+                    if (errorString == "")
+                    {
+                        imgCheckNombre.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
+                        tbkImageToolTipNombre.Text = "Correcto";
+                    }
+                    else
+                    {
+                        imgCheckNombre.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                        tbkImageToolTipNombre.Text = errorString;
+                    }
+
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+
+                imgCheckNombre.Source = new BitmapImage(new Uri(@"/Img/icons/waitingPoints.png", UriKind.Relative));
+                tbkImageToolTipNombre.Text = "Esperando...";
+
+            }
+        }
+
+        public bool ValidateNombre()
+        {
+            imgCheckNombre.Visibility = Visibility.Visible;
+
+            bool zonaExists = false;
+
+            if (tbxNombre.Text == "")
+            {
+                imgCheckNombre.Source = wrongIconSource;
+                tbkImageToolTipNombre.Text = "Campo Obligatorio";
+                return false;
+
+            }
+            else if (!Regex.IsMatch(tbxNombre.Text, @"^([a-zA-Z 0-9]{1,10})$"))
+            {
+                imgCheckNombre.Source = wrongIconSource;
+                tbkImageToolTipNombre.Text = "El campo Nombre solo permite caracteres alfanuméricos.";
+                return false;
+            }
+            else
+            {
+                string zonaText = tbxNombre.Text;
+                if (currentState == state.Editando)
+                {
+                    try
+                    {
+                        zonaExists = ControladorZonas.DoesZonaExist(zonaText, selectedZone._id);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                        MainWindow mw = new MainWindow();
+                        mw.Show();
+                        this.Close();
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        zonaExists = ControladorZonas.DoesZonaExist(zonaText);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                        MainWindow mw = new MainWindow();
+                        mw.Show();
+                        this.Close();
+                    }
+                }
+                if (!zonaExists)
+                {
+                    imgCheckNombre.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
+                    tbkImageToolTipNombre.Text = "Correcto";
+                    return true;
+                }
+                else
+                {
+                    imgCheckNombre.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                    tbkImageToolTipNombre.Text = "Este usuario ya existe, pruebe con otro.";
+                    return false;
+                }
+
+            }
         }
     }
 }

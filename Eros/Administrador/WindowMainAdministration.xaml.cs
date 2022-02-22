@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Shell;
 using Eros.Clases;
+using Eros.Cobrador;
 
 namespace Eros.Administrador
 {
@@ -103,7 +104,7 @@ namespace Eros.Administrador
             MessageBoxResult result = MessageBox.Show("¿Estás seguro de cerrar sesión?", "Confirmación", MessageBoxButton.YesNo);
             switch (result)
             {
-                case MessageBoxResult.Yes:
+                case MessageBoxResult.Yes:                    
                     MainWindow mw = new MainWindow();
                     this.Close();
                     mw.Show();
@@ -200,6 +201,13 @@ namespace Eros.Administrador
         private void btn_productos_MouseLeave(object sender, MouseEventArgs e)
         {
             Mouse.OverrideCursor = null;
+        }
+
+        private void btn_cobrador_Click(object sender, RoutedEventArgs e)
+        {
+            WindowGestionMesas wgm = new WindowGestionMesas();
+            wgm.Show();
+            this.Close();
         }
     }
 }

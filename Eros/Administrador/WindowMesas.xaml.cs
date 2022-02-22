@@ -24,6 +24,8 @@ namespace Eros.Administrador
     /// </summary>
     public partial class WindowMesas : Window
     {
+        BitmapImage checkIconSource = new BitmapImage(new Uri(@"../Img/icons/check.png", UriKind.Relative));
+        BitmapImage wrongIconSource = new BitmapImage(new Uri(@"../Img/icons/wrong.png", UriKind.Relative));
         List<Mesas> listMesas;
         List<Mesas> listFiltrada;
         Mesas selectedMesa;
@@ -75,7 +77,10 @@ namespace Eros.Administrador
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                    MainWindow mw = new MainWindow();
+                    mw.Show();
+                    this.Close();
                 }
                 UpdateInfoFromDataBase();
             }
@@ -137,11 +142,13 @@ namespace Eros.Administrador
 
         private void btAgregar_Click(object sender, RoutedEventArgs e)
         {
-            string errorMessage;
             string respuesta = "";
-            if ((errorMessage = GetValidationErrorString()) != "")
+
+            bool val1 = ValidateNumero();
+            bool val2 = ValidateSillas();
+            if (!(val1 && val2))
             {
-                MessageBox.Show(errorMessage);
+                MessageBox.Show("Errores encontrados...");
                 return;
             }
             Mesas newMesa = GetTableFromTextBoxes();
@@ -151,7 +158,10 @@ namespace Eros.Administrador
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Posible error de conexión: \n" + ex);
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
             }
             if (respuesta == "Error Mesa Ya Existe")
             {
@@ -163,11 +173,12 @@ namespace Eros.Administrador
         }
 
         private void btGuardarEdicion_Click(object sender, RoutedEventArgs e)
-        {
-            string errorMessage;
-            if ((errorMessage = GetValidationErrorString()) != "")
+        {            
+            bool val1 = ValidateNumero();
+            bool val2 = ValidateSillas();
+            if (!(val1 && val2))
             {
-                MessageBox.Show(errorMessage);
+                MessageBox.Show("Errores encontrados...");
                 return;
             }
 
@@ -182,7 +193,10 @@ namespace Eros.Administrador
                 } 
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Posible error de conexión: \n" + ex);
+                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                    MainWindow mw = new MainWindow();
+                    mw.Show();
+                    this.Close();
                 }
                 if (respuesta == "Error Mesa Ya Existe")
                 {
@@ -244,7 +258,10 @@ namespace Eros.Administrador
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Posible error de conexión: \n" + ex);
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
             }
             PutListInDataGrid(listMesas);
             tbxSearchBar.Text = "";
@@ -270,7 +287,10 @@ namespace Eros.Administrador
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Posible error de conexión: \n" + ex);
+                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
             }
         }
 
@@ -324,6 +344,7 @@ namespace Eros.Administrador
                     cbxEstado.SelectedItem = null;
                     cbxZona.SelectedItem = null;
                     tbxNumero.Focus();
+                    cbxZona.SelectedItem = cbxZona.Items[0];
                     break;
 
                 case state.Editando:
@@ -399,39 +420,6 @@ namespace Eros.Administrador
             }
             return false;
         }
-
-        private string GetValidationErrorString()
-        {
-            string errorString = "";
-
-            if (tbxNumero.Text == "")
-            {
-                errorString += "-El campo Numero no puede estar vacío." + Environment.NewLine;
-
-            }
-            else if (!Regex.IsMatch(tbxNumero.Text, @"^([0-9]+)$"))
-            {
-                errorString += "-El campo Numero solo permite caracteres numéricos." + Environment.NewLine;
-            }
-
-            if (tbxSillas.Text == "")
-            {
-                errorString += "-El campo Sillas no puede estar vacío" + Environment.NewLine;
-
-            }
-            else if (!Regex.IsMatch(tbxSillas.Text, @"^([0-9]+)$"))
-            {
-                errorString += "-El campo Sillas solo permite caracteres numéricos." + Environment.NewLine;
-            }
-            else if (tbxSillas.Text == "0")
-            {
-                errorString += "-El campo Sillas debe ser mayor que 0." + Environment.NewLine;
-            }
-
-            return errorString;
-
-        }
-
         
         //Validaciones
         private void tbxNumero_LostFocus(object sender, RoutedEventArgs e)
@@ -441,64 +429,177 @@ namespace Eros.Administrador
                 return;
             }
             string errorString = "";
+            bool mesaExists;
+
+            imgCheckNumero.Visibility = Visibility.Visible;
+
             if (tbxNumero.Text == "")
             {
-                errorString = "El campo Numero no puede estar vacío.";
-
+                errorString = "Campo Obligatorio";
+                imgCheckNumero.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                tbkImageToolTipNumero.Text = errorString;
             }
             else if (!Regex.IsMatch(tbxNumero.Text, @"^([0-9]+)$"))
             {
                 errorString = "El campo Numero solo permite caracteres numéricos.";
-            }
-
-            imgCheckNumero.Visibility = Visibility.Visible;
-
-            if (errorString == "")
-            {
-                imgCheckNumero.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipNumero.Text = "Correcto";
-            }
-            else
-            {
                 imgCheckNumero.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
                 tbkImageToolTipNumero.Text = errorString;
             }
+            else
+            {
+                Task<bool> task = null;
+                string numero = tbxNumero.Text;
+                if (currentState == state.Editando)
+                {
+                    try
+                    {
+                        task = Task.Run(() => ControladorMesas.DoesMesaExistAsync(numero, selectedMesa._id));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                        MainWindow mw = new MainWindow();
+                        mw.Show();
+                        this.Close();
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        task = Task.Run(() => ControladorMesas.DoesMesaExistAsync(numero));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                        MainWindow mw = new MainWindow();
+                        mw.Show();
+                        this.Close();
+                    }
+                }
+                                
+                task.ContinueWith(t =>
+                {
+                    mesaExists = t.Result;
+                    if (mesaExists)
+                    {
+                        errorString = "Este número de mesa ya existe, pruebe con otro.";
+                    }
+
+                    if (errorString == "")
+                    {
+                        imgCheckNumero.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
+                        tbkImageToolTipNumero.Text = "Correcto";
+                    }
+                    else
+                    {
+                        imgCheckNumero.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                        tbkImageToolTipNumero.Text = errorString;
+                    }
+
+                }, TaskScheduler.FromCurrentSynchronizationContext());
+
+                imgCheckNumero.Source = new BitmapImage(new Uri(@"/Img/icons/waitingPoints.png", UriKind.Relative));
+                tbkImageToolTipNumero.Text = "Esperando...";
+
+            }      
+
+        }
+
+        public bool ValidateNumero()
+        {
+            imgCheckNumero.Visibility = Visibility.Visible;
+
+            if (tbxNumero.Text == "")
+            {
+                imgCheckNumero.Source = wrongIconSource;
+                tbkImageToolTipNumero.Text = "Campo Obligatorio";
+                return false;
+
+            }
+            else if (!Regex.IsMatch(tbxNumero.Text, @"^([0-9]+)$"))
+            {
+                imgCheckNumero.Source = wrongIconSource;
+                tbkImageToolTipNumero.Text = "El campo Numero solo permite números enteros.";
+                return false;
+            }
+            else
+            {
+                bool mesaExists = false;
+                string numero = tbxNumero.Text;
+                if (currentState == state.Editando)
+                {
+                    try
+                    {
+                        mesaExists = ControladorMesas.DoesMesaExist(numero, selectedMesa._id);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                        MainWindow mw = new MainWindow();
+                        mw.Show();
+                        this.Close();
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        mesaExists = ControladorMesas.DoesMesaExist(numero);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                        MainWindow mw = new MainWindow();
+                        mw.Show();
+                        this.Close();
+                    }
+                }
+                if (!mesaExists)
+                { 
+                    imgCheckNumero.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
+                    tbkImageToolTipNumero.Text = "Correcto";
+                    return true;
+                }
+                else
+                {
+                    imgCheckNumero.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
+                    tbkImageToolTipNumero.Text = "Esta mesa ya existe. Prueba otro numero.";
+                    return false;
+                }
+
+            }            
         }
 
 
         private void tbxSillas_LostFocus(object sender, RoutedEventArgs e)
         {
             if (tbxSillas.IsReadOnly)
-            {
                 return;
-            }
-            string errorString = "";
+            ValidateSillas();
+        }
+
+        public bool ValidateSillas()
+        {
+            imgCheckSillas.Visibility = Visibility.Visible;
+
             if (tbxSillas.Text == "")
             {
-                errorString = "El campo Sillas no puede estar vacío.";
+                imgCheckSillas.Source = wrongIconSource;
+                tbkImageToolTipSillas.Text = "Campo Obligatorio";
+                return false;
 
             }
             else if (!Regex.IsMatch(tbxSillas.Text, @"^([0-9]+)$"))
             {
-                errorString = "El campo Sillas solo permite caracteres numéricos.";
-            }
-            else if (tbxSillas.Text == "0")
-            {
-                errorString = "El campo Sillas debe ser mayor que 0.";
+                imgCheckSillas.Source = wrongIconSource;
+                tbkImageToolTipSillas.Text = "El campo Sillas solo permite números enteros.";
+                return false;
             }
 
-            imgCheckSillas.Visibility = Visibility.Visible;
-
-            if (errorString == "")
-            {
-                imgCheckSillas.Source = new BitmapImage(new Uri(@"/Img/icons/check.png", UriKind.Relative));
-                tbkImageToolTipSillas.Text = "Correcto";
-            }
-            else
-            {
-                imgCheckSillas.Source = new BitmapImage(new Uri(@"/Img/icons/wrong.png", UriKind.Relative));
-                tbkImageToolTipSillas.Text = errorString;
-            }
+            imgCheckSillas.Source = checkIconSource;
+            tbkImageToolTipSillas.Text = "Correcto";
+            return true;
         }
 
         private void Refresh_Click(object sender, RoutedEventArgs e)

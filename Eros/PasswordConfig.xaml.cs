@@ -45,7 +45,17 @@ namespace Eros
             if (ttPassword.Text == "Correcto." && ttRepeatPassword.Text == "Correcto.")
             {
                 _Valid = true;
-                empleados = ControladorEmpleados.GetAllFromApi();
+                try
+                {
+                    empleados = ControladorEmpleados.GetAllFromApi();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                    MainWindow mw = new MainWindow();
+                    mw.Show();
+                    this.Close();
+                }
 
                 foreach (Empleado empleado in empleados)
                 {
@@ -55,7 +65,17 @@ namespace Eros
                         emp.password = Password.Password;
                         emp.newUser = false;
 
-                        ControladorEmpleados.UpdateInApi(emp);
+                        try
+                        {
+                            ControladorEmpleados.UpdateInApi(emp);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
+                            MainWindow mw = new MainWindow();
+                            mw.Show();
+                            this.Close();
+                        }
                     }
                 }
             }
