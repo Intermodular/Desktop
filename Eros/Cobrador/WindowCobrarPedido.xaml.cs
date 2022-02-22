@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -350,7 +351,7 @@ namespace Eros.Cobrador
 
         private void btImprimir_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start(@"..\..\Recibos\recibo.txt");
+            Process.Start(new ProcessStartInfo(@".\..\..\..\Recibos\recibo.txt") { UseShellExecute = true });
         }
 
         private void DivideLineaPedido(PanelLineaPedidoCobrar linePanel)
@@ -703,11 +704,12 @@ namespace Eros.Cobrador
             ticket.numMesa = m.numero;
             ticket.costeTotal = precioPedidoPpal + precioSubPedido;
             ticket.lineasPedido = pedidoPpal.lineasPedido;
-            //CreateTextFile(ticket.ToString());
-            System.Diagnostics.Process.Start(@"..\..\Recibos\recibo.txt");  
+            CreateTextFile(ticket.ToString());
+            
+
             try
             {
-                System.Diagnostics.Process.Start(@"..\..\Recibos\recibo.txt");
+                Process.Start(new ProcessStartInfo(@".\..\..\..\Recibos\recibo.txt") { UseShellExecute = true });
             }
             catch (Exception ex)
             {
@@ -717,7 +719,7 @@ namespace Eros.Cobrador
 
         private void CreateTextFile(string text)
         {
-            StreamWriter sw = File.CreateText("../../Recibos/recibo.txt");
+            StreamWriter sw = File.CreateText(@".\..\..\..\Recibos\recibo.txt");
             sw.Write(text);
             sw.Close();
         }
