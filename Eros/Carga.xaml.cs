@@ -19,15 +19,20 @@ namespace Eros
     /// </summary>
     public partial class Carga : Window
     {
+        System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+        System.Windows.Threading.DispatcherTimer dispatcherTimer2 = new System.Windows.Threading.DispatcherTimer();
         public Carga()
         {
             InitializeComponent();
-            System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
             dispatcherTimer.Tick += new EventHandler(img_transition);
-            dispatcherTimer.Interval = new TimeSpan(0, 0, 5);
+            dispatcherTimer2.Tick += new EventHandler(pb_transition);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 20);
+            dispatcherTimer2.Interval = new TimeSpan(0, 0, 0, 0, 10);
             dispatcherTimer.Start();
+            dispatcherTimer2.Start();
         }
-        int image_show = 0;
+        static Random rnd = new Random();
+        int image_show = rnd.Next(0,5);
         private void img_transition(object sender, EventArgs e)
         {
             try
@@ -48,13 +53,18 @@ namespace Eros
             {
                 MessageBox.Show("No se ha encontrado la imagen");
             };
-            if (image_show == 5)
+        }
+
+        private void pb_transition(object sender, EventArgs e)
+        {
+            pBar.Value += 1;
+            if (pBar.Value == pBar.Maximum)
             {
-                image_show = 0;
-            }
-            else
-            {
-                image_show++;
+                dispatcherTimer.Stop();
+                dispatcherTimer2.Stop();
+                MainWindow mw = new MainWindow();
+                mw.Show();
+                this.Close();
             }
         }
 

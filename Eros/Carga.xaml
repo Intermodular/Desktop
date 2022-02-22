@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros"
         mc:Ignorable="d"
-        Title="Carga" Height="600" Width="1000" WindowState="Maximized">
+        Title="Carga" Height="600" Width="1000" WindowStartupLocation="CenterScreen" WindowStyle="None">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -18,6 +18,6 @@
             <RowDefinition Height="0.1*"></RowDefinition>
         </Grid.RowDefinitions>
         <Image x:Name="img_carga" Grid.ColumnSpan="3" Grid.RowSpan="3" Stretch="UniformToFill" Source="/Img/carga/hamburguesa.jpeg"></Image>
-        <ProgressBar Background="Transparent" Foreground="#DD4A4A" Value="10" Grid.Row="1" Grid.Column="1" BorderThickness="0"></ProgressBar>
+        <ProgressBar Name="pBar" Background="Transparent" Foreground="#DD4A4A" Value="0" Maximum="100" Grid.Row="1" Grid.Column="1" BorderThickness="0"></ProgressBar>
     </Grid>
 </Window>
