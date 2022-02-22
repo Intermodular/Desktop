@@ -5,101 +5,145 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros.Cobrador"
         mc:Ignorable="d"
-        Title="WindowGestionMesas" Width="{x:Static SystemParameters.PrimaryScreenWidth}" 
+        Width="{x:Static SystemParameters.PrimaryScreenWidth}" 
         Height="{x:Static SystemParameters.PrimaryScreenHeight}"
-        WindowState="Maximized"
-        Name="window" SizeChanged="window_SizeChanged">
+        Title="WindowGestionMesas"
+        MinHeight="500" MinWidth="500" WindowStyle="None" MouseDown="Window_MouseDown"  SizeChanged="window_SizeChanged" WindowStartupLocation="CenterScreen">
     <Window.Resources>
 
     </Window.Resources>
 
-    <Grid x:Name="gridPpal" >
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="11*" />
-            <RowDefinition Height="139*" />
-            <RowDefinition Height="60*" />
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Border x:Name="borderFiltros" Background="Black">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Viewbox>
-                    <StackPanel Width="500" HorizontalAlignment="Center" Margin="10 20">
-                        <TextBlock  Text="NºMesa" Foreground="White" TextAlignment="Center" FontSize="40"/>
-                        <TextBox x:Name="tbMesa" Text="" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="40" VerticalAlignment="Center" Width="80" Margin="0,10,0,0" TextChanged="tbMesa_TextChanged"></TextBox>
+
+        <Grid x:Name="gridPpal" Grid.Row="1" Panel.ZIndex="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="11*" />
+                <RowDefinition Height="139*" />
+                <RowDefinition Height="60*" />
+            </Grid.RowDefinitions>
+            <Border x:Name="borderFiltros" Background="Black">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="16*"/>
+                        <ColumnDefinition Width="13*"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="16*"/>
+                        <ColumnDefinition Width="16*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox Margin="0,0,0,-4">
+                        <StackPanel Width="500" HorizontalAlignment="Center" Margin="10 20">
+                            <TextBlock  Text="NºMesa" Foreground="White" TextAlignment="Center" FontSize="40"/>
+                            <TextBox x:Name="tbMesa" Text="" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="40" VerticalAlignment="Center" Width="80" Margin="0,10,0,0" TextChanged="tbMesa_TextChanged"></TextBox>
+                        </StackPanel>
+                    </Viewbox>
+                    <Viewbox Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,-4">
+                        <StackPanel Width="500" HorizontalAlignment="Center" Margin="10 20">
+                            <TextBlock Text="Zona" Foreground="White" TextAlignment="Center" FontSize="40"/>
+                            <ComboBox Name="cbxZona" Text="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="40" VerticalAlignment="Center" Width="400" Margin="0,10,0,0" SelectionChanged="cbxZona_SelectionChanged"></ComboBox>
+                        </StackPanel>
+                    </Viewbox>
+                    <Viewbox Grid.Column="3" Margin="0,0,0,-4">
+                        <StackPanel Width="500" HorizontalAlignment="Center" Margin="10 20">
+                            <TextBlock Text="Estado" Foreground="White" TextAlignment="Center" FontSize="40"/>
+                            <ComboBox Name="cbxEstado" Text="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="40" VerticalAlignment="Center" Width="400" Margin="0,10,0,0" SelectionChanged="cbxEstado_SelectionChanged">
+                            </ComboBox>
+                        </StackPanel>
+                    </Viewbox>
+                    <Viewbox Grid.Column="4" Margin="0,0,0,-4">
+                        <StackPanel Width="500" HorizontalAlignment="Center" Margin="10 20">
+                            <TextBlock Text="NºComensales" Foreground="White" TextAlignment="Center" FontSize="40"/>
+                            <TextBox x:Name="tbComensales" Text="" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="40" VerticalAlignment="Center" Width="80" Margin="0,10,0,0" TextChanged="tbComensales_TextChanged"></TextBox>
+                        </StackPanel>
+                    </Viewbox>
+                </Grid>
+            </Border>
+            
+            <Viewbox Grid.Row="1">
+                <Button  x:Name="btExpandirFiltros" Width="100" Style="{StaticResource btNoHoverBackground}" Background="Transparent" FontSize="25" VerticalAlignment="Top" HorizontalAlignment="Center"  Click="btExpandirFiltros_Click" Height="54" Margin="906,0">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="50" Source="../Img/icons/filterIcon.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <Image x:Name="imgFilterArrow" Width="30" Source="../Img/icons/downIcon.png" Margin="5,0,0,0" RenderTransformOrigin="0.5,0.5" SnapsToDevicePixels="True"/>
                     </StackPanel>
+                </Button>
+            </Viewbox>
+
+            <ScrollViewer Grid.Row="2" Margin="0,40,0,0">
+                <WrapPanel x:Name="wrapPanelTables" HorizontalAlignment="Center" >
+
+                    <Button Width="150" Height="150" Margin="20" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="#FFC74D4D">
+                        <Grid>
+                            <TextBlock Text="Terraza" FontSize="20" Margin="10,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            <TextBlock Text="1" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Text="6" FontSize="20" Margin="0,0,10,0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+                        </Grid>
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Height="20">
+                                    Hola
+                                </MenuItem>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+                </WrapPanel>
+            </ScrollViewer>
+            <!--<Border Grid.Row="3" Height="2" Background="Black" VerticalAlignment="Top" Opacity="0.01" Margin="50,0"/>-->
+            <Grid Grid.Row="3" Name="gridPasarPedido" Visibility="Hidden">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="165*"/>
+                    <RowDefinition Height="92*"/>
+                </Grid.RowDefinitions>
+
+                <Border Height="1" VerticalAlignment="Top" Background="Black" Opacity="0.2" Margin="100,0"/>
+                <Viewbox Grid.Column="0">
+                    <TextBlock x:Name="tbkPasandoPedido"  Width="700" TextAlignment="Center" Text="Selecciona la mesa a la que le quieras pasar el pedido"   HorizontalAlignment="Center" FontSize="20" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"/>
                 </Viewbox>
-                <Viewbox Grid.Column="1">
-                    <StackPanel Width="500" HorizontalAlignment="Center" Margin="10 20">
-                        <TextBlock Text="Zona" Foreground="White" TextAlignment="Center" FontSize="40"/>
-                        <ComboBox Name="cbxZona" Text="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="40" VerticalAlignment="Center" Width="400" Margin="0,10,0,0" SelectionChanged="cbxZona_SelectionChanged"></ComboBox>
-                    </StackPanel>
-                </Viewbox>
-                <Viewbox Grid.Column="2">
-                    <StackPanel Width="500" HorizontalAlignment="Center" Margin="10 20">
-                        <TextBlock Text="Estado" Foreground="White" TextAlignment="Center" FontSize="40"/>
-                        <ComboBox Name="cbxEstado" Text="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="40" VerticalAlignment="Center" Width="400" Margin="0,10,0,0" SelectionChanged="cbxEstado_SelectionChanged">
-                        </ComboBox>
-                    </StackPanel>
-                </Viewbox>
-                <Viewbox Grid.Column="3">
-                    <StackPanel Width="500" HorizontalAlignment="Center" Margin="10 20">
-                        <TextBlock Text="NºComensales" Foreground="White" TextAlignment="Center" FontSize="40"/>
-                        <TextBox x:Name="tbComensales" Text="" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="40" VerticalAlignment="Center" Width="80" Margin="0,10,0,0" TextChanged="tbComensales_TextChanged"></TextBox>
-                    </StackPanel>
+                <Viewbox Stretch="Uniform" VerticalAlignment="Bottom"  Grid.Row="2" >
+                    <Button x:Name="btCancelarTraspasoDePedido" Content="Cancelar" Height="17" Width="60" FontSize="9" Margin="6,10,10,6"  Style="{StaticResource btAdministracionNegativo}" Click="btCancelarTraspasoDePedido_Click"/>
                 </Viewbox>
             </Grid>
-        </Border>
-        <Button x:Name="btReiniciar" Content="Reiniciar" Grid.Row="1" HorizontalAlignment="Left" Width="100" Margin="40,0,0,0" Click="btReiniciar_Click">
+        </Grid>
 
-        </Button>
-        <Viewbox Grid.Row="1">
-            <Button  x:Name="btExpandirFiltros" Width="100" Style="{StaticResource btNoHoverBackground}" Background="Transparent" FontSize="25" VerticalAlignment="Top" HorizontalAlignment="Center"  Click="btExpandirFiltros_Click" Height="54" Margin="906,0">
-                <StackPanel Orientation="Horizontal">
-                    <Image Width="50" Source="../Img/icons/filterIcon.png" RenderOptions.BitmapScalingMode="HighQuality"/>
-                    <Image x:Name="imgFilterArrow" Width="30" Source="../Img/icons/downIcon.png" Margin="5,0,0,0" RenderTransformOrigin="0.5,0.5" SnapsToDevicePixels="True"/>
+        <Grid Grid.ColumnSpan="3" Panel.ZIndex="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Border BorderThickness="0 0 0 1" BorderBrush="Black" Grid.ColumnSpan="3"/>
+            <Button Name="Administrate" Content="Administrar" Grid.Column="2" HorizontalAlignment="Right" Width="170" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,110,0" Visibility="Visible" Click="Administrate_Click"/>
+            
+            <Button Name="Refresh" HorizontalAlignment="Left" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,0,0" Click="btReiniciar_Click">
+                <StackPanel>
+                    <Image Source="../Img/icons/refresh.png" RenderOptions.BitmapScalingMode="HighQuality" Width="20" Height="20" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
-        </Viewbox>
+            
+            <TextBlock Name="usuName" Text="User" Margin="50,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-        <ScrollViewer Grid.Row="2" Margin="0,40,0,0">
-            <WrapPanel x:Name="wrapPanelTables" HorizontalAlignment="Center" >
+            <TextBlock Name="WindowTitle" Text="Edición de Pedido" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
 
-                <Button Width="150" Height="150" Margin="20" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="#FFC74D4D">
-                    <Grid>
-                        <TextBlock Text="Terraza" FontSize="20" Margin="10,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                        <TextBlock Text="1" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        <TextBlock Text="6" FontSize="20" Margin="0,0,10,0" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                    </Grid>
-                    <Button.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Height="20">
-                                Hola
-                            </MenuItem>
-                        </ContextMenu>
-                    </Button.ContextMenu>
-                </Button>
-            </WrapPanel>
-        </ScrollViewer>
-        <!--<Border Grid.Row="3" Height="2" Background="Black" VerticalAlignment="Top" Opacity="0.01" Margin="50,0"/>-->
-        <Grid Grid.Row="3" Name="gridPasarPedido" Visibility="Hidden">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="165*"/>
-                <RowDefinition Height="92*"/>
-            </Grid.RowDefinitions>
+            <Button Name="Minimize" Grid.Column="2" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,60,0" Click="Minimize_Click">
+                <StackPanel>
+                    <Image Source="../Img/icons/minimizar.png" Width="20" Height="20" Margin="0,-3,0,0"></Image>
+                </StackPanel>
+            </Button>
 
-            <Border Height="1" VerticalAlignment="Top" Background="Black" Opacity="0.2" Margin="100,0"/>
-            <Viewbox Grid.Column="0">
-                <TextBlock x:Name="tbkPasandoPedido"  Width="700" TextAlignment="Center" Text="Selecciona la mesa a la que le quieras pasar el pedido"   HorizontalAlignment="Center" FontSize="20" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5"/>
-            </Viewbox>
-            <Viewbox Stretch="Uniform" VerticalAlignment="Bottom"  Grid.Row="2" >
-                <Button x:Name="btCancelarTraspasoDePedido" Content="Cancelar" Height="17" Width="60" FontSize="9" Margin="6,10,10,6"  Style="{StaticResource btAdministracionNegativo}" Click="btCancelarTraspasoDePedido_Click"/>
-            </Viewbox>
+            <Button x:Name="Maximize"  Grid.Column="2" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,30,0" Click="Maximize_Click">
+                <Image x:Name="img_cuadrado"  Source="/Img/icons/cuadrado.png" Width="15" Height="15" Margin="0,0,0,0"></Image>
+            </Button>
+
+            <Button x:Name="Close" Grid.Column="2" Style="{StaticResource btn_cerrar}" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,0,0" Click="Close_Click">
+                <StackPanel>
+                    <Image Source="../Img/icons/cerrar.png" Width="20" Height="20" Margin="0,5,0,0"></Image>
+                </StackPanel>
+            </Button>
         </Grid>
+
     </Grid>
 </Window>

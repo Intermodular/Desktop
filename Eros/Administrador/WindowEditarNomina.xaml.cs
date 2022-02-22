@@ -15,6 +15,7 @@ using Eros.Modelos;
 using Eros.Controladores;
 using Eros.Clases;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace Eros.Administrador
 {
@@ -106,6 +107,9 @@ namespace Eros.Administrador
 
         private float CalcularRemuneracion()
         {
+            var ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+            ci.NumberFormat.NumberDecimalSeparator = ",";
+
             int horasC, horasEx = 0;
             float pHorasC, pHorasE = 0;
             try
@@ -114,7 +118,7 @@ namespace Eros.Administrador
                 if (horasC < 0)
                     return -1;
 
-                pHorasC = float.Parse(tbEurosHora.Text);
+                pHorasC = float.Parse(tbEurosHora.Text, ci);
                 if (pHorasC < 0)
                     return -1;
 
@@ -128,7 +132,7 @@ namespace Eros.Administrador
 
                 if (tbEurosHoraEx.Text != "")
                 {
-                    pHorasE = float.Parse(tbEurosHoraEx.Text);
+                    pHorasE = float.Parse(tbEurosHoraEx.Text, ci);
                     if (pHorasE < 0)
                         return -1;
                 }
@@ -206,13 +210,15 @@ namespace Eros.Administrador
             bool val6 = ValidarFechaFinal();
             if (val1 && val2 && val3 && val4 && val5 && val6)
             {
+                var ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+                ci.NumberFormat.NumberDecimalSeparator = ",";
 
                 nomina.fechaInicio = dpFInicial.Text;
                 nomina.fechaFinal = dpFFinal.Text;
                 nomina.horasCorrientes = Convert.ToInt32(tbHoras.Text);
-                nomina.precioHoraCorriente = float.Parse(tbEurosHora.Text);
+                nomina.precioHoraCorriente = float.Parse(tbEurosHora.Text, ci);
                 nomina.horasExtras = tbHorasEx.Text == "" ? 0 : Convert.ToInt32(tbHorasEx.Text);
-                nomina.precioHoraExtra = tbEurosHoraEx.Text == "" ? 0 : float.Parse(tbEurosHoraEx.Text);
+                nomina.precioHoraExtra = tbEurosHoraEx.Text == "" ? 0 : float.Parse(tbEurosHoraEx.Text, ci);
                 nomina.remuneracionTotal = nomina.horasCorrientes * nomina.precioHoraCorriente + nomina.horasExtras * nomina.precioHoraExtra;
                 if (creandoNueva)
                 {

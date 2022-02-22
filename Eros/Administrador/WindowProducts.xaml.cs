@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Eros.Clases;
+using System.Globalization;
 
 namespace Eros
 {
@@ -372,8 +373,10 @@ namespace Eros
         }
 
         private Productos GetProductFromTextBoxes()
-        { 
-            
+        {
+            var ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+            ci.NumberFormat.NumberDecimalSeparator = ",";
+
             Productos product = new Productos();
             product.nombre = tbxNombre.Text.Trim();
             product.tipo = cbTipo.Text.Trim();
@@ -382,7 +385,7 @@ namespace Eros
             foreach (String i in cbIngredientes.Items) ingredientes.Add(i);
             product.ingredientes = ingredientes;
 
-            product.precio = float.Parse(tbxPrecio.Text);
+            product.precio = float.Parse(tbxPrecio.Text, ci);
 
             List<String> especificaciones = new List<string>();
             foreach (String i in cbEspecificaciones.Items) especificaciones.Add(i);

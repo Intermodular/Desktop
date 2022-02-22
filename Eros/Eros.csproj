@@ -57,15 +57,26 @@
     <None Remove="Img\icons\filterIcon.png" />
     <None Remove="Img\icons\flecha.png" />
     <None Remove="Img\icons\foodPlaceHolder.png" />
+    <None Remove="Img\icons\forbiddenIcon.png" />
+    <None Remove="Img\icons\forwardArrowIcon.png" />
+    <None Remove="Img\icons\greenCheckIcon.png" />
     <None Remove="Img\icons\joinIcon.png" />
+    <None Remove="Img\icons\leftIcon.png" />
     <None Remove="Img\icons\logout.png" />
     <None Remove="Img\icons\lupa.png" />
     <None Remove="Img\icons\minimizar.png" />
     <None Remove="Img\icons\minusIcon.png" />
     <None Remove="Img\icons\NoShowPass.png" />
+    <None Remove="Img\icons\oppositeArrows.png" />
+    <None Remove="Img\icons\pescetarianoIcon.png" />
+    <None Remove="Img\icons\picanteIcon.png" />
     <None Remove="Img\icons\plusIcon.png" />
     <None Remove="Img\icons\refresh.png" />
+    <None Remove="Img\icons\rightIcon.png" />
     <None Remove="Img\icons\ShowPass.png" />
+    <None Remove="Img\icons\sinGlutenIcon.png" />
+    <None Remove="Img\icons\veganoIcon.png" />
+    <None Remove="Img\icons\vegetarianoIcon.png" />
     <None Remove="Img\icons\waitingPoints.png" />
     <None Remove="Img\icons\wrong.png" />
     <None Remove="Img\logo\eros_black.png" />
@@ -223,10 +234,22 @@
     <Resource Include="Img\icons\flecha.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Img\icons\foodPlaceHolder.png">
+    <Content Include="Img\icons\foodPlaceHolder.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\forbiddenIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\forwardArrowIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Img\icons\greenCheckIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Img\icons\joinIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Img\icons\joinIcon.png">
+    <Resource Include="Img\icons\leftIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\icons\logout.png">
@@ -242,11 +265,32 @@
     <Resource Include="Img\icons\NoShowPass.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Img\icons\oppositeArrows.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\pescetarianoIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\picanteIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Img\icons\plusIcon.png" />
     <Content Include="Img\icons\refresh.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Img\icons\rightIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Img\icons\ShowPass.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\sinGlutenIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\veganoIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Img\icons\vegetarianoIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\icons\waitingPoints.png">

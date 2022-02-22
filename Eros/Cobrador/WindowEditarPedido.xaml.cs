@@ -1256,6 +1256,11 @@ namespace Eros.Cobrador
             Application.Current.Shutdown();
         }
 
+        private void Administrate_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void btBorrarPedido_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("Estás seguro de que quieres borrar el pedido de la Mesa " + numMesa + " ?", "Atencion", MessageBoxButton.YesNo, MessageBoxImage.Warning);

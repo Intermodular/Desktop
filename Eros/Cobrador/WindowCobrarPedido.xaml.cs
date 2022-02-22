@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -518,8 +519,11 @@ namespace Eros.Cobrador
 
         private void btCobrarEfectivo(object sender, RoutedEventArgs e)
         {
+            var ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+            ci.NumberFormat.NumberDecimalSeparator = ",";
+
             float cantidadAPagar = currentPaymentState == paymentState.PedidoPpal ? precioPedidoPpal : precioSubPedido;
-            float cantidadPagada = float.Parse(tbCalculadora.Text);
+            float cantidadPagada = float.Parse(tbCalculadora.Text, ci);
             if (cantidadPagada < cantidadAPagar)
             {
                 MessageBox.Show(String.Format("La cantidad pagada es inferior a la cantidad a pagar ( {0:0.00}€ )", cantidadAPagar));
@@ -591,7 +595,7 @@ namespace Eros.Cobrador
             ticket.numMesa = numMesa;
             ticket.fechaYHoraDePago = DateTime.Now.ToString();
             ticket.metodoDePago = metodoPago;
-            //ticket.empleado = ....
+            ticket.empleado = GlobalVariables.employee;
             if (currentPaymentState == paymentState.PedidoPpal)
             {
                 //Crear y subir Ticket

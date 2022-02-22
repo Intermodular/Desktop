@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Eros.Administrador;
 
 namespace Eros.Cobrador
 {
@@ -141,7 +142,7 @@ namespace Eros.Cobrador
 
             //StoryBoard2
             sbIdleTbkPasarPedido = new Storyboard();
-            storyboard.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 1000));
+            //sbIdleTbkPasarPedido.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 1));
             tbkPasandoPedido.RenderTransform = new TranslateTransform();
             DoubleAnimation idleAnimation = new DoubleAnimation()
             {
@@ -203,7 +204,7 @@ namespace Eros.Cobrador
             rotateAnimation.From = -180d;
             rotateAnimation.To = 0d;
             thicknessAnimation.From = new Thickness(0, 0, 0, 0);
-            thicknessAnimation.To = new Thickness(0, -borderFiltros.Height, 0, 0);
+            thicknessAnimation.To = new Thickness(0, -borderFiltros.Height -40, 0, 0);
             storyboard.Begin();
 
         }
@@ -873,6 +874,36 @@ namespace Eros.Cobrador
         private void btCancelarTraspasoDePedido_Click(object sender, RoutedEventArgs e)
         {
             ChangeWindowState(windowState.Normal);
+        }
+
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void Maximize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = (WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Administrate_Click(object sender, RoutedEventArgs e)
+        {
+            WindowMainAdministration wma = new WindowMainAdministration();
+            wma.Show();
+            this.Close();
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.DragMove();
+            }
         }
     }
 }

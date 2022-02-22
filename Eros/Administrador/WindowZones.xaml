@@ -129,9 +129,9 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Viewbox Stretch="Uniform" Margin="10,0,10,0">
-                            <StackPanel Orientation="Horizontal" Width="350" Margin="2">
-                                <TextBlock Text="Nombre:" FontSize="18" Margin="30,0,0,0"/>
-                                <TextBox x:Name="tbxNombre" FontSize="18" Margin="20,0,0,0" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"  Style="{StaticResource txb}" LostFocus="tbxNombre_LostFocus"/>
+                            <StackPanel Orientation="Vertical" Width="250">
+                                <TextBlock Text="Nombre" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,4"/>
+                                <TextBox x:Name="tbxNombre" FontSize="18" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"  Style="{StaticResource txb}" LostFocus="tbxNombre_LostFocus" HorizontalContentAlignment="Center"/>
                                 <Image x:Name="imgCheckNombre" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
                                     <Image.ToolTip>
                                         <TextBlock x:Name="tbkImageToolTipNombre"/>
@@ -141,7 +141,7 @@
                         </Viewbox>
                         <Viewbox Grid.Row="1" Stretch="Uniform" Margin="10,0,10,0" VerticalAlignment="Top">
                             <StackPanel Orientation="Vertical" Width="250">
-                                <TextBlock Text="Nº Mesas:" FontSize="18" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Nº Mesas" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,4"/>
                                 <TextBox x:Name="tbxNºMesas" FontSize="18" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed" HorizontalContentAlignment="Center"  Style="{StaticResource txb}"/>
                             </StackPanel>
                         </Viewbox>

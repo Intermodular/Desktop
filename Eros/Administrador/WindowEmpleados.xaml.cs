@@ -166,6 +166,8 @@ namespace Eros
                 return;
             }
             Empleado newEm = GetEmpleadoFromTextBoxes();
+            newEm.password = "1234";
+            newEm.newUser = true;
             try
             {
                 respuesta = ControladorEmpleados.PostToApi(newEm);
@@ -295,7 +297,8 @@ namespace Eros
             }
             PutListInDataGrid(listEmpleados);
             tbxSearchBar.Text = "";
-            dtgEmpleados.SelectedItem = listEmpleados[0];
+            if (listEmpleados.Count > 0) 
+                dtgEmpleados.SelectedItem = listEmpleados[0];
 
         }
 

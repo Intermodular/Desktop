@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         Width="{x:Static SystemParameters.PrimaryScreenWidth}" 
         Height="{x:Static SystemParameters.PrimaryScreenHeight}"
-        WindowState="Maximized"
         Title="WindowCobrarPedido"
         MinHeight="500" MinWidth="500" WindowStyle="None" MouseDown="Window_MouseDown"  SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen">
     <Grid x:Name="gridPrincipal">
@@ -229,7 +228,7 @@
             <Viewbox VerticalAlignment="Top" Height="70" Grid.ColumnSpan="2">
                 <TextBlock HorizontalAlignment="Center" Text="Pedido pagado" FontSize="8" TextAlignment="Center" Width="100"/>
             </Viewbox>
-            <Viewbox Grid.Row="0" VerticalAlignment="Center" Grid.ColumnSpan="2" Height="146" Margin="0,176,0,178">
+            <Viewbox Grid.Row="0" VerticalAlignment="Center" Grid.ColumnSpan="2" Height="146" Margin="0,116,0,118">
                 <TextBlock Text="Pago con tarjeta aceptado" TextWrapping="Wrap" TextAlignment="Center" FontSize="10"  Width="100"/>
             </Viewbox>
 
@@ -264,13 +263,13 @@
         </Border>
         <Viewbox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
             <Button x:Name="btSwitchFromLists" Visibility="Hidden" Background="Transparent" Width="200" Height="200" Margin="30,0" BorderThickness="10" Click="btSwitchFromLists_Click" Style="{StaticResource clickableResizableButton}">
-                <Image Source="Img/oppositeArrows.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                <Image Source="../Img/icons/oppositeArrows.png" RenderOptions.BitmapScalingMode="HighQuality"/>
             </Button>
         </Viewbox>
 
         <Viewbox Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" Margin="0,20">
             <Button x:Name="btSepararLinea"  Visibility="Hidden" Background="Transparent" Width="200" Height="200" Margin="40,0" FontSize="40" BorderThickness="10" Click="btSepararLinea_Click" Style="{StaticResource clickableResizableButton}">
-                <Image Source="Img/dividirIcon.png" RenderOptions.BitmapScalingMode="HighQuality" RenderTransformOrigin="0.5,0.5">
+                <Image Source="../Img/icons/dividirIcon.png" RenderOptions.BitmapScalingMode="HighQuality" RenderTransformOrigin="0.5,0.5">
                     <Image.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
