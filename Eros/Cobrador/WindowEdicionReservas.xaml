@@ -1,0 +1,167 @@
+﻿<Window x:Class="Eros.Cobrador.WindowEdicionReservas"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Eros.Cobrador"
+        mc:Ignorable="d"
+        Title="WindowEdicionReservas" Height="600" Width="1000" MinHeight="600" MinWidth="1000" WindowStyle="None" MouseDown="Window_MouseDown"  SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Border BorderThickness="0 0 0 1" BorderBrush="Black" Grid.ColumnSpan="3"/>
+
+            <Button Name="Back" HorizontalAlignment="Left" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,30,0" Click="Back_Click">
+                <StackPanel>
+                    <Image>
+                        <Image.Source>
+                            <TransformedBitmap Source="../Img/icons/flecha.png">
+                                <TransformedBitmap.Transform>
+                                    <RotateTransform Angle='180' />
+                                </TransformedBitmap.Transform>
+                            </TransformedBitmap>
+                        </Image.Source>
+                    </Image>
+                </StackPanel>
+            </Button>
+
+            <TextBlock Name="usuName" Text="User" Margin="40,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <TextBlock Text="Gestión de Reservas" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1"/>
+
+            <Button Name="Minimize" Grid.Column="2" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,60,0" Click="Minimize_Click">
+                <StackPanel>
+                    <Image Source="../Img/icons/minimizar.png" Width="20" Height="20" Margin="0,-3,0,0"></Image>
+                </StackPanel>
+            </Button>
+
+            <Button x:Name="Maximize"  Grid.Column="2" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,30,0" Click="Maximize_Click">
+                <Image x:Name="img_cuadrado"  Source="/Img/icons/cuadrado.png" Width="15" Height="15" Margin="0,0,0,0"></Image>
+            </Button>
+
+            <Button x:Name="Close" Grid.Column="2" Style="{StaticResource btn_cerrar}" HorizontalAlignment="Right" Width="30" Height="30" VerticalAlignment="Top" BorderThickness="0" Background="Transparent" Margin="0,0,0,0" Click="Close_Click">
+                <StackPanel>
+                    <Image Source="../Img/icons/cerrar.png" Width="20" Height="20" Margin="0,5,0,0"></Image>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <Grid x:Name="gridEditarReserva" Visibility="Visible" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="810*"/>
+                <RowDefinition Height="239*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="449*"/>
+                <ColumnDefinition Width="90*"/>
+                <ColumnDefinition Width="860*"/>
+                <ColumnDefinition Width="90*"/>
+                <ColumnDefinition Width="449*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="2"  BorderThickness="6" BorderBrush="Black" CornerRadius="5" Margin="30">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="185*"/>
+                        <RowDefinition Height="185*"/>
+                        <RowDefinition Height="185*"/>
+                        <RowDefinition Height="185*"/>
+                        <RowDefinition Height="185*"/>
+                    </Grid.RowDefinitions>
+                    <Border Background="#FFF0F051" CornerRadius="4,4,0,0" BorderThickness="0,0,0,6" BorderBrush="Black" >
+                        <Viewbox>
+                            <StackPanel Orientation="Horizontal"  Width="300">
+                                <TextBlock Text="Nombre: " Foreground="Black" FontSize="19" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="22,0,0,0"/>
+                                <TextBox x:Name="tbNombre" HorizontalContentAlignment="Center" Width="170" VerticalContentAlignment="Center" FontSize="19" LostFocus="tbNombre_LostFocus"/>
+                                <Image x:Name="imgFiltroNombre" Visibility="Hidden" Source="Img/check.png" Width="22" Margin="3,0,0,0">
+                                    <Image.ToolTip >
+                                        <TextBlock x:Name="toolTipNombre" FontSize="15"/>
+                                    </Image.ToolTip>
+                                </Image>
+                            </StackPanel>
+                        </Viewbox>
+                    </Border>
+                    <Viewbox Grid.Row="1">
+                        <StackPanel Orientation="Horizontal" Width="300" >
+                            <TextBlock Text="NºComensales: "  Foreground="Black" FontSize="19" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="25,0,0,0"/>
+                            <TextBox x:Name="tbComensales" Width="60" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" LostFocus="tbComensales_LostFocus"/>
+                            <Image x:Name="imgFiltroComensales" Visibility="Hidden" Source="Img/check.png" Width="22" Margin="3,0,0,0">
+                                <Image.ToolTip >
+                                    <TextBlock x:Name="toolTipComensales" FontSize="15"/>
+                                </Image.ToolTip>
+                            </Image>
+                        </StackPanel>
+                    </Viewbox>
+                    <Viewbox Grid.Row="2" HorizontalAlignment="Center">
+                        <StackPanel Orientation="Horizontal"  Width="300">
+                            <TextBlock Text="Fecha: "  Foreground="Black" FontSize="19" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="25,0,0,0"/>
+                            <Viewbox Width="160" Height="30">
+                                <DatePicker Name="dpFecha" VerticalContentAlignment="Center" FontSize="13" LostFocus="dpFecha_LostFocus"/>
+                            </Viewbox>
+                            <Image x:Name="imgFiltroFecha" Visibility="Hidden" Source="Img/check.png" Width="22" Margin="3,0,0,0">
+                                <Image.ToolTip >
+                                    <TextBlock x:Name="toolTipFecha" FontSize="15"/>
+                                </Image.ToolTip>
+                            </Image>
+                        </StackPanel>
+                    </Viewbox>
+                    <Viewbox Grid.Row="3">
+                        <StackPanel Orientation="Horizontal" Width="300">
+                            <TextBlock Text="Hora: " Margin="23,0,0,0" Foreground="Black" FontSize="19" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                            <TextBox x:Name="tbHora" Width="60" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" LostFocus="tbHora_LostFocus"/>
+                            <Image x:Name="imgFiltroHora" Visibility="Hidden" Source="Img/check.png" Width="22" Margin="3,0,0,0">
+                                <Image.ToolTip>
+                                    <TextBlock x:Name="toolTipHora" FontSize="15"/>
+                                </Image.ToolTip>
+                            </Image>
+                            <TextBlock Text="Min: "  Foreground="Black" Margin="10,0,0,0" FontSize="19" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                            <TextBox x:Name="tbMin" Width="60" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" LostFocus="tbMin_LostFocus"/>
+                            <Image x:Name="imgFiltroMin" Visibility="Hidden" Source="Img/check.png" Width="22" Margin="3,0,0,0">
+                                <Image.ToolTip >
+                                    <TextBlock x:Name="toolTipMinutos" FontSize="15"/>
+                                </Image.ToolTip>
+                            </Image>
+                        </StackPanel>
+                    </Viewbox>
+                    <Viewbox Grid.Row="4">
+                        <StackPanel Orientation="Horizontal"  Width="300">
+                            <TextBlock Text="NumMesa:"  Foreground="Black" FontSize="19" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="25,0,0,0"/>
+                            <TextBox x:Name="tbNumMesa" Width="60" Margin="10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" IsEnabled="False" Background="Gray" LostFocus="tbNumMesa_LostFocus"/>
+                            <Button x:Name="btBuscarMesa" Width="35" Height="35" Margin="0,-10,0,-10"  VerticalContentAlignment="Center" Style="{StaticResource btAdministracion}" FontSize="24" Click="btBuscarMesa_Click"  >
+                                <Image Source="./Img/lupa2Icon.png" Margin="5" />
+                            </Button>
+                            <Image x:Name="imgFiltroNumMesa" Visibility="Hidden" Source="Img/check.png" Width="22" Margin="10,0,0,0">
+                                <Image.ToolTip >
+                                    <TextBlock x:Name="toolTipNumMesa" FontSize="15"/>
+                                </Image.ToolTip>
+                            </Image>
+                        </StackPanel>
+                    </Viewbox>
+                </Grid>
+            </Border>
+            <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Viewbox Grid.Column="1" HorizontalAlignment="Right">
+                    <Button x:Name="btGuardar" Style="{StaticResource btAdministracionPositivo}" Content="Guardar" Height="25" Margin="10,20,10,15" Width="140" Click="btGuardar_Click" />
+                </Viewbox>
+                <Viewbox Grid.Column="0" HorizontalAlignment="Left">
+                    <Button x:Name="btCancelar" Style="{StaticResource btAdministracionNegativo}" Content="Cancelar" Height="25" Margin="10,20,10,15" Width="140" Click="btCancelar_Click" />
+                </Viewbox>
+            </Grid>
+
+
+        </Grid>
+    </Grid>
+</Window>

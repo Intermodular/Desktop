@@ -4,13 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros.Cobrador"
-        mc:Ignorable="d"
-        Title="WindowEditarPedido" Width="{x:Static SystemParameters.PrimaryScreenWidth}" 
-        Height="{x:Static SystemParameters.PrimaryScreenHeight}"
-        MinWidth="800"
-        MinHeight="500"
-        Top="0"
-        Left="0" SizeChanged="Window_SizeChanged" StateChanged="Window_StateChanged" MouseDown="Window_MouseDown" WindowStyle="None" WindowStartupLocation="CenterScreen">
+        mc:Ignorable="d"        
+        Height="600" Width="1000" MinHeight="600" MinWidth="1000" SizeChanged="Window_SizeChanged" StateChanged="Window_StateChanged" MouseDown="Window_MouseDown" WindowStyle="None" WindowStartupLocation="CenterScreen">
     <Window.Resources>
 
     </Window.Resources>
@@ -73,7 +68,7 @@
             </Button>
         </Grid>
 
-        <Image Grid.RowSpan="5" VerticalAlignment="Bottom" Grid.ColumnSpan="4" Source="/Img/fondoPedidos.jpg" Opacity="0.4" Stretch="UniformToFill" />
+        <Image Grid.RowSpan="4" Grid.Row="1" VerticalAlignment="Bottom" Grid.ColumnSpan="4" Source="/Img/fondoPedidos.jpg" Opacity="0.4" Stretch="UniformToFill" />
 
         <Viewbox Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
             <StackPanel x:Name="stackPanelFiltros">

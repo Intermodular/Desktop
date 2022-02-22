@@ -65,8 +65,8 @@
                         </TextBlock.Style>
                     </TextBlock>
                     
-                    <Button Content="Cancelar" Width="102" Height="36" Margin="10,20,0,0" Style="{StaticResource TabButton}" HorizontalAlignment="Left" Click="Button_Click_1"/>
-                    <Button Content="Añadir Extra" Width="102" Height="36" Margin="0,-30,20,0" Style="{StaticResource TabButton}"  HorizontalAlignment="Right" Click="Button_Click_2"/>
+                    <Button Content="Cancelar" Width="102" Height="36" Margin="30,0,0,0" Style="{StaticResource TabButton}" HorizontalAlignment="Left" Click="Button_Click_1"/>
+                    <Button Content="Añadir" Width="102" Height="36" Margin="0,-30,30,0" Style="{StaticResource TabButton}"  HorizontalAlignment="Right" Click="Button_Click_2"/>
 
                 </StackPanel>
 
@@ -101,13 +101,13 @@
                         </TextBlock.Style>
                     </TextBlock>
 
-                    <Button Content="Cancelar" Width="102" Height="36" Margin="10,10,0,0" Style="{StaticResource TabButton}" HorizontalAlignment="Left" Click="Button_Click_1"/>
-                    <Button Content="Guardar extra" Width="102" Height="36" Margin="0,-30,20,0" Style="{StaticResource TabButton}"  HorizontalAlignment="Right" Click="Button_Click_3"/>
+                    <Button Content="Cancelar" Width="102" Height="36" Margin="30,0,0,0" Style="{StaticResource TabButton}" HorizontalAlignment="Left" Click="Button_Click_1"/>
+                    <Button Content="Guardar" Width="102" Height="36" Margin="0,-30,30,0" Style="{StaticResource TabButton}"  HorizontalAlignment="Right" Click="Button_Click_3"/>
 
                 </StackPanel>
                 <StackPanel Grid.Row="2" x:Name="spDefaultButtons">
                     <Button Content="Descartar cambios" Width="102" Height="36" Margin="10,0,0,0" Style="{StaticResource TabButton}" Click="Button_Click" HorizontalAlignment="Left"/>
-                    <Button Content="Crear Extra" Width="102" Height="36" Margin="10,-36,120,0" Style="{StaticResource TabButton}" HorizontalAlignment="Right" x:Name="btnNewExtra" Click="btnNewExtra_Click"/>
+                    <Button Content="Crear Nuevo" Width="102" Height="36" Margin="10,-36,120,0" Style="{StaticResource TabButton}" HorizontalAlignment="Right" x:Name="btnNewExtra" Click="btnNewExtra_Click"/>
                     <Button Content="Guardar cambios" HorizontalAlignment="Right" Width="102" Height="36" Margin="0,-36,10,0" Style="{StaticResource TabButton}" x:Name="btnAddExtra" Click="btnAddExtra_Click"></Button>
                 </StackPanel>
             </Grid>

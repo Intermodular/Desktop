@@ -49,7 +49,7 @@ namespace Eros.Clases
             }
             catch (Exception e)
             {
-                imagen.Source = new BitmapImage(new Uri("Img/icons/foodPlaceHolder.png", UriKind.Relative));
+                imagen.Source = new BitmapImage(new Uri("../Img/icons/foodPlaceHolder.png", UriKind.Relative));
             }
 
         }

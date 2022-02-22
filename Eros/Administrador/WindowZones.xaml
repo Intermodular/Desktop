@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros.Administrador"
         mc:Ignorable="d"
-        Title="WindowZones" Height="450" MinHeight="450" Width="800" MinWidth="700" WindowStyle="None" MouseDown="Window_MouseDown" SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen">
+        Title="WindowZones" Height="600" Width="1000" MinHeight="600" MinWidth="1000" WindowStyle="None" MouseDown="Window_MouseDown" SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -131,12 +131,14 @@
                         <Viewbox Stretch="Uniform" Margin="10,0,10,0">
                             <StackPanel Orientation="Vertical" Width="250">
                                 <TextBlock Text="Nombre" FontSize="18" HorizontalAlignment="Center" Margin="0,0,0,4"/>
-                                <TextBox x:Name="tbxNombre" FontSize="18" Width="200" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"  Style="{StaticResource txb}" LostFocus="tbxNombre_LostFocus" HorizontalContentAlignment="Center"/>
-                                <Image x:Name="imgCheckNombre" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
-                                    <Image.ToolTip>
-                                        <TextBlock x:Name="tbkImageToolTipNombre"/>
-                                    </Image.ToolTip>
-                                </Image>
+                                <StackPanel Orientation="Horizontal" Margin="28,0,0,0">
+                                    <TextBox x:Name="tbxNombre" FontSize="18" Width="190" IsReadOnly="True" Background="LightGray" TextChanged="tbxInfo_Changed"  Style="{StaticResource txb}" LostFocus="tbxNombre_LostFocus" HorizontalContentAlignment="Center"/>
+                                    <Image x:Name="imgCheckNombre" Source="/Img/icons/check.png" Margin="10,0,0,0" Width="20" Visibility="Hidden">
+                                        <Image.ToolTip>
+                                            <TextBlock x:Name="tbkImageToolTipNombre"/>
+                                        </Image.ToolTip>
+                                    </Image>
+                                </StackPanel>
                             </StackPanel>
                         </Viewbox>
                         <Viewbox Grid.Row="1" Stretch="Uniform" Margin="10,0,10,0" VerticalAlignment="Top">
@@ -162,7 +164,7 @@
                         </Viewbox>
 
                         <Viewbox Grid.Column="2">
-                            <Button Content="Ver Mesas" FontSize="16" Width="100" Height="30" Margin="10,15,10,0" Style="{StaticResource btAdministracion}"/>
+                            <Button Name="btVerMesas" Content="Ver Mesas" FontSize="16" Width="100" Height="30" Margin="10,15,10,0" Click="btVerMesas_Click" Style="{StaticResource btAdministracion}"/>
                         </Viewbox>
                     </Grid>
 

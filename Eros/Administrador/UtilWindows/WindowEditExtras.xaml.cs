@@ -147,6 +147,7 @@ namespace Eros.Administrador.UtilWindows
         {
             currentState = state.Viendo;
             ChangeToState();
+            ChangeGridToNormal();
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
@@ -160,6 +161,7 @@ namespace Eros.Administrador.UtilWindows
             currentState = state.Viendo;
             ChangeToState();
             generateListView(_Extras, lvExtras);
+            ChangeGridToNormal();
 
         }
 
@@ -167,7 +169,10 @@ namespace Eros.Administrador.UtilWindows
         {
             btnEditar.Visibility = Visibility.Visible;
             btnEliminar.Visibility = Visibility.Visible;
-            ChangeGridToEdit();
+            if (lvExtras.SelectedItem == null)
+                ChangeGridToNormal();
+            else
+                ChangeGridToEdit();
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)

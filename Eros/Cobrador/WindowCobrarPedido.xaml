@@ -5,10 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros.Cobrador"
         mc:Ignorable="d"
-        Width="{x:Static SystemParameters.PrimaryScreenWidth}" 
-        Height="{x:Static SystemParameters.PrimaryScreenHeight}"
         Title="WindowCobrarPedido"
-        MinHeight="500" MinWidth="500" WindowStyle="None" MouseDown="Window_MouseDown"  SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen">
+        Height="600" Width="1000" MinHeight="600" MinWidth="1000" WindowStyle="None" MouseDown="Window_MouseDown"  SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen">
     <Grid x:Name="gridPrincipal">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>

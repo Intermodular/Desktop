@@ -97,6 +97,7 @@ namespace Eros.Administrador.UtilWindows
                     spEditIngredient.Visibility = Visibility.Hidden;
                     btnEditIngredient.Visibility = Visibility.Hidden;
                     btnDeleteIngredient.Visibility = Visibility.Hidden;
+                    ChangeGridToNormal();
                     break;
                 case state.Agregando:
                     lvIngredient.Visibility = Visibility.Hidden;
@@ -105,6 +106,7 @@ namespace Eros.Administrador.UtilWindows
                     spEditIngredient.Visibility = Visibility.Hidden;
                     btnEditIngredient.Visibility = Visibility.Hidden;
                     btnDeleteIngredient.Visibility = Visibility.Hidden;
+                    ChangeGridToEdit();
                     break;
                 case state.Editando:
                     spEditIngredient.Visibility = Visibility.Visible;
@@ -113,10 +115,21 @@ namespace Eros.Administrador.UtilWindows
                     spDefaultButtons.Visibility = Visibility.Hidden;
                     btnEditIngredient.Visibility = Visibility.Hidden;
                     btnDeleteIngredient.Visibility = Visibility.Hidden;
+                    ChangeGridToEdit();
                     break;
                 default:
                     break;
             }
+        }
+
+        private void ChangeGridToEdit()
+        {
+            GridCentral.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+        }
+
+        private void ChangeGridToNormal()
+        {
+            GridCentral.ColumnDefinitions[1].Width = new GridLength(0, GridUnitType.Star);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -139,6 +152,10 @@ namespace Eros.Administrador.UtilWindows
         {
             btnEditIngredient.Visibility = Visibility.Visible;
             btnDeleteIngredient.Visibility = Visibility.Visible;
+            if (lvIngredient.SelectedItem == null)
+                ChangeGridToNormal();
+            else
+                ChangeGridToEdit();
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)

@@ -22,6 +22,7 @@ namespace Eros.Administrador.UtilWindows
         enum state { Agregando, Viendo, Editando };
         state currentState;
 
+        public List<string> allSpecifications = new List<string>{"Vegano", "Vegetariano", "Picante", "Sin gluten", "Pescetariano"};
         public List<String> _Specifications = new List<string>();
         public bool edit = false;
 
@@ -50,7 +51,6 @@ namespace Eros.Administrador.UtilWindows
             edit = true;
             this.Close();
         }
-
       
 
         private void generateListView(List<String> list, ListView listView)
@@ -60,8 +60,6 @@ namespace Eros.Administrador.UtilWindows
 
         }
 
-
-
         private void btnDeleteEspecification_Click(object sender, RoutedEventArgs e)
         {
             String delEspecification = "";
@@ -69,24 +67,17 @@ namespace Eros.Administrador.UtilWindows
             _Specifications.Remove(delEspecification);
 
             generateListView(_Specifications, lvEspecification);
-            btnEditEspecification.Visibility = Visibility.Hidden;
-            btnDeleteEspecification.Visibility = Visibility.Hidden;
-        }
-
-        private void btnEditIngredient_Click(object sender, RoutedEventArgs e)
-        {
-            currentState = state.Editando;
-            ChangeToState();
-            tbHolderEditEspecification.Text = lvEspecification.SelectedItem.ToString();
-            btnEditEspecification.Visibility = Visibility.Hidden;
-            btnDeleteEspecification.Visibility = Visibility.Hidden;
-            tbEditEspecification.Text = "";
+            btnDeleteEspecification.Visibility = Visibility.Hidden; 
+            btnNewEspecification.IsEnabled = true;
         }
 
         private void btnNewEspecification_Click(object sender, RoutedEventArgs e)
         {
+            cbxEspecificacion.Items.Clear();
+            fillComboBox();
             currentState = state.Agregando;
             ChangeToState();
+            cbxEspecificacion.SelectedItem = cbxEspecificacion.Items[0];
         }
         private void ChangeToState()
         {
@@ -96,29 +87,29 @@ namespace Eros.Administrador.UtilWindows
                     lvEspecification.Visibility = Visibility.Visible;
                     spNewEspecification.Visibility = Visibility.Hidden;
                     spDefaultButtons.Visibility = Visibility.Visible;
-                    spEditEspecification.Visibility = Visibility.Hidden;
-                    btnEditEspecification.Visibility = Visibility.Hidden;
                     btnDeleteEspecification.Visibility = Visibility.Hidden;
+                    ChangeGridToNormal();
                     break;
                 case state.Agregando:
                     lvEspecification.Visibility = Visibility.Hidden;
                     spNewEspecification.Visibility = Visibility.Visible;
                     spDefaultButtons.Visibility = Visibility.Hidden;
-                    spEditEspecification.Visibility = Visibility.Hidden;
-                    btnEditEspecification.Visibility = Visibility.Hidden;
                     btnDeleteEspecification.Visibility = Visibility.Hidden;
-                    break;
-                case state.Editando:
-                    spEditEspecification.Visibility = Visibility.Visible;
-                    lvEspecification.Visibility = Visibility.Hidden;
-                    spNewEspecification.Visibility = Visibility.Hidden;
-                    spDefaultButtons.Visibility = Visibility.Hidden;
-                    btnEditEspecification.Visibility = Visibility.Hidden;
-                    btnDeleteEspecification.Visibility = Visibility.Hidden;
+                    ChangeGridToEdit();
                     break;
                 default:
                     break;
             }
+        }
+
+        private void ChangeGridToEdit()
+        {
+            GridCentral.ColumnDefinitions[1].Width = new GridLength(1, GridUnitType.Star);
+        }
+
+        private void ChangeGridToNormal()
+        {
+            GridCentral.ColumnDefinitions[1].Width = new GridLength(0, GridUnitType.Star);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -129,27 +120,33 @@ namespace Eros.Administrador.UtilWindows
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            _Specifications.Add(tbEspecification.Text);
-            tbEspecification.Text = "";
+            _Specifications.Add(cbxEspecificacion.SelectedItem.ToString());
             currentState = state.Viendo;
             ChangeToState();
             generateListView(_Specifications, lvEspecification);
-
+            if (lvEspecification.Items.Count == 5)
+                btnNewEspecification.IsEnabled = false;
+            ChangeGridToNormal();
         }
 
         private void lvEspecification_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
-            btnEditEspecification.Visibility = Visibility.Visible;
             btnDeleteEspecification.Visibility = Visibility.Visible;
+            if (lvEspecification.SelectedItem == null)
+                ChangeGridToNormal();
+            else 
+                ChangeGridToEdit();
         }
 
-        private void Button_Click_3(object sender, RoutedEventArgs e)
+        private void fillComboBox()
         {
-            _Specifications.Remove(lvEspecification.SelectedItem.ToString());
-            _Specifications.Add(tbEditEspecification.Text);
-            currentState = state.Viendo;
-            ChangeToState();
-            generateListView(_Specifications, lvEspecification);
+            foreach (String e in allSpecifications)
+            {
+                if (!_Specifications.Contains(e))
+                {
+                    cbxEspecificacion.Items.Add(e);
+                }
+            }
         }
     }
 }

@@ -18,16 +18,32 @@ namespace Eros.Controladores
             return reserva;
         }
 
-        public static List<Reserva> GetAllFromApi(int anyo, int mes, int dia, int hora, int min)
+        public static List<Reserva> GetAllReservasFromMinuteWith20MinThresholdFromApi(int anyo, int mes, int dia, int hora, int min)
         {
             string respuesta = ControladorApi.GetHttp("http://localhost:8080/api/reservas/minuto/" + anyo + "/" + mes + "/" + dia + "/" + hora + "/" + min);
             List<Reserva> listaReserva = JsonConvert.DeserializeObject<List<Reserva>>(respuesta);
             return listaReserva;
         }
 
-        public static List<Reserva> GetAllFromApi(int anyo, int mes, int dia)
+        public static List<Reserva> GetAllReservasFromMinuteWith2HourThresholdFromApi(int anyo, int mes, int dia, int hora, int min)
+        {
+            string respuesta = ControladorApi.GetHttp("http://localhost:8080/api/reservas/minutoReservar/" + anyo + "/" + mes + "/" + dia + "/" + hora + "/" + min);
+            List<Reserva> listaReserva = JsonConvert.DeserializeObject<List<Reserva>>(respuesta);
+            return listaReserva;
+        }
+
+
+        public static List<Reserva> GetAllFromApiByDay(int anyo, int mes, int dia)
         {
             string respuesta = ControladorApi.GetHttp("http://localhost:8080/api/reservas/dia/" + anyo + "/" + mes + "/" + dia);
+            List<Reserva> listaReserva = JsonConvert.DeserializeObject<List<Reserva>>(respuesta);
+            return listaReserva;
+        }
+
+
+        public static List<Reserva> GetAllFromApi()
+        {
+            string respuesta = ControladorApi.GetHttp("http://localhost:8080/api/reservas");
             List<Reserva> listaReserva = JsonConvert.DeserializeObject<List<Reserva>>(respuesta);
             return listaReserva;
         }
@@ -46,23 +62,18 @@ namespace Eros.Controladores
             return respuesta;
         }
 
-        /*public static List<Reserva> GetAllFromApi()
+        public static string DeleteAllExpiredFromMinute(int anyo, int mes, int dia, int hora, int min)
         {
-            string respuesta = ControladorApi.GetHttp("http://localhost:8080/api/tickets");
-            List<Ticket> listaTickets = JsonConvert.DeserializeObject<List<Ticket>>(respuesta);
-            return listaTickets;
-        }
-
-        
-
-        public static string UpdateInApi(Reserva ticket)
-        {
-            string jsonTicket = JsonConvert.SerializeObject(ticket);
-            StringContent content = new StringContent(jsonTicket, Encoding.UTF8, "application/json");
-            string respuesta = ControladorApi.PutHttp("http://localhost:8080/api/ticket", content);
+            string respuesta = ControladorApi.DeleteHttp("http://localhost:8080/api/reserva/allExpired/minute/" + anyo + " / " + mes + " / " + dia + " / " + hora + " / " + min);
             return respuesta;
         }
 
-        */
+        public static string UpdateInApi(Reserva reserva)
+        {
+            string jsonReserva = JsonConvert.SerializeObject(reserva);
+            StringContent content = new StringContent(jsonReserva, Encoding.UTF8, "application/json");
+            string respuesta = ControladorApi.PutHttp("http://localhost:8080/api/reserva", content);
+            return respuesta;
+        }
     }
 }

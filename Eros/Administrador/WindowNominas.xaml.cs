@@ -418,7 +418,18 @@ namespace Eros.Administrador
 
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
-            WindowState = (WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
+            if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+                img_cuadrado.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/cuadrado.png", UriKind.Relative));
+                GlobalVariables.max = false;
+            }
+            else
+            {
+                WindowState = WindowState.Maximized;
+                img_cuadrado.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/cuadrado2.png", UriKind.Relative));
+                GlobalVariables.max = true;
+            }
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)

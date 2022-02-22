@@ -61,11 +61,24 @@ namespace Eros
         //Eventos
         private void dtgEmpleados_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            tipoImage.Source = null;
             Productos selectedProduct = (Productos)dtgProductos.SelectedItem;
             if (selectedProduct != null)
             {
                 ShowProductInfo(selectedProduct);
                 idOfLastSelectedProduct = selectedProduct._id;
+                if (tbxImagen.Text != "")
+                {
+                    try
+                    {
+                        tipoImage.Source = new BitmapImage(new Uri(tbxImagen.Text));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("URL de la imagen no válido.");
+                    }
+                }
+                
             }
         }
         private void btEliminar_Click(object sender, RoutedEventArgs e)
@@ -251,6 +264,7 @@ namespace Eros
                 this.Close();
             }
             cbTipo.Items.Clear();
+            cbTipo.Items.Add("Ninguno");
             foreach (Tipos t in listTipos)
             {
                 cbTipo.Items.Add(t.nombre);
@@ -291,9 +305,7 @@ namespace Eros
 
                 case state.Editando:
                     //Codigo desaparecer botones descartar cambios y guardar
-                    
-                    btnAddIngredientes.Visibility = Visibility.Hidden;
-                    btnAddSpecifications.Visibility = Visibility.Hidden;
+                                        
                     gridEditando.Visibility = Visibility.Hidden;
                     EnableSearchTextBox(true);
                     hideIcons();
@@ -304,6 +316,8 @@ namespace Eros
             {
                 case state.Viendo:
                     //Codigo aparecer botones editar,borrar,ver nominas , bloquear en READONLY , rellenar tbxs con item selleccionado
+                    btnAddIngredientes.Visibility = Visibility.Hidden;
+                    btnAddSpecifications.Visibility = Visibility.Hidden;
                     gridVisualizando.Visibility = Visibility.Visible;
                     EnableTextBoxes(false);
                     dtgProductos.IsEnabled = true;
@@ -446,6 +460,9 @@ namespace Eros
 
         public bool ValidatePrecio()
         {
+            var ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+            ci.NumberFormat.NumberDecimalSeparator = ",";
+
             imgCheckPrecio.Visibility = Visibility.Visible;
 
             if (tbxPrecio.Text == "")
@@ -458,7 +475,13 @@ namespace Eros
             else if (!Regex.IsMatch(tbxPrecio.Text, @"^[0-9]\d*(\,\d+)?$"))
             {
                 imgCheckPrecio.Source = wrongIconSource;
-                tbkImageToolTipPrecio.Text = "El campo Precio tien que ser de tipo numérico.";
+                tbkImageToolTipPrecio.Text = "El campo Precio tiene que ser de tipo numérico (Separador decimal: , ).";
+                return false;
+            }
+            else if (float.Parse(tbxPrecio.Text, ci) < 0)
+            {
+                imgCheckStock.Source = wrongIconSource;
+                tbkImageToolTipStock.Text = "El campo Stock no puede ser un número negativo";
                 return false;
             }
 
@@ -477,20 +500,28 @@ namespace Eros
         public bool ValidateImagen()
         {
             imgCheckImagen.Visibility = Visibility.Visible;
-
             if (tbxImagen.Text == "")
             {
-                imgCheckImagen.Source = wrongIconSource;
-                tbkImageToolTipImagen.Text = "Campo Obligatorio";
-                return false;
-
+                imgCheckImagen.Source = checkIconSource;
+                tbkImageToolTipImagen.Text = "Correcto";
+                return true;
             }
 
-            imgCheckImagen.Source = checkIconSource;
-            tbkImageToolTipImagen.Text = "Correcto";
-            previewImage.Visibility = Visibility.Visible;
-            tipoImage.Source = new BitmapImage(new Uri(tbxImagen.Text));
-            return true;
+            try
+            {
+                tipoImage.Source = new BitmapImage(new Uri(tbxImagen.Text));
+                imgCheckImagen.Source = checkIconSource;
+                tbkImageToolTipImagen.Text = "Correcto";
+                previewImage.Visibility = Visibility.Visible;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                imgCheckImagen.Source = wrongIconSource;
+                tbkImageToolTipImagen.Text = "URL inválido";
+                previewImage.Visibility = Visibility.Hidden;
+                return false;
+            }
         }
 
         private void tbxStock_LostFocus(object sender, RoutedEventArgs e)
@@ -506,15 +537,21 @@ namespace Eros
 
             if (tbxStock.Text == "")
             {
-                imgCheckStock.Source = wrongIconSource;
-                tbkImageToolTipStock.Text = "Campo Obligatorio";
-                return false;
-
-            }
+                imgCheckStock.Source = checkIconSource;
+                tbkImageToolTipStock.Text = "Correcto";
+                tbxStock.Text = "0";
+                return true;
+            } 
             else if (!Regex.IsMatch(tbxStock.Text, @"^([0-9]+)$"))
             {
                 imgCheckStock.Source = wrongIconSource;
                 tbkImageToolTipStock.Text = "El campo Stock solo permite números enteros.";
+                return false;
+            }
+            else if (Int32.Parse(tbxStock.Text) < 0)
+            {
+                imgCheckStock.Source = wrongIconSource;
+                tbkImageToolTipStock.Text = "El campo Stock no puede ser un número negativo";
                 return false;
             }
 
@@ -596,7 +633,18 @@ namespace Eros
 
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
-            WindowState = (WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
+            if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+                img_cuadrado.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/cuadrado.png", UriKind.Relative));
+                GlobalVariables.max = false;
+            }
+            else
+            {
+                WindowState = WindowState.Maximized;
+                img_cuadrado.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/cuadrado2.png", UriKind.Relative));
+                GlobalVariables.max = true;
+            }
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)

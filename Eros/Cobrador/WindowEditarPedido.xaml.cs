@@ -21,6 +21,7 @@ namespace Eros.Cobrador
     /// <summary>
     /// Interaction logic for WindowEditarPedido.xaml
     /// </summary>
+    /// </summary>
     public partial class WindowEditarPedido : Window
     {
         //Ventana
@@ -62,6 +63,19 @@ namespace Eros.Cobrador
         public WindowEditarPedido(Pedidos pedido, int numMesa)
         {
             InitializeComponent();
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+            usuName.Text = GlobalVariables.username;
+            if (GlobalVariables.max)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                Left = GlobalVariables.left;
+                Top = GlobalVariables.top;
+                Height = GlobalVariables.height;
+                Width = GlobalVariables.width;
+            }
 
             CreateTypeList();
             CreateTypeButtonList();
@@ -199,10 +213,9 @@ namespace Eros.Cobrador
                 Button b = new Button();
                 b.Width = minTypeButtonWidth;
                 b.Height = typeButtonHeight;
-                b.Content = tipo.nombre;
                 b.FontSize = typeButtonFontsize;
                 b.Padding = new Thickness(5);
-                b.Name = tipo.nombre;
+                b.Content = tipo.nombre;
                 b.Click += btType_Click;
                 b.Style = Application.Current.Resources["buttonTipos"] as Style;
                 b.RenderTransformOrigin = new Point(0.5f, 0.5f);
@@ -1022,7 +1035,6 @@ namespace Eros.Cobrador
                 mw.Show();
                 this.Close();
             }
-            MessageBox.Show("Pedido Actualizazdo");
 
         }
 
@@ -1248,17 +1260,23 @@ namespace Eros.Cobrador
 
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
-            WindowState = (WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
+            if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+                img_cuadrado.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/cuadrado.png", UriKind.Relative));
+                GlobalVariables.max = false;
+            }
+            else
+            {
+                WindowState = WindowState.Maximized;
+                img_cuadrado.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/cuadrado2.png", UriKind.Relative));
+                GlobalVariables.max = true;
+            }
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
-        }
-
-        private void Administrate_Click(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void btBorrarPedido_Click(object sender, RoutedEventArgs e)

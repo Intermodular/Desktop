@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros"
         mc:Ignorable="d"
-        Title="WindowProducts" Height="450" MinHeight="450" Width="800" MinWidth="700" WindowStyle="None" MouseDown="Window_MouseDown" SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen">
+        Title="WindowProducts" Height="600" Width="1000" MinHeight="600" MinWidth="1000" WindowStyle="None" MouseDown="Window_MouseDown" SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>

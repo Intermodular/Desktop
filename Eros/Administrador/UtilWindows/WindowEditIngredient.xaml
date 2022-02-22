@@ -20,7 +20,7 @@
                 <Button Width="30" Height="30" HorizontalAlignment="Right" BorderThickness="0" Background="Transparent" Style="{StaticResource btn_cerrar}" Click="Button_Click" Margin="0,-15,5,0">
                     <Image Source="./../../Img/icons/cerrar.png"></Image>
                 </Button>
-                <Grid Grid.Row="1" Margin="4">
+                <Grid Grid.Row="1" Margin="4" Name="GridCentral">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
@@ -52,8 +52,8 @@
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
-                    <Button Content="Cancelar" Width="102" Height="36" Margin="10,20,0,0" Style="{StaticResource TabButton}" HorizontalAlignment="Left" Click="Button_Click_1"/>
-                    <Button Content="Añadir Ingrediente" Width="102" Height="36" Margin="0,-30,20,0" Style="{StaticResource TabButton}"  HorizontalAlignment="Right" Click="Button_Click_2"/>
+                    <Button Content="Cancelar" Width="102" Height="36" Margin="30,0,0,0" Style="{StaticResource TabButton}" HorizontalAlignment="Left" Click="Button_Click_1"/>
+                    <Button Content="Añadir" Width="102" Height="36" Margin="0,-30,30,0" Style="{StaticResource TabButton}"  HorizontalAlignment="Right" Click="Button_Click_2"/>
 
                 </StackPanel>
 
@@ -74,13 +74,13 @@
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
-                    <Button Content="Cancelar" Width="102" Height="36" Margin="10,20,0,0" Style="{StaticResource TabButton}" HorizontalAlignment="Left" Click="Button_Click_1"/>
-                    <Button Content="Guardar ingrediente" Width="102" Height="36" Margin="0,-30,20,0" Style="{StaticResource TabButton}"  HorizontalAlignment="Right" Click="Button_Click_3"/>
+                    <Button Content="Cancelar" Width="102" Height="36" Margin="30,0,0,0" Style="{StaticResource TabButton}" HorizontalAlignment="Left" Click="Button_Click_1"/>
+                    <Button Content="Guardar" Width="102" Height="36" Margin="0,-30,30,0" Style="{StaticResource TabButton}"  HorizontalAlignment="Right" Click="Button_Click_3"/>
 
                 </StackPanel>
                 <StackPanel Grid.Row="2" x:Name="spDefaultButtons">
                     <Button Content="Descartar cambios" Width="102" Height="36" Margin="10,0,0,0" Style="{StaticResource TabButton}" Click="Button_Click" HorizontalAlignment="Left"/>
-                    <Button Content="Crear ingrediente" Width="102" Height="36" Margin="10,-36,120,0" Style="{StaticResource TabButton}" HorizontalAlignment="Right" x:Name="btnNewIngrediente" Click="btnNewIngrediente_Click"/>
+                    <Button Content="Crear Nuevo" Width="102" Height="36" Margin="10,-36,120,0" Style="{StaticResource TabButton}" HorizontalAlignment="Right" x:Name="btnNewIngrediente" Click="btnNewIngrediente_Click"/>
                     <Button Content="Guardar cambios" HorizontalAlignment="Right" Width="102" Height="36" Margin="0,-36,10,0" Style="{StaticResource TabButton}" x:Name="btnAddIngredient" Click="btnAddIngredient_Click"></Button>
                 </StackPanel>
             </Grid>

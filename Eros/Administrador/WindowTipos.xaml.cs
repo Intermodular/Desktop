@@ -60,11 +60,23 @@ namespace Eros.Administrador
         //Eventos
         private void dtgTipos_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            tipoImage.Source = null;
             Tipos selectedTipo = (Tipos)dtgTipos.SelectedItem;
             if (selectedTipo != null)
             {
                 ShowTipoInfo(selectedTipo);
                 idOfLastSelectedTipo = selectedTipo._id;
+                if (tbxImagen.Text != "")
+                {
+                    try
+                    {
+                        tipoImage.Source = new BitmapImage(new Uri(tbxImagen.Text));
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("URL de la imagen no válido.");
+                    }
+                }
             }
         }
         private void btEliminar_Click(object sender, RoutedEventArgs e)
@@ -438,17 +450,29 @@ namespace Eros.Administrador
 
             if (tbxImagen.Text == "")
             {
-                imgCheckImagen.Source = wrongIconSource;
-                tbkImageToolTipImagen.Text = "Campo Obligatorio";
-                return false;
+                imgCheckImagen.Source = checkIconSource;
+                tbkImageToolTipImagen.Text = "Correcto";
+                return true;
 
             }
+            
+            try
+            {
+                tipoImage.Source = new BitmapImage(new Uri(tbxImagen.Text));
+                imgCheckImagen.Source = checkIconSource;
+                tbkImageToolTipImagen.Text = "Correcto";
+                previewImage.Visibility = Visibility.Visible;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                imgCheckImagen.Source = wrongIconSource;
+                tbkImageToolTipImagen.Text = "URL inválido";
+                previewImage.Visibility = Visibility.Hidden;
+                return false;
+            }
 
-            imgCheckImagen.Source = checkIconSource;
-            tbkImageToolTipImagen.Text = "Correcto";
-            previewImage.Visibility = Visibility.Visible;
-            tipoImage.Source = new BitmapImage(new Uri(tbxImagen.Text));
-            return true;
+            
         }
 
         private void hideIcons()
@@ -536,7 +560,18 @@ namespace Eros.Administrador
 
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
-            WindowState = (WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
+            if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+                img_cuadrado.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/cuadrado.png", UriKind.Relative));
+                GlobalVariables.max = false;
+            }
+            else
+            {
+                WindowState = WindowState.Maximized;
+                img_cuadrado.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/cuadrado2.png", UriKind.Relative));
+                GlobalVariables.max = true;
+            }
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)

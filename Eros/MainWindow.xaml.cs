@@ -39,7 +39,7 @@ namespace Eros
             dispatcherTimer.Interval = new TimeSpan(0, 0, 8);
             dispatcherTimer.Start();
             GlobalVariables.left = -999;
-            GlobalVariables.max = false;
+            GlobalVariables.max = true;
         }
         /*
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -109,7 +109,8 @@ namespace Eros
                     new BitmapImage(new Uri(@"/Eros;component/Img/hamburguesa.jpg", UriKind.Relative)),
                     new BitmapImage(new Uri(@"/Eros;component/Img/pizza2.jpg", UriKind.Relative)),
                     new BitmapImage(new Uri(@"/Eros;component/Img/hamburguesa2.jpg", UriKind.Relative)),
-                    new BitmapImage(new Uri(@"/Eros;component/Img/pizza.png", UriKind.Relative))
+                    new BitmapImage(new Uri(@"/Eros;component/Img/pizza.png", UriKind.Relative)),
+                    new BitmapImage(new Uri(@"/Eros;component/Img/hamburguesa2 - Copia.jpeg", UriKind.Relative)),
                     };
                 img_login.Source = images[image_show];
 

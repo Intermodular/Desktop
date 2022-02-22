@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros.Administrador"
         mc:Ignorable="d"
-        Title="WindowTipos" Height="450" MinHeight="450" Width="800" MinWidth="700" WindowStyle="None" MouseDown="Window_MouseDown" SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen">
+        Title="WindowTipos" Height="600" Width="1000" MinHeight="600" MinWidth="1000" WindowStyle="None" MouseDown="Window_MouseDown" SizeChanged="Window_SizeChanged" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -146,7 +146,7 @@
                                 <ComboBox x:Name="cbExtras" FontSize="18" Margin="20,0,0,0" Width="200" IsEnabled="True" Background="LightGray"></ComboBox>
                                 <Button Background="White"  Style="{StaticResource TabButton}" x:Name="btnAddExtras" Click="btnAddExtras_Click" Visibility="Hidden">
                                     <StackPanel>
-                                        <Image Source="/Administrador/edit.png" Width="20" Height="20"></Image>
+                                        <Image Source="../Img/icons/edit.png" Width="20" Height="20"></Image>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>

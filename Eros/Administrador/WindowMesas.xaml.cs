@@ -56,6 +56,30 @@ namespace Eros.Administrador
             }
         }
 
+        public WindowMesas(string zona)
+        {
+            InitializeComponent();
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+            InitializeTextBoxList();
+            currentState = state.Viendo;
+            SetupComboBoxes();
+            UpdateInfoFromDataBase();
+            listFiltrada = new List<Mesas>();
+            usuName.Text = GlobalVariables.username;
+            if (GlobalVariables.max)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                Left = GlobalVariables.left;
+                Top = GlobalVariables.top;
+                Height = GlobalVariables.height;
+                Width = GlobalVariables.width;
+            }
+            tbxSearchBar.Text = zona;
+        }
+
         //Eventos
         private void dtgMesas_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -616,7 +640,18 @@ namespace Eros.Administrador
 
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
-            WindowState = (WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
+            if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+                img_cuadrado.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/cuadrado.png", UriKind.Relative));
+                GlobalVariables.max = false;
+            }
+            else
+            {
+                WindowState = WindowState.Maximized;
+                img_cuadrado.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/cuadrado2.png", UriKind.Relative));
+                GlobalVariables.max = true;
+            }
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)

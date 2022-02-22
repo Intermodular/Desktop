@@ -545,7 +545,11 @@ namespace Eros
         public bool ValidateTelefono()
         {
             imgCheckTelefono.Visibility = Visibility.Visible;
-
+            
+            if (tbxTelefono.Text == "")
+            {
+                return true;
+            }
             if (!Regex.IsMatch(tbxTelefono.Text, @"^(\+[0-9]{2} ?)?[0-9]{9}$"))
             {
                 imgCheckTelefono.Source = wrongIconSource;
@@ -568,7 +572,10 @@ namespace Eros
         public bool ValidateFnac()
         {
             imgCheckFnac.Visibility = Visibility.Visible;
-
+            if (tbxFnac.Text == "")
+            {
+                return true;
+            }
             if (tbxFnac.Text == "")
             {
                 imgCheckFnac.Source = wrongIconSource;
@@ -628,7 +635,10 @@ namespace Eros
         public bool ValidateDir()
         {
             imgCheckDir.Visibility = Visibility.Visible;
-
+            if (tbxDir.Text == "")
+            {
+                return true;
+            }
             if (tbxDir.Text == "")
             {
                 imgCheckDir.Source = wrongIconSource;
@@ -845,7 +855,18 @@ namespace Eros
 
         private void Maximize_Click(object sender, RoutedEventArgs e)
         {
-            WindowState = (WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
+            if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+                img_cuadrado.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/cuadrado.png", UriKind.Relative));
+                GlobalVariables.max = false;
+            }
+            else
+            {
+                WindowState = WindowState.Maximized;
+                img_cuadrado.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/cuadrado2.png", UriKind.Relative));
+                GlobalVariables.max = true;
+            }
         }
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e)

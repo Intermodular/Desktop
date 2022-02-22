@@ -54,12 +54,29 @@ namespace Eros.Cobrador
         public WindowGestionMesas()
         {
             InitializeComponent();
+            this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             InitializeStoryBoards();
             InitializeUIControlProperties();
 
             InitializeAndPlaceListPanelesMesa();
             InitializeAndPlaceZonas();
             InitializeComboBoxEstado();
+            usuName.Text = GlobalVariables.username;
+            if (GlobalVariables.employee.rol != "Administrador")
+            {
+                Administrate.Visibility = Visibility.Hidden;
+            }
+            if (GlobalVariables.max)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else
+            {
+                Left = GlobalVariables.left;
+                Top = GlobalVariables.top;
+                Height = GlobalVariables.height;
+                Width = GlobalVariables.width;
+            }
         }
 
 
@@ -142,7 +159,6 @@ namespace Eros.Cobrador
 
             //StoryBoard2
             sbIdleTbkPasarPedido = new Storyboard();
-            //sbIdleTbkPasarPedido.Duration = new Duration(new TimeSpan(0, 0, 0, 0, 1));
             tbkPasandoPedido.RenderTransform = new TranslateTransform();
             DoubleAnimation idleAnimation = new DoubleAnimation()
             {
@@ -204,7 +220,7 @@ namespace Eros.Cobrador
             rotateAnimation.From = -180d;
             rotateAnimation.To = 0d;
             thicknessAnimation.From = new Thickness(0, 0, 0, 0);
-            thicknessAnimation.To = new Thickness(0, -borderFiltros.Height -40, 0, 0);
+            thicknessAnimation.To = new Thickness(0, -borderFiltros.Height, 0, 0);
             storyboard.Begin();
 
         }
@@ -212,10 +228,7 @@ namespace Eros.Cobrador
         //ZONAS
         private List<Zonas> GetZonas()
         {
-            List<Zonas> list = new List<Zonas>();
-            list.Add(new Zonas { _id = 1, nombre = "Interior" });
-            list.Add(new Zonas { _id = 2, nombre = "Terraza" });
-            return list;
+            return ControladorZonas.GetAllFromApi();
         }
 
         private void InitializeAndPlaceZonas()
@@ -234,6 +247,7 @@ namespace Eros.Cobrador
             cbxEstado.Items.Add("Todas");
             cbxEstado.Items.Add("Libre");
             cbxEstado.Items.Add("Ocupada");
+            cbxEstado.Items.Add("Reservada");
             cbxEstado.SelectedIndex = 0;
         }
 
@@ -257,18 +271,7 @@ namespace Eros.Cobrador
             list.Add(new Mesas() { _id = 14, numero = 11, zona = "Terraza", numSillas = 10, estado = "Libre" });
             list.Add(new Mesas() { _id = 15, numero = 12, zona = "Terraza", numSillas = 4, estado = "Ocupada" });
             list.Add(new Mesas() { _id = 16, numero = 13, zona = "Terraza", numSillas = 4, estado = "Libre" });*/
-            List<Mesas> list = new List<Mesas>();
-            try
-            {
-                list = ControladorMesas.GetAllFromApi();
-            } 
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
-                MainWindow mw = new MainWindow();
-                mw.Show();
-                this.Close();
-            }
+            List<Mesas> list = ControladorMesas.GetAllFromApi();
 
             return list;
         }
@@ -296,17 +299,8 @@ namespace Eros.Cobrador
             int day = DateTime.Now.Day;
             int hour = DateTime.Now.Hour;
             int minute = DateTime.Now.Minute;
-            try
-            {
-                listReservas = ControladorReservas.GetAllFromApi(year, month, day, hour, minute);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
-                MainWindow mw = new MainWindow();
-                mw.Show();
-                this.Close();
-            }
+            listReservas = ControladorReservas.GetAllReservasFromMinuteWith20MinThresholdFromApi(year, month, day, hour, minute);
+
         }
 
         private void ConstructPanelMesa(Mesas mesa)
@@ -329,11 +323,16 @@ namespace Eros.Cobrador
             panel.tbkNumeroMesa.HorizontalAlignment = HorizontalAlignment.Center;
             panel.tbkNumeroMesa.Text = mesa.numero + "";
 
-            Reserva reserva = GetReservaFromMesa(mesa);
+            Reserva reserva = null;
+            if (mesa.estado != "Ocupada")
+            {
+                reserva = GetReservaFromMesa(mesa);
+            }
+
             if (reserva != null)
             {
                 mesa.estado = "Reservada";
-                panel.ttReservado.Content = reserva.nombre + Environment.NewLine + String.Format("{0:00}/{1:00}/{2:00}", reserva.dia, reserva.mes, reserva.anyo) + String.Format("{0:00}:{1:00}", reserva.hora, reserva.minuto);
+                panel.ttReservado.Content = reserva.nombre + Environment.NewLine + String.Format("{0:00}/{1:00}/{2:00}", reserva.dia, reserva.mes, reserva.anyo) + Environment.NewLine + String.Format("{0:00}:{1:00}", reserva.hora, reserva.minuto);
                 panel.tbkReservado.FontSize = 20d;
                 panel.tbkReservado.VerticalAlignment = VerticalAlignment.Bottom;
                 panel.tbkReservado.HorizontalAlignment = HorizontalAlignment.Center;
@@ -402,16 +401,16 @@ namespace Eros.Cobrador
         {
             if (panel.mesa.estado == "Libre")
             {
-                panel.button.Background = new SolidColorBrush(Color.FromArgb(255, 88, 182, 88));
+                panel.button.Background = new SolidColorBrush(Color.FromArgb(255, 46, 238, 93));
             }
             else if (panel.mesa.estado == "Ocupada")
             {
-                panel.button.Background = new SolidColorBrush(Color.FromArgb(255, 199, 77, 77));
+                panel.button.Background = new SolidColorBrush(Color.FromArgb(255, 238, 46, 49));
 
             }
             else if (panel.mesa.estado == "Reservada")
             {
-                panel.button.Background = new SolidColorBrush(Color.FromArgb(255, 242, 240, 80));
+                panel.button.Background = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFFF58");
             }
         }
 
@@ -432,18 +431,7 @@ namespace Eros.Cobrador
             Pedidos pedido = new Pedidos();
             pedido.lineasPedido = new List<LineaPedido>();
             pedido.idMesa = idMesa;
-            string respuesta = "";
-            try
-            {
-                respuesta = ControladorPedidos.PostToApi(pedido); //Meter funcion api para comprobar al postear que no hay ningun pedido para esta mesa, por si alguien lo ha creado mientras le dabas al si del messagebox
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
-                MainWindow mw = new MainWindow();
-                mw.Show();
-                this.Close();
-            }
+            string respuesta = ControladorPedidos.PostToApi(pedido); //Meter funcion api para comprobar al postear que no hay ningun pedido para esta mesa, por si alguien lo ha creado mientras le dabas al si del messagebox
             if (respuesta == "Error idMesa repetido")
             {
                 return null;
@@ -457,18 +445,7 @@ namespace Eros.Cobrador
         private void PanelMesaButton_Clicked(object sender, RoutedEventArgs e)
         {
             PanelMesa panelMesaClickado = GetPanelMesaFromButton(sender as Button);
-            Pedidos pedidoMesa = new Pedidos();
-            try
-            {
-                pedidoMesa = ControladorPedidos.GetFromApiByIdMesa(panelMesaClickado.mesa._id);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
-                MainWindow mw = new MainWindow();
-                mw.Show();
-                this.Close();
-            }
+            Pedidos pedidoMesa = ControladorPedidos.GetFromApiByIdMesa(panelMesaClickado.mesa._id);
             if (currentWindowState == windowState.Normal)
             {
                 if (pedidoMesa == null)
@@ -479,19 +456,9 @@ namespace Eros.Cobrador
                         if (result == MessageBoxResult.Yes)
                         {
                             panelMesaClickado.mesa.estado = "Ocupada";
-                            try
-                            {
-                                ControladorMesas.UpdateInApi(panelMesaClickado.mesa);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
-                                MainWindow mw = new MainWindow();
-                                mw.Show();
-                                this.Close();
-                            }
+                            ControladorMesas.UpdateInApi(panelMesaClickado.mesa);
                             Reserva reserva = GetReservaFromMesa(panelMesaClickado.mesa);
-                            //ControladorReservas
+                            ControladorReservas.DeleteFromApi(reserva._id);
                             btReiniciar_Click(sender, null);
                         }
                     }
@@ -508,18 +475,7 @@ namespace Eros.Cobrador
                             else
                             {
                                 panelMesaClickado.mesa.estado = "Ocupada";
-                                try
-                                {
-                                    ControladorMesas.UpdateInApi(panelMesaClickado.mesa);
-                                }
-                                catch (Exception ex)
-                                {
-                                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
-                                    MainWindow mw = new MainWindow();
-                                    mw.Show();
-                                    this.Close();
-                                }
-                                MessageBox.Show("Pedido Creado");
+                                ControladorMesas.UpdateInApi(panelMesaClickado.mesa);
                                 OpenWindowEditarPedido(pedido, panelMesaClickado.mesa.numero);
                             }
                         }
@@ -528,7 +484,6 @@ namespace Eros.Cobrador
                 }
                 else
                 {
-                    MessageBox.Show("Tiene un pedido");
                     OpenWindowEditarPedido(pedidoMesa, panelMesaClickado.mesa.numero);
                 }
             }
@@ -536,36 +491,16 @@ namespace Eros.Cobrador
             {
                 if (pedidoMesa == null)
                 {
-                    string response = "";
-                    try
-                    {
-                        response = ControladorPedidos.DeleteFromApi(passingPedido);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
-                        MainWindow mw = new MainWindow();
-                        mw.Show();
-                        this.Close();
-                    }
+                    string response = ControladorPedidos.DeleteFromApi(passingPedido);
                     if (response == "Not Found")
                     {
                         MessageBox.Show("El pedido que intentas cambiar ya no existe", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     else
                     {
+
                         passingPedido.idMesa = panelMesaClickado.mesa._id;
-                        try
-                        {
-                            ControladorPedidos.PostToApi(passingPedido);
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
-                            MainWindow mw = new MainWindow();
-                            mw.Show();
-                            this.Close();
-                        }
+                        ControladorPedidos.PostToApi(passingPedido);
 
                         MessageBox.Show("Pedido traspasado de la Mesa " + passingPedidoMesa.numero + " a la Mesa " + panelMesaClickado.mesa.numero, "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
@@ -601,32 +536,11 @@ namespace Eros.Cobrador
         private void CtxMenuDejarLibre_Click(object sender, RoutedEventArgs e)
         {
             PanelMesa pm = GetPanelMesaFromContextMenuItem(sender as MenuItem);
-            Pedidos pedidoMesa = new Pedidos();
-            try
-            {
-                pedidoMesa = ControladorPedidos.GetFromApiByIdMesa(pm.mesa._id);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
-                MainWindow mw = new MainWindow();
-                mw.Show();
-                this.Close();
-            }
+            Pedidos pedidoMesa = ControladorPedidos.GetFromApiByIdMesa(pm.mesa._id);
             if (pedidoMesa == null)
             {
                 pm.mesa.estado = "Libre";
-                try
-                {
-                    ControladorMesas.UpdateInApi(pm.mesa);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
-                    MainWindow mw = new MainWindow();
-                    mw.Show();
-                    this.Close();
-                }
+                ControladorMesas.UpdateInApi(pm.mesa);
                 btReiniciar_Click(sender, null);
             }
             else
@@ -639,35 +553,14 @@ namespace Eros.Cobrador
         {
             PanelMesa pm = GetPanelMesaFromContextMenuItem(sender as MenuItem);
             pm.mesa.estado = "Ocupada";
-            try
-            {
-                ControladorMesas.UpdateInApi(pm.mesa);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
-                MainWindow mw = new MainWindow();
-                mw.Show();
-                this.Close();
-            }
+            ControladorMesas.UpdateInApi(pm.mesa);
             btReiniciar_Click(sender, null);
         }
 
         private void CtxMenuPasarPedido_Click(object sender, RoutedEventArgs e)
         {
             PanelMesa pm = GetPanelMesaFromContextMenuItem(sender as MenuItem);
-            Pedidos pedidoMesa = new Pedidos();
-            try
-            {
-                pedidoMesa = ControladorPedidos.GetFromApiByIdMesa(pm.mesa._id);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
-                MainWindow mw = new MainWindow();
-                mw.Show();
-                this.Close();
-            }
+            Pedidos pedidoMesa = ControladorPedidos.GetFromApiByIdMesa(pm.mesa._id);
             if (pedidoMesa == null)
             {
                 MessageBox.Show("Esta mesa no contiene ningún pedido que se pueda trasladar", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -876,19 +769,11 @@ namespace Eros.Cobrador
             ChangeWindowState(windowState.Normal);
         }
 
-        private void Minimize_Click(object sender, RoutedEventArgs e)
+        private void btReservas_Click(object sender, RoutedEventArgs e)
         {
-            WindowState = WindowState.Minimized;
-        }
-
-        private void Maximize_Click(object sender, RoutedEventArgs e)
-        {
-            WindowState = (WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
-        }
-
-        private void Close_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
+            WindowReservas wr = new WindowReservas();
+            this.Close();
+            wr.Show();
         }
 
         private void Administrate_Click(object sender, RoutedEventArgs e)
@@ -896,6 +781,38 @@ namespace Eros.Cobrador
             WindowMainAdministration wma = new WindowMainAdministration();
             wma.Show();
             this.Close();
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            InitializeAndPlaceListPanelesMesa();
+            UpdatePanelesMesasLayout();
+        }
+
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void Maximize_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+                img_cuadrado.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/cuadrado.png", UriKind.Relative));
+                GlobalVariables.max = false;
+            }
+            else
+            {
+                WindowState = WindowState.Maximized;
+                img_cuadrado.Source = new BitmapImage(new Uri(@"/Eros;component/Img/icons/cuadrado2.png", UriKind.Relative));
+                GlobalVariables.max = true;
+            }
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)

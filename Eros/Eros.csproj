@@ -39,17 +39,20 @@
     <None Remove="Img\carga\pizza2.jpeg" />
     <None Remove="Img\edit.png" />
     <None Remove="Img\empleados.png" />
+    <None Remove="Img\fondoPedidos.jpg" />
     <None Remove="Img\foodPlaceHolder.png" />
     <None Remove="Img\hamburguesa.jpg" />
     <None Remove="Img\icons\add.png" />
     <None Remove="Img\icons\backwardsIcon.png" />
     <None Remove="Img\icons\basura.png" />
+    <None Remove="Img\icons\basuraTransparente.png" />
     <None Remove="Img\icons\cerrar.png" />
     <None Remove="Img\icons\check.png" />
     <None Remove="Img\icons\cobrador.png" />
     <None Remove="Img\icons\cuadrado.png" />
     <None Remove="Img\icons\cuadrado2.png" />
     <None Remove="Img\icons\deleteIcon.png" />
+    <None Remove="Img\icons\deleteListIcon.png" />
     <None Remove="Img\icons\dividirIcon.png" />
     <None Remove="Img\icons\downIcon.png" />
     <None Remove="Img\icons\edit.png" />
@@ -64,14 +67,18 @@
     <None Remove="Img\icons\leftIcon.png" />
     <None Remove="Img\icons\logout.png" />
     <None Remove="Img\icons\lupa.png" />
+    <None Remove="Img\icons\lupa2Icon.png" />
     <None Remove="Img\icons\minimizar.png" />
     <None Remove="Img\icons\minusIcon.png" />
     <None Remove="Img\icons\NoShowPass.png" />
     <None Remove="Img\icons\oppositeArrows.png" />
+    <None Remove="Img\icons\pencilIcon.png" />
     <None Remove="Img\icons\pescetarianoIcon.png" />
     <None Remove="Img\icons\picanteIcon.png" />
     <None Remove="Img\icons\plusIcon.png" />
+    <None Remove="Img\icons\plusIcon2.png" />
     <None Remove="Img\icons\refresh.png" />
+    <None Remove="Img\icons\reservaIcon.png" />
     <None Remove="Img\icons\rightIcon.png" />
     <None Remove="Img\icons\ShowPass.png" />
     <None Remove="Img\icons\sinGlutenIcon.png" />
@@ -81,6 +88,7 @@
     <None Remove="Img\icons\wrong.png" />
     <None Remove="Img\logo\eros_black.png" />
     <None Remove="Img\logo\eros_red.png" />
+    <None Remove="Img\minimizar.png" />
     <None Remove="Img\orna.png" />
     <None Remove="Img\ornament.png" />
     <None Remove="Img\pizza.png" />
@@ -95,60 +103,39 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Img\edit.png">
+    <Resource Include="Img\fondoPedidos.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\foodPlaceHolder.png">
+    </Resource>
+    <Resource Include="Img\hamburguesa2 - Copia.jpeg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\hamburguesa2 - Copia.jpeg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\hamburguesa2.jpg">
+    </Resource>
+    <Resource Include="Img\hamburguesa2.jpg">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\add.png">
+    </Resource>
+    <Resource Include="Img\icons\basuraTransparente.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\basura.png">
+    </Resource>
+    <Resource Include="Img\icons\cuadrado.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\check.png">
+    </Resource>
+    <Resource Include="Img\icons\deleteListIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\cuadrado.png">
+    </Resource>
+    <Resource Include="Img\icons\lupa2Icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\edit.png">
+    </Resource>
+    <Resource Include="Img\icons\pencilIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\flecha.png">
+    </Resource>
+    <Resource Include="Img\icons\plusIcon2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\lupa.png">
+    </Resource>
+    <Resource Include="Img\icons\reservaIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\minimizar.png">
+    </Resource>
+    <Resource Include="Img\lupa.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\NoShowPass.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\ShowPass.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\waitingPoints.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\wrong.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\lupa.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\pizza2.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -160,22 +147,22 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\carga\hamburguesa.jpeg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\carga\hamburguesa2.jpeg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\carga\hamburguesa3.jpeg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\carga\patatas.jpeg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\carga\pizza.jpeg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\carga\pizza2.jpeg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\edit.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -187,13 +174,13 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\hamburguesa.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\icons\add.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\icons\backwardsIcon.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\icons\basura.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -207,12 +194,9 @@
     <Resource Include="Img\icons\cobrador.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="Img\icons\cuadrado2.png">
+    <Resource Include="Img\icons\cuadrado2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\logout.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
     <Resource Include="Img\icons\deleteIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -234,18 +218,18 @@
     <Resource Include="Img\icons\flecha.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="Img\icons\foodPlaceHolder.png">
+    <Resource Include="Img\icons\foodPlaceHolder.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\forbiddenIcon.png">
+    </Resource>
+    <Resource Include="Img\icons\forbiddenIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\forwardArrowIcon.png">
+    </Resource>
+    <Resource Include="Img\icons\forwardArrowIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\icons\greenCheckIcon.png">
+    </Resource>
+    <Resource Include="Img\icons\greenCheckIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
     <Resource Include="Img\icons\joinIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -261,7 +245,9 @@
     <Resource Include="Img\icons\minimizar.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Img\icons\minusIcon.png" />
+    <Resource Include="Img\icons\minusIcon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Img\icons\NoShowPass.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -274,10 +260,12 @@
     <Resource Include="Img\icons\picanteIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Img\icons\plusIcon.png" />
-    <Content Include="Img\icons\refresh.png">
+    <Resource Include="Img\icons\plusIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
+    <Resource Include="Img\icons\refresh.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Img\icons\rightIcon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -305,24 +293,24 @@
     <Resource Include="Img\logo\eros_red.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Img\minimizar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Img\orna.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <Content Include="Img\pizza.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Img\pizza.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Img\pizza2.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Content Include="Img\productos.jpg">
+    <Resource Include="Img\productos.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Img\zonas.jpg">
+    </Resource>
+    <Resource Include="Img\zonas.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
