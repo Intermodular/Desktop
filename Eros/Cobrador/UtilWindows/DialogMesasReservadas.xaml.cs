@@ -44,7 +44,7 @@ namespace Eros.Cobrador.UtilWindows
             listaMesas = listaMesas.OrderBy(m => m.numSillas).ToList();
             foreach (Mesas m in listaMesas)
             {
-                if (m.numSillas > comensales)
+                if (m.numSillas >= comensales)
                 {
                     ConstructAndAddPanelMesa(m);
                 }

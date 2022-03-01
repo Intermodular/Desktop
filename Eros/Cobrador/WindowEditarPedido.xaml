@@ -3,9 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        
+        
         xmlns:local="clr-namespace:Eros.Cobrador"
         mc:Ignorable="d"        
-        Height="600" Width="1000" MinHeight="600" MinWidth="1000" SizeChanged="Window_SizeChanged" StateChanged="Window_StateChanged" MouseDown="Window_MouseDown" WindowStyle="None" WindowStartupLocation="CenterScreen">
+        Height="{x:Static SystemParameters.PrimaryScreenHeight}" Width="{x:Static SystemParameters.PrimaryScreenWidth}" MinHeight="300" WindowState="Maximized" MinWidth="500" SizeChanged="Window_SizeChanged" StateChanged="Window_StateChanged" MouseDown="Window_MouseDown" WindowStyle="None" WindowStartupLocation="CenterScreen">
     <Window.Resources>
 
     </Window.Resources>
@@ -241,7 +244,7 @@
                 </Viewbox>
             </ScrollViewer>
 
-            <Viewbox Grid.Row="1" HorizontalAlignment="Center" Grid.Column="0">
+            <Viewbox Grid.Row="0" HorizontalAlignment="Center" Grid.Column="0">
                 <Button x:Name="btAtrasInfo" Style="{StaticResource btAdministracion}" Content="Atrás" Width="200" Height="60" FontSize="30" Margin="10" Click="btCancelarEdicion_Click"/>
             </Viewbox>
         </Grid>

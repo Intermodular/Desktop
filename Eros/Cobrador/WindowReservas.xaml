@@ -72,7 +72,7 @@
             <Viewbox  VerticalAlignment="Center" >
                 <StackPanel Margin="10">
                     <TextBlock Text="Nombre Reservante" HorizontalAlignment="Left" FontSize="10" Margin="0,0,0,3"/>
-                    <TextBox x:Name="tbFiltroNombre" Style="{StaticResource txb}" Height="24"/>
+                    <TextBox x:Name="tbFiltroNombre" VerticalContentAlignment="Center" Style="{StaticResource txb}" Height="24"/>
                     <TextBlock Text="Dia de la Reserva" HorizontalAlignment="Left" FontSize="10" Margin="0,30,0,3"/>
                     <DatePicker Name="dpFiltroFecha" Style="{StaticResource txb}" Height="24"/>
                     <Button x:Name="btBuscar" Width="40" Margin="0,30,0,0" Style="{StaticResource btBotonesReserva}" Click="btBuscar_Click">

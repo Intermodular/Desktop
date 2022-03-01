@@ -65,7 +65,7 @@ namespace Eros.Cobrador
             InitializeComponent();
             this.MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
             usuName.Text = GlobalVariables.username;
-            if (GlobalVariables.max)
+            /*if (GlobalVariables.max)
             {
                 WindowState = WindowState.Maximized;
             }
@@ -75,7 +75,7 @@ namespace Eros.Cobrador
                 Top = GlobalVariables.top;
                 Height = GlobalVariables.height;
                 Width = GlobalVariables.width;
-            }
+            }*/
 
             CreateTypeList();
             CreateTypeButtonList();
@@ -168,13 +168,14 @@ namespace Eros.Cobrador
 
             windowState = newState;
         }
-
+        int contadorveces = 0;
         private double GetProductsGridWidth()
         {
             double width = ((this.Width * (745d / (745d + 291d + 74d))) - (5 * 2)); //Estrellitas del grid y margen del grid
-            if (this.WindowState != WindowState.Maximized)
+            if (this.WindowState != WindowState.Maximized || contadorveces < 3)
             {
                 width -= 10;
+                contadorveces ++;
             }
             return width;
         }
@@ -198,8 +199,6 @@ namespace Eros.Cobrador
             catch (Exception ex)
             {
                 MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
-                MainWindow mw = new MainWindow();
-                mw.Show();
                 this.Close();
             }
 
@@ -234,6 +233,11 @@ namespace Eros.Cobrador
             if (numberOfTypeButtonsPerBlock == 0f)
                 numberOfTypeButtonsPerBlock = 1;
             double fixedTypeButtonWidth = containerWidth / numberOfTypeButtonsPerBlock;
+
+            if(fixedTypeButtonWidth < 0)
+            {
+                return;
+            }
 
             for (int i = 0; i < typeButtonList.Count; i++)
             {
@@ -373,8 +377,6 @@ namespace Eros.Cobrador
             catch (Exception ex)
             {
                 MessageBox.Show("Error de conexión: \n" + "Pruebe que este conectado a la red e inténtalo más tarde.");
-                MainWindow mw = new MainWindow();
-                mw.Show();
                 this.Close();
             }
 
@@ -1231,9 +1233,9 @@ namespace Eros.Cobrador
             }
             else
             {
-                minTypeButtonWidth = 150;
-                typeButtonFontsize = 14;
-                typeButtonHeight = 41;
+                minTypeButtonWidth = 160;
+                typeButtonFontsize = 16;
+                typeButtonHeight = 50;
             }
 
         }
@@ -1248,8 +1250,9 @@ namespace Eros.Cobrador
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
-            WindowGestionMesas wgm = new WindowGestionMesas();
-            wgm.Show();
+            SavePedido();
+            WindowGestionMesas windowMesas = new WindowGestionMesas();
+            windowMesas.Show();
             this.Close();
         }
 

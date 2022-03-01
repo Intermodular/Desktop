@@ -24,7 +24,7 @@
                 <RowDefinition Height="139*" />
                 <RowDefinition Height="0*" />
             </Grid.RowDefinitions>
-            <Border x:Name="borderFiltros" Background="Black">
+            <Border x:Name="borderFiltros" Background="Black" Visibility="Hidden">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>

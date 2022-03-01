@@ -235,6 +235,7 @@ namespace Eros
                     return true;
                 }
             }
+            MessageBox.Show("Nombre de usuario o contraseña incorrecta", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             return false;
         }
 

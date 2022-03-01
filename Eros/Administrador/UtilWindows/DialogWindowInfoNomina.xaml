@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Eros.Administrador.UtilWindows"
         mc:Ignorable="d"
-        Title="Información de nómina" Height="450" Width="700" WindowStartupLocation="CenterScreen" AllowsTransparency="True">
+        Title="Información de nómina" Height="450" Width="700" WindowStartupLocation="CenterScreen">
     <ScrollViewer>
         <Viewbox VerticalAlignment="Top">
             <StackPanel Width="850">

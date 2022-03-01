@@ -110,10 +110,10 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Viewbox  Margin="15" MaxWidth="400" >
-                    <Button Content="Tipos" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="150" Click="Button_Click" Style="{StaticResource btAdministracion}"/>
+                    <Button Content="Tipos" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="17" Width="150" Click="Button_Click" Style="{StaticResource btAdministracion}"/>
                 </Viewbox>
                 <Viewbox  Margin="15" MaxWidth="400" Grid.Column="1">
-                    <Button x:Name="btAnyadirEmpleado" Content="Crear Producto" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="20" Width="150" Click="btAnyadirProducto_Click" Style="{StaticResource btAdministracionPositivo}"/>
+                    <Button x:Name="btAnyadirEmpleado" Content="Crear Producto" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="17" Width="150" Click="btAnyadirProducto_Click" Style="{StaticResource btAdministracionPositivo}"/>
                 </Viewbox>
 
             </Grid>
@@ -229,11 +229,11 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Viewbox>
-                            <Button x:Name="btEliminar" Content="Eliminar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btEliminar_Click" Style="{StaticResource btAdministracionNegativo}"/>
+                            <Button x:Name="btEliminar" Content="Eliminar" FontSize="17" Width="100" Height="30" Margin="10,15,10,0" Click="btEliminar_Click" Style="{StaticResource btAdministracionNegativo}"/>
                         </Viewbox>
 
                         <Viewbox Grid.Column="1">
-                            <Button x:Name="btEditar" Content="Editar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btEditar_Click" Style="{StaticResource btAdministracion}"/>
+                            <Button x:Name="btEditar" Content="Editar" FontSize="17" Width="100" Height="30" Margin="10,15,10,0" Click="btEditar_Click" Style="{StaticResource btAdministracion}"/>
                         </Viewbox>
                     </Grid>
 
@@ -244,11 +244,11 @@
 
                         </Grid.ColumnDefinitions>
                         <Viewbox>
-                            <Button x:Name="btCancelarAgregar" Content="Cancelar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btCancelarAgregar_Click" Style="{StaticResource btAdministracionNegativo}"/>
+                            <Button x:Name="btCancelarAgregar" Content="Cancelar" FontSize="17" Width="100" Height="30" Margin="10,15,10,0" Click="btCancelarAgregar_Click" Style="{StaticResource btAdministracionNegativo}"/>
                         </Viewbox>
 
                         <Viewbox Grid.Column="1">
-                            <Button x:Name="btAgregar" Content="Agregar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btAgregar_Click" Style="{StaticResource btAdministracionPositivo}"/>
+                            <Button x:Name="btAgregar" Content="Agregar" FontSize="17" Width="100" Height="30" Margin="10,15,10,0" Click="btAgregar_Click" Style="{StaticResource btAdministracionPositivo}"/>
                         </Viewbox>
                     </Grid>
 
@@ -259,11 +259,11 @@
 
                         </Grid.ColumnDefinitions>
                         <Viewbox>
-                            <Button x:Name="btDescartarEdicion" Content="Descartar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btDescartarEdicion_Click" Style="{StaticResource btAdministracionNegativo}"/>
+                            <Button x:Name="btDescartarEdicion" Content="Descartar" FontSize="17" Width="100" Height="30" Margin="10,15,10,0" Click="btDescartarEdicion_Click" Style="{StaticResource btAdministracionNegativo}"/>
                         </Viewbox>
 
                         <Viewbox Grid.Column="1">
-                            <Button x:Name="btGuardarEdicion" Content="Guardar" FontSize="20" Width="100" Height="30" Margin="10,15,10,0" Click="btGuardarEdicion_Click" Style="{StaticResource btAdministracionPositivo}"/>
+                            <Button x:Name="btGuardarEdicion" Content="Guardar" FontSize="17" Width="100" Height="30" Margin="10,15,10,0" Click="btGuardarEdicion_Click" Style="{StaticResource btAdministracionPositivo}"/>
                         </Viewbox>
                     </Grid>
                 </Grid>

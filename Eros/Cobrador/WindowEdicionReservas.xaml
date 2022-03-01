@@ -137,9 +137,9 @@
                             <TextBlock Text="NumMesa:"  Foreground="Black" FontSize="19" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="25,0,0,0"/>
                             <TextBox x:Name="tbNumMesa" Width="60" Margin="10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="19" IsEnabled="False" Background="Gray" LostFocus="tbNumMesa_LostFocus"/>
                             <Button x:Name="btBuscarMesa" Width="35" Height="35" Margin="0,-10,0,-10"  VerticalContentAlignment="Center" Style="{StaticResource btAdministracion}" FontSize="24" Click="btBuscarMesa_Click"  >
-                                <Image Source="./Img/lupa2Icon.png" Margin="5" />
+                                <Image Source="../Img/icons/lupa2Icon.png" Margin="5" />
                             </Button>
-                            <Image x:Name="imgFiltroNumMesa" Visibility="Hidden" Source="Img/check.png" Width="22" Margin="10,0,0,0">
+                            <Image x:Name="imgFiltroNumMesa" Visibility="Hidden" Source="../Img/icons/check.png" Width="22" Margin="10,0,0,0">
                                 <Image.ToolTip >
                                     <TextBlock x:Name="toolTipNumMesa" FontSize="15"/>
                                 </Image.ToolTip>

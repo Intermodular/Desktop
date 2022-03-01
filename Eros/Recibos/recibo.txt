@@ -1,16 +1,15 @@
-Mesa 8
+Mesa 2
 
-Jamon X 3 ---------------------------------- 3.00€
-CocaCola 500ml X 2 ------------------------- 3.00€
-Obama Prism -------------------------------- 3.50€
-  Extra Pepinillo X 2
-  Extra Chorizo X 2
-  Extra Huevo X 2
+Agua 2L X 4 -------------------------------- 8,00€
+CheeseAndBacon ----------------------------- 3,80€
+  Extra Pepinillo
+  Extra Huevo
+CheeseAndBacon X 2 ------------------------- 6,00€
 
-Coste total sin IVA: ----------------------- 7.85€
+Coste total sin IVA: ---------------------- 14,71€
 
-Coste total: ------------------------------- 9.50€
+Coste total: ------------------------------ 17,80€
 
-Método de pago: Efectivo
-Fecha y hora de pago: 22/02/2022 19:14:37
+Método de pago: Tarjeta
+Fecha y hora de pago: 28/02/2022 20:33:46
 Empleado cobrador: Juan Fran

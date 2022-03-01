@@ -19,13 +19,13 @@
             <Button.ToolTip>
                 <TextBlock Text="Cerrar Sesión"></TextBlock>
             </Button.ToolTip>
-            <Image Source="/Img/icons/logout.png"></Image>
+            <Image Source="/Img/icons/logout.png" RenderOptions.BitmapScalingMode="HighQuality"></Image>
         </Button>
         <Button x:Name="btn_cobrador" Width="30" Height="30" VerticalAlignment="Top" Margin="0,60,70,0" BorderThickness="0" Background="Transparent" Click="btn_cobrador_Click">
             <Button.ToolTip>
                 <TextBlock Text="Cambiar a cobrador"></TextBlock>
             </Button.ToolTip>
-            <Image Source="/Img/icons/cobrador.png"></Image>
+            <Image Source="/Img/icons/cobrador.png" RenderOptions.BitmapScalingMode="HighQuality"></Image>
         </Button>
         <StackPanel VerticalAlignment="Center">
             <Button x:Name="btn_empleados" Margin="10" Style="{DynamicResource TabButton}" Height="30" Width="150" MouseEnter="btn_empleados_MouseEnter" Click="btn_empleados_Click" MouseLeave="btn_empleados_MouseLeave">Gestionar empleados</Button>
